@@ -1,0 +1,20 @@
+---
+interface Props { title: string; description?: string }
+const { title, description = 'Minseok Ryu — architecture archive' } = Astro.props;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+  </head>
+  <body>
+    <header><a href="/">arcrush</a> · <a href="/works">Works</a> · <a href="/process">Process</a> · <a href="/about">About</a></header>
+    <main><slot /></main>
+    <footer>Minseok Ryu · lunununu99@gmail.com</footer>
+  </body>
+</html>
