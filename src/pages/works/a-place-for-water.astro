@@ -1,0 +1,224 @@
+---
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Figure from "../../components/common/Figure.astro";
+import WaterSlider from "../../components/works/a-place-for-water/WaterSlider.astro";
+import RingSections from "../../components/works/a-place-for-water/RingSections.astro";
+import DeckDiagrams from "../../components/works/a-place-for-water/DeckDiagrams.astro";
+const base = "/works/a-place-for-water";
+
+// T·P·S 교량 분석. 입력값은 Bridges_Architectural Analysis, 중간마감 PPT의 수식. 금강교 L은 제원표의 513 m.
+const bridges = [
+  { name: "Ponte Vecchio", L: 95, S: 48, P: 3, V: 1 },
+  { name: "월정교", L: 66.15, S: 1, P: 5, V: 1 },
+  { name: "광제교", L: 517.95, S: 24, P: 42, V: 2 },
+  { name: "츠루노마이교", L: 300, S: 2, P: 3, V: 2 },
+  { name: "긴타이교", L: 210, S: 0, P: 5, V: 2 },
+  { name: "Brooklyn Bridge", L: 1997, S: 4, P: 8, V: 2 },
+  { name: "Walkway Over the Hudson", L: 2060, S: 0, P: 7, V: 2 },
+  { name: "공주 금강교", L: 513, S: 0, P: 15, V: 2 },
+].map((b) => {
+  const Pe = b.P + 0.25 * b.S + 3 * b.V;
+  return {
+    ...b,
+    sScore: Math.round((100 * 20 * b.S) / (b.L + 20 * b.S)),
+    pScore: Math.round((100 * 20 * Pe) / (b.L + 20 * Pe)),
+    tScore: Math.round((100 * b.L) / (b.L + 5 * (b.S + 0.5 * Pe))),
+  };
+});
+const specs = { advisor: "유현준, 홍정희", area: "약 9.2 ha (모델 지형 기준)" };
+const credits = [
+  ["Design", "류민석"],
+  ["영상·메인 렌더", "종현"],
+  ["드로잉", "설아"],
+  ["모형", "찬영, 현진, 정수, 진호, 의연, 재원"],
+  ["전시", "수민"],
+  ["멀티", "현서"],
+];
+---
+<ProjectLayout slug="a-place-for-water" specs={specs}>
+  <Fragment slot="image">
+    <Figure fig="1" title="미르섬의 시간" kind="Original render">
+      <video src={`${base}/hero-720.mp4`} poster={`${base}/poster.jpg`} controls preload="none" playsinline width="1280" height="720"></video>
+    </Figure>
+  </Fragment>
+
+  <Fragment slot="context">
+    <div class="text">
+      <p>미르섬은 공주 원도심과 신관동 사이, 금강 가운데 놓인 하중도다. 주변 도로와 다리보다 10m 안팎 낮고, 해마다 물에 잠긴다. 두 도시는 가깝게 보이지만 걸어서는 끊겨 있다.</p>
+    </div>
+    <div class="fig">
+      <Figure fig="2" title="금강 가운데의 하중도" kind="Diagram">
+        <img src={`${base}/diagram-site.jpg`} alt="금강과 미르섬, 금강교의 위치를 나타낸 다이어그램" width="2000" height="952" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig pair">
+      <figure>
+        <img src={`${base}/flood-a.jpg`} alt="물에 잠긴 미르섬의 낮은 땅을 하늘에서 본 사진" width="1000" height="750" loading="lazy" />
+        <p class="caption photo">Fig. 3 물에 잠긴 미르섬</p>
+      </figure>
+      <figure>
+        <img src={`${base}/flood-b.jpg`} alt="황토색 강물에 둘러싸인 미르섬의 정원을 하늘에서 본 사진" width="1000" height="750" loading="lazy" />
+        <p class="caption photo">Fig. 4 강물에 둘러싸인 정원</p>
+      </figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="process">
+    <div class="text">
+      <p>처음에는 도시 수축을 다뤘다. 근거가 약하고 규모가 작다는 지적을 받고, 금강교의 보행교 전환을 계기로 원도심과 신관동을 잇는 일로 옮겼다.</p>
+      <p>이어서 강가에 돌봄 허브와 인공섬을 제안했다. 유속과 허가 문제로 기각되었다. 이때 물을 최소로 건드린다는 원칙이 생겼다.</p>
+      <p>다리들을 조사해 왜 사람들이 머물지 못하는지 물었다. 중간마감의 제목은 Water-Reading Bridge였다. 금강교 옆에 유닛을 조합해 머무는 곳을 만들었다. 중간마감 크리틱 뒤에 주제를 다시 세웠다. 조합 체계를 버리고, 대상을 다리에서 섬으로 옮겼다.</p>
+    </div>
+    <div class="fig pair">
+      <Figure fig="5" title="금강교에 유닛을 잇는 안" kind="Diagram" note="중간마감 안이다. 이후 폐기했다.">
+        <img src={`${base}/rejected-connections.jpg`} alt="금강교를 따라 원형과 다각형 유닛을 이어 붙인 축측도" loading="lazy" />
+      </Figure>
+      <Figure fig="6" title="유닛 유형" kind="Diagram" note="중간마감 안이다. 이후 폐기했다.">
+        <img src={`${base}/rejected-units.jpg`} alt="조경, 파빌리온, 회랑, 조형 네 가지 유닛의 축측도" loading="lazy" />
+      </Figure>
+    </div>
+
+    <p class="pull gap">막는 일을 그만두고, 잠기는 일을 <em>조건</em>으로 받아들였다.</p>
+
+    <div class="text gap-s">
+      <p>길을 두 높이로 나누었다. 낮은 Low Spine은 물이 오르면 사라지고, 물이 빠지면 다시 드러난다. 세 개의 Ring은 물 위에 남아 섬을 잇는다. R1은 일상의 영역, R2는 물을 바라보며 머무는 영역, R3는 잠기는 땅을 지켜보는 영역이다.</p>
+    </div>
+    <div class="fig three">
+      <Figure fig="7" title="물이 그린 지형" kind="Diagram">
+        <img src={`${base}/diagram-topo.jpg`} alt="수위에 따라 드러나고 잠기는 섬의 등고" width="2000" height="952" loading="lazy" />
+      </Figure>
+      <Figure fig="8" title="사라지는 낮은 길" kind="Diagram">
+        <img src={`${base}/diagram-spine.jpg`} alt="섬 내부를 굽이쳐 지나는 Low Spine" width="2000" height="952" loading="lazy" />
+      </Figure>
+      <Figure fig="9" title="물 위에 남는 세 Ring" kind="Diagram">
+        <img src={`${base}/diagram-rings.jpg`} alt="섬 위에 놓인 세 개의 Skywalk Ring" width="2000" height="952" loading="lazy" />
+      </Figure>
+    </div>
+
+    <div class="fig">
+      <Figure fig="10" title="같은 섬, 세 수면" kind="Model-based concept" note="0616 모델의 세 수면(Z 192.152 / 194.652 / 196.652)으로 계산한 개념 시나리오다. 실제 수위가 아니다. Low Spine은 섬 안쪽 길과 둘레 길을 합친 것이고, 잠김은 면적 기준이다.">
+        <WaterSlider />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="technique">
+    <div class="text">
+      <p>모형은 지형을 여러 조각으로 나눠 3D 프린트하고, Ring과 도서관, 금강교를 따로 출력해 맞췄다. 높은 길과 낮은 길, 잠기는 땅의 높이 차가 읽히도록 조정했다.</p>
+      <p>Ring은 곡선을 따라 폭이 변하는 단면을 이어 만들었다. 못 앞에서 폭이 넓어져 머무는 마디가 된다. 기둥의 기울기는 조형적 선택이다.</p>
+      <p>부표 데크는 네 모서리의 철제 기둥을 따라 오르내린다. 기둥은 위치만 잡고, 높이는 부력이 정한다. 두꺼운 부체는 숨기지 않고 물 위로 드러낸다. 사람이 모이면 그만큼 내려앉는다.</p>
+    </div>
+    <div class="fig">
+      <Figure fig="11" title="Ring 단면의 폭과 두께" kind="Diagram" scale="개념">
+        <RingSections />
+      </Figure>
+    </div>
+    <div class="fig">
+      <Figure fig="12" title="부표 데크의 세 상태" kind="Diagram" scale="개념" note="모델 수면을 기준으로 그린 개념도다. 구조와 수리 성능은 검토하지 않았다.">
+        <DeckDiagrams />
+      </Figure>
+    </div>
+    <div class="fig">
+      <Figure fig="13" title="전시 모형 전경" kind="Physical model" scale="1:400">
+        <img src={`${base}/model-3.jpg`} alt="금강 위의 미르섬과 세 개의 Ring을 만든 전시 모형" width="2000" height="873" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig pair">
+      <Figure fig="14" title="Ring과 원통형 빛 공간" kind="Physical model" scale="1:400">
+        <img src={`${base}/model-1.jpg`} alt="전시 모형에서 Ring과 원통형 공간을 가까이 본 사진" width="2000" height="1333" loading="lazy" />
+      </Figure>
+      <Figure fig="15" title="낮은 지형과 Ring" kind="Physical model" scale="1:400">
+        <img src={`${base}/model-2.jpg`} alt="전시 모형에서 낮은 지형과 Ring을 가까이 본 사진" width="2000" height="1333" loading="lazy" />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="drawings">
+    <Figure fig="16" title="A–A′ 단면" kind="Model-based concept" scale="막대 축척" note="0616 모델을 절단한 도면이다. 도면 안의 비율은 인쇄 기준이므로 화면에서는 막대 축척을 본다.">
+      <a href={`${base}/section-aa.svg`} target="_blank" rel="noopener" aria-label="A–A′ 단면을 새 창에서 크게 보기">
+        <img src={`${base}/section-aa.svg`} alt="금강철교, 도서관, Skywalk Ring, Low Spine과 세 수면을 지나는 단면도" loading="lazy" />
+      </a>
+    </Figure>
+  </Fragment>
+
+  <Fragment slot="outcome">
+    <p class="pull">물의 높이에 따라 섬의 <em>주인공</em>이 바뀐다.</p>
+    <div class="text gap-s">
+      <p>평상시에는 도서관과 데크, 못에 사람이 머문다. 물이 오르면 Low Spine이 끊기고 Ring과 언덕이 남는다. 0616 모델에서 Low Spine은 세 수면에서 약 2, 27, 60% 잠긴다. 실제 수위를 검토한 값은 아니다.</p>
+      <p>큰 건물을 넣으려던 자리에서 물러서자, 섬이 이미 가진 시간이 설계가 되었다.</p>
+    </div>
+    <div class="fig pair">
+      <Figure fig="17" title="도서관" kind="Original render">
+        <img src={`${base}/place-library.jpg`} alt="긴 목재 데크와 반외부 공간을 가진 도서관" width="1400" height="1400" loading="lazy" />
+      </Figure>
+      <Figure fig="18" title="계단 극장" kind="Original render">
+        <img src={`${base}/place-theatre.jpg`} alt="Ring 옆에서 강을 향해 내려가는 곡선형 계단 극장" width="1400" height="1400" loading="lazy" />
+      </Figure>
+      <Figure fig="19" title="원통형 빛 공간" kind="Original render">
+        <img src={`${base}/place-cylinder.jpg`} alt="목재 루버로 둘러싸인 원통형 공간" width="1400" height="1400" loading="lazy" />
+      </Figure>
+      <Figure fig="20" title="부표 데크" kind="Original render" note="부체를 드러내기 전의 표현이다. 현재 안은 Fig. 12를 따른다.">
+        <img src={`${base}/place-deck.jpg`} alt="수면 위의 직사각형 데크와 가는 기둥들" width="1400" height="1400" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig four">
+      <Figure fig="21" title="봄" kind="Original render">
+        <img src={`${base}/season-spring.jpg`} alt="벚꽃과 연둣빛 식생이 번진 봄의 미르섬" width="1400" height="708" loading="lazy" />
+      </Figure>
+      <Figure fig="22" title="여름" kind="Original render">
+        <img src={`${base}/season-summer.jpg`} alt="녹음이 짙은 여름의 미르섬" width="1400" height="708" loading="lazy" />
+      </Figure>
+      <Figure fig="23" title="가을" kind="Original render">
+        <img src={`${base}/season-autumn.jpg`} alt="단풍이 든 가을의 미르섬" width="1400" height="708" loading="lazy" />
+      </Figure>
+      <Figure fig="24" title="겨울" kind="Original render">
+        <img src={`${base}/season-winter.jpg`} alt="눈이 덮인 겨울의 미르섬" width="1400" height="708" loading="lazy" />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="credits">
+    <dl class="cr">
+      {credits.map(([k, v]) => <div><dt class="caption">{k}</dt><dd>{v}</dd></div>)}
+    </dl>
+
+    <h3 class="sub">Research</h3>
+    <p class="text">다리를 이동(T), 인지(P), 사회(S) 세 값으로 비교한 자체 해석 도구다. 표준 공식이 아니고 공학적으로 검증되지 않았다. 중간마감까지 썼고 최종안에서는 뺐다. 금강교는 이동이 높고 머무름이 낮게 나왔다.</p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>다리</th><th>L (m)</th><th>S</th><th>P</th><th>V</th><th>T</th><th>P 점수</th><th>S 점수</th></tr></thead>
+        <tbody>
+          {bridges.map((b) => (
+            <tr class={b.name === "공주 금강교" ? "on" : ""}><td>{b.name}</td><td>{b.L}</td><td>{b.S}</td><td>{b.P}</td><td>{b.V}</td><td>{b.tScore}</td><td>{b.pScore}</td><td>{b.sScore}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="caption gap-c">입력값은 당시 분석 기준이다. 금강교의 L은 오기(95)를 제원 513 m로 고쳤다. Pe = P + 0.25S + 3V / S 점수 = 100·20S ÷ (L + 20S) / P 점수 = 100·20Pe ÷ (L + 20Pe) / T = 100·L ÷ (L + 5(S + 0.5Pe))</p>
+  </Fragment>
+</ProjectLayout>
+
+<style>
+  .text p + p { margin-top: 1em; }
+  .fig { margin-top: 40px; }
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .four { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .gap { margin-top: 72px; }
+  .gap-s { margin-top: 28px; }
+  .gap-c { margin-top: 12px; }
+  .photo { margin-top: 10px; color: var(--ink); font-weight: var(--w-regular); }
+  .cr { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 24px; }
+  .sub { margin-top: 56px; margin-bottom: 12px; font-size: var(--t-rail); font-weight: var(--w-regular); }
+  .tw { margin-top: 20px; overflow-x: auto; }
+  table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: var(--t-caption); line-height: 1.5; }
+  th { text-align: right; font-weight: var(--w-regular); color: var(--soft); border-bottom: 1px solid var(--ink); padding: 6px 8px; }
+  td { text-align: right; border-bottom: 1px solid var(--line); padding: 6px 8px; }
+  th:first-child, td:first-child { text-align: left; padding-left: 0; }
+  .on td { font-weight: var(--w-regular); }
+  .on td:first-child { box-shadow: inset 3px 0 0 var(--accent); padding-left: 10px; }
+  @media (max-width: 760px) {
+    .pair, .three { grid-template-columns: minmax(0, 1fr); }
+    .four, .cr { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+</style>

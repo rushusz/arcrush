@@ -1,0 +1,18 @@
+---
+// 공통 캡션: Fig. 번호 + 제목 · 자료 종류 · 축척. 슬롯에 img, video, 인터랙션을 넣는다.
+export type Kind = "Original drawing" | "Original render" | "Physical model" | "Model-based concept" | "AI visualization" | "Diagram";
+interface Props { title: string; kind: Kind; fig?: string; scale?: string; note?: string }
+const { title, kind, fig, scale, note } = Astro.props;
+---
+<figure>
+  <slot />
+  <figcaption>
+    <span class="t">{fig && `Fig. ${fig} `}{title}</span> · {kind}{scale && ` · ${scale}`}
+    {note && <span class="n">{note}</span>}
+  </figcaption>
+</figure>
+<style>
+  figcaption { margin-top: 10px; padding-right: var(--gutter); font-size: var(--t-caption); line-height: 1.5; color: var(--soft); }
+  .t { font-weight: var(--w-regular); color: var(--ink); }
+  .n { display: block; }
+</style>

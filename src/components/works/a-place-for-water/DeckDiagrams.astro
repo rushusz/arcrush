@@ -1,0 +1,103 @@
+---
+// 부표 데크 개념도. 값은 웹아카이브/works/01_a-place-for-water/01_Ring_부표데크_연구노트.md와 scripts/deck_calc.py.
+// 모델 수면 외의 높이는 개념 값이다. 구조와 수리 성능은 검토하지 않았다.
+const S = 12; // px/m
+const zTop = 199, x0 = 6, y0 = 10;
+const Y = (z: number) => +(y0 + (zTop - z) * S).toFixed(1);
+const X = (x: number) => +(x0 + x * S).toFixed(1);
+const BED = 191, TOP = 197.9, HINGE = 193.75, FLOAT = 0.61, DRAFT = 0.36, EMPTY = 0.1, L = 15, DECK = 7.2;
+const stairs: [number, number][] = [];
+for (let i = 0; i <= 8; i++) { const z = 198.3 - (6.3 * i) / 8; stairs.push([i, z]); if (i < 8) stairs.push([i + 1, z]); }
+const hx = 8 * (198.3 - HINGE) / 6.3;
+const ground = "M" + [[-0.5, 190.2], [-0.5, 198.3], ...stairs, [12, BED], [29, BED], [29, 190.2]].map(([x, z]) => `${X(x)} ${Y(z)}`).join("L") + "Z";
+const stages = [
+  { z: 192.152, label: "수면 1 · 평상시", say: "데크가 낮게 떠 있고 갱웨이로 드나든다.", open: true },
+  { z: 194.652, label: "수면 2 · 수위 상승", say: "데크가 기둥을 따라 오른다. 여기까지 출입한다.", open: true },
+  { z: 196.652, label: "수면 3 · 침수", say: "갱웨이를 분리하고 Ring에서 바라본다.", open: false },
+].map((s) => {
+  const top = s.z + FLOAT - (s.open ? DRAFT : EMPTY);
+  const dx = Math.sqrt(L * L - (top - HINGE) ** 2);
+  const left = hx + (s.open ? dx : 15);
+  return { ...s, top, left };
+});
+const c = 7.2;
+---
+<div class="ds">
+  {stages.map((s, i) => (
+    <figure>
+      <svg viewBox="0 0 360 150" role="img" aria-label={`${s.label}. ${s.say}`}>
+        <rect x={X(-0.5)} y={Y(s.z)} width={X(29) - X(-0.5)} height={Y(190.2) - Y(s.z)} fill="var(--accent)" fill-opacity="0.22" />
+        <line x1={X(-0.5)} x2={X(29)} y1={Y(s.z)} y2={Y(s.z)} stroke="var(--accent)" stroke-width="1.5" />
+        <path d={ground} fill="var(--track)" stroke="var(--ink)" stroke-width="1" />
+        {[s.left, s.left + DECK].map((x) => (
+          <g>
+            <line x1={X(x)} x2={X(x)} y1={Y(TOP)} y2={Y(BED)} stroke="var(--ink)" stroke-width="1.6" />
+            <rect x={X(x) - 4} y={Y(TOP) - 2} width="8" height="3" fill="var(--ink)" />
+          </g>
+        ))}
+        <rect x={X(s.left)} y={Y(s.top)} width={DECK * S} height={FLOAT * S} fill="var(--track)" stroke="var(--ink)" stroke-width="1.2" />
+        <line x1={X(s.left)} x2={X(s.left + DECK)} y1={Y(s.top)} y2={Y(s.top)} stroke="var(--ink)" stroke-width="2.6" />
+        <line x1={X(s.left) + 4} x2={X(s.left + DECK) - 4} y1={Y(BED + 0.5)} y2={Y(BED + 0.5)} stroke="var(--ink)" stroke-width="1" stroke-dasharray="3 2" />
+        <circle cx={X(hx)} cy={Y(HINGE)} r="2.6" fill="#fff" stroke="var(--ink)" />
+        {s.open
+          ? <line x1={X(hx)} y1={Y(HINGE)} x2={X(s.left)} y2={Y(s.top)} stroke="var(--ink)" stroke-width="1.6" />
+          : <line x1={X(hx)} y1={Y(HINGE)} x2={X(hx + 10)} y2={Y(HINGE + 3.2)} stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="5 3" />}
+        {i === 0 && (
+          <g class="t">
+            <text x={X(s.left + DECK) - 2} y={Y(TOP) - 5} text-anchor="end">상단 스톱</text>
+            <text x={X(s.left) - 4} y={Y(196.2)} text-anchor="end">가이드 기둥</text>
+            <text x={X(s.left + 3.6)} y={Y(s.top) - 5} text-anchor="middle">드러낸 부체</text>
+            <text x={X(hx + 3.2)} y={Y(HINGE + 0.75)}>갱웨이</text>
+            <text x={X(s.left + 3.6)} y={Y(190.2) + 11} text-anchor="middle">안착 프레임 (점선)</text>
+          </g>
+        )}
+        {i === 2 && <text class="t" x={X(hx + 10.4)} y={Y(HINGE + 3.3)}>분리</text>}
+        <path d={`M${X(0)} 142h${5 * S}`} stroke="var(--ink)" stroke-width="1.2" />
+        <text class="t" x={X(5) + 4} y="145">5 m</text>
+      </svg>
+      <figcaption class="caption"><b>{s.label}</b><br />{s.say}</figcaption>
+    </figure>
+  ))}
+</div>
+
+<div class="plan">
+  <svg viewBox="0 0 230 210" role="img" aria-label="데크 묶음 평면. 네 모서리 기둥 중 하나는 위치를 고정하고 하나는 회전을 잡으며 둘은 여유를 둔다.">
+    {[[0, 0], [c / 2, 0], [0, c / 2], [c / 2, c / 2]].map(([x, y]) => (
+      <rect x={40 + x * 22} y={20 + y * 22} width={(c / 2) * 22} height={(c / 2) * 22} fill="#fff" stroke="var(--ink)" stroke-width="1" />
+    ))}
+    <circle cx="40" cy="20" r="8" fill="var(--accent)" />
+    <rect x={40 + c * 22 - 13} y="14" width="26" height="12" rx="6" fill="#fff" stroke="var(--accent)" stroke-width="2" />
+    <circle cx="40" cy={20 + c * 22} r="11" fill="#fff" stroke="var(--ink)" stroke-dasharray="3 2" />
+    <circle cx={40 + c * 22} cy={20 + c * 22} r="11" fill="#fff" stroke="var(--ink)" stroke-dasharray="3 2" />
+    <circle cx="40" cy="20" r="2.4" fill="#fff" />
+    <circle cx={40 + c * 22} cy="20" r="2.4" fill="var(--ink)" />
+    <circle cx="40" cy={20 + c * 22} r="2.4" fill="var(--ink)" />
+    <circle cx={40 + c * 22} cy={20 + c * 22} r="2.4" fill="var(--ink)" />
+    <g class="t">
+      <text x="24" y="16" text-anchor="end">A</text>
+      <text x={40 + c * 22 + 20} y="16">B</text>
+      <text x="24" y={20 + c * 22 + 14} text-anchor="end">C</text>
+      <text x={40 + c * 22 + 16} y={20 + c * 22 + 14}>D</text>
+    </g>
+    <path d={`M40 ${20 + c * 22 + 22}h${3.6 * 22}`} stroke="var(--ink)" stroke-width="1.2" />
+    <text class="t" x={40 + 3.6 * 22 + 6} y={20 + c * 22 + 26}>3.6 m</text>
+  </svg>
+  <ul class="caption">
+    <li><b>A</b> 고정 가이드. 앞뒤와 좌우 위치를 잡는다.</li>
+    <li><b>B</b> 슬롯 가이드. 회전만 막고 A–B 방향은 풀어 둔다.</li>
+    <li><b>C·D</b> 여유 가이드. 평소에는 닿지 않고 과하중 때만 받친다.</li>
+    <li>3.6 m 모듈 네 장을 하나로 묶어 기울기를 줄인다.</li>
+    <li>기둥은 위치만 잡고, 높이는 부력이 정한다.</li>
+  </ul>
+</div>
+
+<style>
+  .ds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .ds figcaption { margin-top: 8px; }
+  .ds b { font-weight: var(--w-regular); color: var(--ink); }
+  .t, .t text, text.t { font-size: 10px; fill: var(--ink); }
+  .plan { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 28px; align-items: center; margin-top: 28px; }
+  .plan li { padding: 3px 0; color: var(--ink); }
+  .plan b { display: inline-block; min-width: 2.6em; font-weight: var(--w-regular); }
+  @media (max-width: 760px) { .ds, .plan { grid-template-columns: minmax(0, 1fr); } }
+</style>

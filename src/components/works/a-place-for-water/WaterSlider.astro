@@ -1,0 +1,281 @@
+---
+// 수위 슬라이더. 값은 0616 모델값이다(웹아카이브/works/01_a-place-for-water/scripts).
+// 스크립트 실패나 reduced-motion이면 정지 이미지 3장이 그대로 남는다.
+const base = "/works/a-place-for-water";
+const stages = [
+  { no: 1, label: "평상시", pct: 2 },
+  { no: 2, label: "수위 상승", pct: 27 },
+  { no: 3, label: "침수", pct: 60 },
+];
+---
+<div class="ws" data-water-slider data-src={`${base}/water-slider.json`}>
+  <ol class="stills">
+    {stages.map((s) => (
+      <li>
+        <img src={`${base}/water-still-${s.no}.png`} alt={`모델 수면 ${s.no}, ${s.label}. Low Spine의 약 ${s.pct}%가 잠긴다.`} width="1480" height="1380" loading="lazy" />
+        <p class="caption">수면 {s.no} · {s.label} · Low Spine 약 {s.pct}% 잠김</p>
+      </li>
+    ))}
+  </ol>
+
+  <div class="live" hidden>
+    <div class="plan">
+      <canvas role="img" aria-label="미르섬 평면. 모델 수면이 오르면 잠기는 땅이 표시된다."></canvas>
+      <svg class="over" aria-hidden="true"></svg>
+    </div>
+    <div class="side">
+      <div class="read">
+        <p class="caption now" aria-live="polite"></p>
+        <div class="stats">
+          <div class="s0"><span class="l">수면 1</span><b>2%</b></div>
+          <div class="s1"><span class="l">수면 2</span><b>27%</b></div>
+          <div class="s2"><span class="l">수면 3</span><b>60%</b></div>
+          <div class="key"><span class="l">Low Spine 잠김</span><b class="pct"></b></div>
+        </div>
+        <div class="bar" aria-hidden="true"><i></i><u style="left:2.03%"></u><u style="left:26.63%"></u><u style="left:60.35%"></u></div>
+      </div>
+      <div class="ctl">
+        <input type="range" min="0" max="90" step="1" value="0" aria-label="모델 수면 높이" />
+        <div class="stops">
+          <button type="button" data-k="0" style="left:0">평상시</button>
+          <button type="button" data-k="50" style="left:55.56%">수위 상승</button>
+          <button type="button" data-k="90" style="left:100%">침수</button>
+        </div>
+      </div>
+      <p class="say"></p>
+      <svg class="sec" role="img" aria-label="A–A′ 단면. 수면 높이가 함께 움직인다."></svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  interface Data {
+    levels: number[]; labels: string[];
+    view: { x0: number; y0: number; x1: number; y1: number };
+    grid: { nx: number; ny: number; d: number; step: number; q: number; rle: number[] };
+    cdf: number[];
+    spine: number[][]; loop: number[][]; rings: number[][][]; bridge: number[][];
+    section: { y: number; x: number[]; z: number[]; rings: number[][]; low: number[][] };
+  }
+  const SAY = ["Low Spine이 거의 드러난다.", "Low Spine의 일부가 끊긴다.", "Low Spine의 절반 이상이 사라지고, Ring과 언덕이 남는다."];
+  const SNAPS = [0, 50, 90];
+  const NS = "http://www.w3.org/2000/svg";
+
+  const root = document.querySelector<HTMLElement>("[data-water-slider]");
+  if (root && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    init(root).catch(() => { /* 정지 이미지가 남는다 */ });
+  }
+
+  async function init(el: HTMLElement) {
+    const res = await fetch(el.dataset.src!);
+    if (!res.ok) throw new Error("data");
+    const d: Data = await res.json();
+    const $ = <T extends Element>(s: string) => el.querySelector<T>(s)!;
+
+    // 격자 복원
+    const { nx, ny, step, q, rle } = d.grid;
+    const cells = new Uint8Array(nx * ny);
+    for (let i = 0, p = 0; i < rle.length; i += 2) { cells.fill(rle[i], p, p + rle[i + 1]); p += rle[i + 1]; }
+
+    const canvas = $<HTMLCanvasElement>("canvas");
+    canvas.width = nx; canvas.height = ny;
+    const ctx = canvas.getContext("2d")!;
+    const img = ctx.createImageData(nx, ny);
+    const hex = getComputedStyle(el).getPropertyValue("--accent").trim().replace("#", "");
+    const [ar, ag, ab] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16));
+
+    const { x0, y1, x1, y0 } = d.view;
+    const W = x1 - x0, H = y1 - y0;
+    const X = (x: number) => +(x - x0).toFixed(1);
+    const Y = (y: number) => +(y1 - y).toFixed(1);
+
+    // 평면 선
+    const over = $<SVGSVGElement>("svg.over");
+    over.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    const add = (parent: Element, tag: string, a: Record<string, string | number>, text?: string) => {
+      const n = document.createElementNS(NS, tag);
+      for (const k in a) n.setAttribute(k, String(a[k]));
+      if (text) n.textContent = text;
+      parent.appendChild(n);
+      return n;
+    };
+    const line = (p: number[][], close = false) => "M" + p.map((c) => `${X(c[0])} ${Y(c[1])}`).join("L") + (close ? "Z" : "");
+    add(over, "path", { d: line(d.bridge), class: "br" });
+    const dry = add(over, "path", { class: "dry" });
+    const wetA = add(over, "path", { class: "wetA" });
+    const wetB = add(over, "path", { class: "wetB" });
+    d.rings.forEach((r, i) => {
+      add(over, "path", { d: line(r, true), class: "ring" });
+      const cx = r.reduce((s, c) => s + c[0], 0) / r.length, cy = r.reduce((s, c) => s + c[1], 0) / r.length;
+      add(over, "text", { x: X(cx), y: Y(cy), class: "t mid" }, `R${i + 1}`);
+    });
+    const sx0 = d.section.x[0], sx1 = d.section.x[d.section.x.length - 1];
+    add(over, "path", { d: line([[sx0 - 12, d.section.y], [sx1 + 12, d.section.y]]), class: "cut" });
+    add(over, "text", { x: X(sx0 - 16), y: Y(d.section.y) + 4, class: "t end" }, "A");
+    add(over, "text", { x: X(sx1 + 16), y: Y(d.section.y) + 4, class: "t" }, "A′");
+    const bm = d.bridge[1][1] > d.bridge[0][1] ? d.bridge[1] : d.bridge[0];
+    add(over, "text", { x: Math.min(X(bm[0]) + 8, W - 44), y: Math.max(Y(bm[1]) + 14, 14), class: "t" }, "금강교");
+    const LEGEND: [string, string][] = [["ring", "Ring"], ["dry", "Low Spine"], ["wet", "잠긴 Low Spine"], ["solid", "잠긴 땅"], ["tint", "평상시 물"]];
+    LEGEND.forEach(([kind, label], i) => {
+      const y = 30 + i * 30, lx = W - 190;
+      if (kind === "solid" || kind === "tint") add(over, "rect", { x: lx, y: y - 11, width: 28, height: 14, class: kind === "solid" ? "lgS" : "lgT" });
+      else if (kind === "wet") { add(over, "path", { d: `M${lx} ${y - 4}h28`, class: "wetA" }); add(over, "path", { d: `M${lx} ${y - 4}h28`, class: "wetB" }); }
+      else add(over, "path", { d: `M${lx} ${y - 4}h28`, class: kind });
+      add(over, "text", { x: lx + 38, y, class: "t" }, label);
+    });
+    add(over, "path", { d: `M16 ${H - 18}H116`, class: "scale" });
+    add(over, "text", { x: 16, y: H - 24, class: "t" }, "0");
+    add(over, "text", { x: 116, y: H - 24, class: "t mid" }, "100 m");
+
+    // 단면 (높이 3배 과장)
+    const EX = 3, ZB = 188, ZT = 214, M = 18;
+    const sec = $<SVGSVGElement>("svg.sec");
+    const SW = sx1 - sx0 + M * 2, SH = (ZT - ZB) * EX + 26;
+    sec.setAttribute("viewBox", `0 0 ${SW} ${SH}`);
+    const sX = (x: number) => +(x - sx0 + M).toFixed(1);
+    const sY = (z: number) => +((ZT - z) * EX).toFixed(1);
+    const water = add(sec, "rect", { x: 0, width: SW, class: "w" });
+    const pts = d.section.x.map((x, i) => `${sX(x)} ${sY(d.section.z[i])}`);
+    add(sec, "path", { d: `M${sX(sx0)} ${sY(ZB)}L${pts.join("L")}L${sX(sx1)} ${sY(ZB)}Z`, class: "g" });
+    add(sec, "path", { d: `M${pts.join("L")}`, class: "gl" });
+    d.section.rings.forEach((p) => add(sec, "circle", { cx: sX(p[0]), cy: sY(p[1]), r: 3, class: "rg" }));
+    const lows = d.section.low.map((p) => ({ z: p[1], n: add(sec, "circle", { cx: sX(p[0]), cy: sY(p[1]), r: 2.4 }) }));
+    add(sec, "text", { x: 2, y: 10, class: "t" }, "A");
+    add(sec, "text", { x: SW - 2, y: 10, class: "t right" }, "A′");
+    add(sec, "path", { d: `M${M} ${SH - 8}h50`, class: "scale" });
+    add(sec, "text", { x: M + 54, y: SH - 5, class: "t" }, "50 m · 높이 3배 과장");
+    add(sec, "circle", { cx: SW - 96, cy: SH - 8, r: 3, class: "rg" });
+    add(sec, "text", { x: SW - 90, y: SH - 5, class: "t" }, "Ring");
+    add(sec, "circle", { cx: SW - 62, cy: SH - 8, r: 2.4, class: "ld" });
+    add(sec, "text", { x: SW - 56, y: SH - 5, class: "t" }, "Low Spine");
+
+    const input = $<HTMLInputElement>("input");
+    const now = $<HTMLElement>(".now"), say = $<HTMLElement>(".say"), pct = $<HTMLElement>(".pct"), bar = $<HTMLElement>(".bar i");
+    const stops = [...el.querySelectorAll<HTMLButtonElement>(".stops button")];
+    const statBoxes = [".s0", ".s1", ".s2"].map((s) => $<HTMLElement>(s));
+
+    const paint = (k: number) => {
+      const data = img.data;
+      for (let i = 0; i < cells.length; i++) {
+        const v = cells[i];
+        let a = 0;
+        if (v === 0 || (v >= 100 && v <= 100 + q && v - 100 <= k)) a = 52;
+        else if (v <= q && v <= k) a = 255;
+        const o = i * 4;
+        data[o] = ar; data[o + 1] = ag; data[o + 2] = ab; data[o + 3] = a;
+      }
+      ctx.putImageData(img, 0, 0);
+    };
+    const paths = (w: number) => {
+      let dr = "", we = "";
+      for (const p of [d.spine, d.loop]) {
+        for (let i = 0; i < p.length - 1; i++) {
+          const a = p[i], b = p[i + 1];
+          const s = `M${X(a[0])} ${Y(a[1])}L${X(b[0])} ${Y(b[1])}`;
+          if ((a[2] + b[2]) / 2 < w) we += s; else dr += s;
+        }
+      }
+      dry.setAttribute("d", dr); wetA.setAttribute("d", we); wetB.setAttribute("d", we);
+    };
+
+    const render = (k: number) => {
+      const w = d.levels[0] + k * step;
+      paint(k); paths(w);
+      const y = sY(w);
+      water.setAttribute("y", String(y)); water.setAttribute("height", String(Math.max(sY(ZB) - y, 0)));
+      lows.forEach((l) => l.n.setAttribute("class", l.z < w ? "lw" : "ld"));
+      const p = d.cdf[Math.min(k, d.cdf.length - 1)];
+      pct.textContent = `${Math.round(p)}%`;
+      bar.style.width = `${p}%`;
+      const at = SNAPS.indexOf(k);
+      now.textContent = at >= 0 ? `수면 ${at + 1} · ${d.labels[at]}` : `수면 ${k < 50 ? "1–2" : "2–3"} 사이`;
+      say.textContent = at >= 0 ? SAY[at] : "Low Spine이 조금씩 잠긴다.";
+      stops.forEach((b, i) => b.setAttribute("aria-pressed", String(i === at)));
+      statBoxes.forEach((b, i) => b.classList.toggle("on", i === at));
+      input.setAttribute("aria-valuetext", `${now.textContent}, Low Spine ${Math.round(p)}% 잠김`);
+    };
+    const set = (k: number) => { input.value = String(k); render(k); };
+
+    input.addEventListener("input", () => {
+      const k = +input.value;
+      const near = SNAPS.find((s) => Math.abs(s - k) <= 3);
+      set(near ?? k);
+    });
+    input.addEventListener("keydown", (e) => {
+      const k = +input.value;
+      let t: number | undefined;
+      if (e.key === "ArrowRight" || e.key === "ArrowUp") t = SNAPS.find((s) => s > k);
+      else if (e.key === "ArrowLeft" || e.key === "ArrowDown") t = [...SNAPS].reverse().find((s) => s < k);
+      else if (e.key === "Home") t = 0;
+      else if (e.key === "End") t = 90;
+      else return;
+      e.preventDefault();
+      if (t != null) set(t);
+    });
+    stops.forEach((b) => b.addEventListener("click", () => set(+b.dataset.k!)));
+
+    set(0);
+    $<HTMLElement>(".live").hidden = false;
+    $<HTMLElement>(".stills").hidden = true;
+  }
+</script>
+
+<style is:global>
+  .ws .over .br { fill: none; stroke: var(--faint); stroke-width: 5; }
+  .ws .over .dry { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-linecap: round; }
+  .ws .over .wetA { fill: none; stroke: var(--accent); stroke-width: 3.6; stroke-linecap: round; }
+  .ws .over .wetB { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; }
+  .ws .over .ring { fill: none; stroke: var(--ink); stroke-width: 3; }
+  .ws .over .cut { fill: none; stroke: var(--soft); stroke-width: 1; stroke-dasharray: 8 5; }
+  .ws .scale { fill: none; stroke: var(--ink); stroke-width: 2; }
+  .ws svg .t { font: var(--w-regular) 13px var(--font); fill: var(--ink); }
+  .ws svg .mid { text-anchor: middle; }
+  .ws svg .end { text-anchor: end; }
+  .ws .over .lgS { fill: var(--accent); }
+  .ws .over .lgT { fill: var(--accent); fill-opacity: 0.2; }
+  @media (max-width: 760px) { .ws .over .t { font-size: 22px; } }
+  .ws .sec .t { font-size: 8px; }
+  .ws .sec .right { text-anchor: end; }
+  .ws .sec .scale { stroke-width: 1; }
+  .ws .sec .w { fill: var(--accent); }
+  .ws .sec .g { fill: var(--track); }
+  .ws .sec .gl { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .ws .sec .rg { fill: var(--ink); }
+  .ws .sec .ld { fill: #fff; stroke: var(--ink); stroke-width: 1; }
+  .ws .sec .lw { fill: #fff; stroke: var(--accent); stroke-width: 1.6; }
+</style>
+
+<style>
+  .stills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .stills[hidden], .live[hidden] { display: none; }
+  .stills .caption { margin-top: 8px; }
+  .live { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; align-items: start; }
+  .plan { position: relative; }
+  canvas { display: block; width: 100%; height: auto; }
+  .over { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .now { color: var(--ink); }
+  .stats { display: grid; grid-template-columns: repeat(3, auto) 1fr; column-gap: 18px; align-items: end; margin-top: 12px; }
+  .l { display: block; font-size: var(--t-caption); line-height: 1.5; color: var(--soft); }
+  .stats b { display: block; font-weight: var(--w-light); font-size: 1.375rem; line-height: 1; color: var(--soft); margin-top: 6px; }
+  .stats .on b { color: var(--ink); }
+  .key { text-align: right; }
+  .stats .key b { font-weight: var(--w-xlight); font-size: clamp(4.5rem, 8vw, 7.5rem); color: var(--accent); letter-spacing: -0.06em; line-height: 0.85; }
+  .bar { position: relative; height: 12px; background: var(--track); margin-top: 18px; }
+  .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); }
+  .bar u { position: absolute; top: -4px; bottom: -4px; width: 1px; background: var(--ink); }
+  .ctl { margin-top: 28px; padding-bottom: 36px; position: relative; }
+  input { display: block; width: 100%; height: 32px; margin: 0; accent-color: var(--accent); touch-action: pan-y; cursor: pointer; }
+  .stops { position: relative; height: 0; }
+  .stops button { position: absolute; top: 4px; transform: translateX(-50%); padding: 6px 2px; border: 0; background: none; font: inherit; font-size: var(--t-caption); line-height: 1.5; color: var(--soft); cursor: pointer; white-space: nowrap; }
+  .stops button:first-child { transform: none; }
+  .stops button:last-child { transform: translateX(-100%); }
+  .stops button[aria-pressed="true"] { color: var(--ink); font-weight: var(--w-regular); }
+  .say { min-height: 3.7em; }
+  .sec { margin-top: 12px; }
+  @media (max-width: 1000px) {
+    .live { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  }
+  @media (max-width: 760px) {
+    .stills { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

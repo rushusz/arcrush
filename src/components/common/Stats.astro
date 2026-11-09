@@ -1,0 +1,28 @@
+---
+// 숫자 강조: 마지막 항목이 핵심 숫자. percent를 주면 비율 막대를 그린다.
+interface Item { label: string; value: string; percent?: number }
+interface Props { items: Item[]; note?: string }
+const { items, note } = Astro.props;
+const key = items[items.length - 1];
+const ticks = items.slice(0, -1).filter((i) => i.percent != null);
+---
+<div class="n" style={`--cols:${"1fr ".repeat(items.length - 1)}2.2fr`}>
+  {items.map((it, i) => <div class={i === items.length - 1 ? "k" : ""}><span class="l">{it.label}</span><b>{it.value}</b></div>)}
+</div>
+{key.percent != null && (
+  <div class="bar" aria-hidden="true"><i style={`width:${key.percent}%`}></i>{ticks.map((t) => <u style={`left:${t.percent}%`}></u>)}</div>
+)}
+{note && <p class="caption" style="margin-top:14px">{note}</p>}
+<style>
+  .n { display: grid; grid-template-columns: var(--cols); align-items: end; column-gap: 24px; }
+  .l { font-size: var(--t-caption); line-height: 1.5; color: var(--soft); }
+  b { display: block; font-weight: var(--w-light); font-size: var(--t-stat); line-height: 1; letter-spacing: -0.03em; color: var(--soft); margin-top: 8px; }
+  .k b { font-weight: var(--w-xlight); font-size: var(--t-stat-key); color: var(--accent); letter-spacing: -0.06em; line-height: 0.85; }
+  .bar { position: relative; height: 18px; background: var(--track); margin-top: 28px; }
+  .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); }
+  .bar u { position: absolute; top: -6px; bottom: -6px; width: 1px; background: var(--ink); }
+  @media (max-width: 760px) {
+    .n { grid-template-columns: 1fr 1fr; }
+    .k { grid-column: 1 / -1; margin-top: 24px; }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+// Ring 단면 개념. 폭과 두께 D = 0.8 + (W−3) × 0.17은 설계 문서값이다. 단면의 세부 형상은 개념.
+const S = 36;
+const items = [
+  { W: 3, label: "기본 구간 3 m" },
+  { W: 6, label: "머무는 마디 6 m" },
+  { W: 10, label: "물 위 마루광장 10 m" },
+].map((it) => ({ ...it, D: 0.8 + (it.W - 3) * 0.17 }));
+const gap = 46;
+let cx = 80;
+const placed = items.map((it) => { const x = cx + (it.W * S) / 2; cx += it.W * S + gap; return { ...it, x }; });
+const width = cx - gap + 20;
+const top = 34;
+const hull = (x: number, W: number, D: number) => {
+  const h = W * S / 2, d = D * S;
+  return `M${x - h} ${top}L${x + h} ${top}L${x + h * 0.82} ${top + d * 0.45}L${x + h * 0.32} ${top + d}L${x - h * 0.32} ${top + d}L${x - h * 0.82} ${top + d * 0.45}Z`;
+};
+---
+<svg viewBox={`0 0 ${width} 150`} role="img" aria-label="폭 3, 6, 10미터 Ring 단면. 폭이 넓어질수록 단면이 깊어진다.">
+  {placed.map((p) => (
+    <g>
+      <path d={hull(p.x, p.W, p.D)} fill="var(--track)" stroke="var(--ink)" stroke-width="1.2" />
+      <line x1={p.x - p.W * S / 2} x2={p.x + p.W * S / 2} y1={top} y2={top} stroke="var(--accent)" stroke-width="3" />
+      <line x1={p.x} y1={top + p.D * S} x2={p.x + 18} y2="146" stroke="var(--ink)" stroke-width="2.4" />
+      <text x={p.x} y="20" text-anchor="middle">{p.label}</text>
+      <text x={p.x - 8} y={Math.min(top + p.D * S + 16, 146)} text-anchor="end">D {p.D.toFixed(2)} m</text>
+    </g>
+  ))}
+  <path d={`M${width - 20 - 2 * S} 142h${2 * S}`} stroke="var(--ink)" stroke-width="1.2" />
+  <text x={width - 20} y="134" text-anchor="end">2 m</text>
+</svg>
+<style>
+  svg { max-width: 860px; }
+  text { font-size: 11px; fill: var(--ink); }
+  @media (max-width: 760px) { text { font-size: 22px; } }
+</style>

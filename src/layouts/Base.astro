@@ -1,6 +1,8 @@
 ---
+import "../styles/tokens.css";
+
 interface Props { title: string; description?: string }
-const { title, description = 'Minseok Ryu — architecture archive' } = Astro.props;
+const { title, description = "류민석 건축 아카이브 — 도시의 단절을 길과 머무는 장소로 바꾸는 건축" } = Astro.props;
 ---
 <!doctype html>
 <html lang="ko">
@@ -12,9 +14,5 @@ const { title, description = 'Minseok Ryu — architecture archive' } = Astro.pr
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
   </head>
-  <body>
-    <header><a href="/">arcrush</a> · <a href="/works">Works</a> · <a href="/process">Process</a> · <a href="/about">About</a></header>
-    <main><slot /></main>
-    <footer>Minseok Ryu · lunununu99@gmail.com</footer>
-  </body>
+  <body><slot /></body>
 </html>
