@@ -11,8 +11,8 @@ for (let i = 0; i <= 8; i++) { const z = 198.3 - (6.3 * i) / 8; stairs.push([i, 
 const hx = 8 * (198.3 - HINGE) / 6.3;
 const ground = "M" + [[-0.5, 190.2], [-0.5, 198.3], ...stairs, [12, BED], [29, BED], [29, 190.2]].map(([x, z]) => `${X(x)} ${Y(z)}`).join("L") + "Z";
 const stages = [
-  { z: 192.152, label: "수면 1 · 평상시", say: "데크가 낮게 떠 있고 갱웨이로 드나든다.", open: true },
-  { z: 194.652, label: "수면 2 · 수위 상승", say: "데크가 기둥을 따라 오른다. 여기까지 출입한다.", open: true },
+  { z: 192.152, label: "수면 1 · 겨울", say: "데크가 낮게 떠 있고 갱웨이로 출입한다.", open: true },
+  { z: 194.652, label: "수면 2 · 수위 상승", say: "데크가 기둥을 따라 상승한다. 수면 2까지만 출입한다.", open: true },
   { z: 196.652, label: "수면 3 · 침수", say: "갱웨이를 분리하고 Ring에서 바라본다.", open: false },
 ].map((s) => {
   const top = s.z + FLOAT - (s.open ? DRAFT : EMPTY);
@@ -87,7 +87,7 @@ const c = 7.2;
     <li><b>B</b> 슬롯 가이드. 회전만 막고 A–B 방향은 풀어 둔다.</li>
     <li><b>C·D</b> 여유 가이드. 평소에는 닿지 않고 과하중 때만 받친다.</li>
     <li>3.6 m 모듈 네 장을 하나로 묶어 기울기를 줄인다.</li>
-    <li>기둥은 위치만 잡고, 높이는 부력이 정한다.</li>
+    <li>기둥은 데크가 떠내려가지 않게 잡아 주고, 데크는 물에 떠서 수위를 따라간다.</li>
   </ul>
 </div>
 

@@ -3,7 +3,7 @@
 // 스크립트 실패나 reduced-motion이면 정지 이미지 3장이 그대로 남는다.
 const base = "/works/a-place-for-water";
 const stages = [
-  { no: 1, label: "평상시", pct: 2 },
+  { no: 1, label: "겨울", pct: 2 },
   { no: 2, label: "수위 상승", pct: 27 },
   { no: 3, label: "침수", pct: 60 },
 ];
@@ -20,7 +20,7 @@ const stages = [
 
   <div class="live" hidden>
     <div class="plan">
-      <canvas role="img" aria-label="미르섬 평면. 모델 수면이 오르면 잠기는 땅이 표시된다."></canvas>
+      <canvas role="img" aria-label="미르섬 평면. 모델 수면이 오르면 잠기는 땅을 색으로 표시한다."></canvas>
       <svg class="over" aria-hidden="true"></svg>
     </div>
     <div class="side">
@@ -37,13 +37,13 @@ const stages = [
       <div class="ctl">
         <input type="range" min="0" max="90" step="1" value="0" aria-label="모델 수면 높이" />
         <div class="stops">
-          <button type="button" data-k="0" style="left:0">평상시</button>
+          <button type="button" data-k="0" style="left:0">겨울</button>
           <button type="button" data-k="50" style="left:55.56%">수위 상승</button>
           <button type="button" data-k="90" style="left:100%">침수</button>
         </div>
       </div>
       <p class="say"></p>
-      <svg class="sec" role="img" aria-label="A–A′ 단면. 수면 높이가 함께 움직인다."></svg>
+      <svg class="sec" role="img" aria-label="A–A′ 단면. 슬라이더를 움직이면 수면도 함께 오르내린다."></svg>
     </div>
   </div>
 </div>
@@ -57,7 +57,7 @@ const stages = [
     spine: number[][]; loop: number[][]; rings: number[][][]; bridge: number[][];
     section: { y: number; x: number[]; z: number[]; rings: number[][]; low: number[][] };
   }
-  const SAY = ["Low Spine이 거의 드러난다.", "Low Spine의 일부가 끊긴다.", "Low Spine의 절반 이상이 사라지고, Ring과 언덕이 남는다."];
+  const SAY = ["Low Spine이 대부분 드러나 있다.", "Low Spine의 일부가 끊긴다.", "Low Spine의 절반 이상이 잠기고, Ring과 언덕이 남는다."];
   const SNAPS = [0, 50, 90];
   const NS = "http://www.w3.org/2000/svg";
 
@@ -115,7 +115,7 @@ const stages = [
     add(over, "text", { x: X(sx1 + 16), y: Y(d.section.y) + 4, class: "t" }, "A′");
     const bm = d.bridge[1][1] > d.bridge[0][1] ? d.bridge[1] : d.bridge[0];
     add(over, "text", { x: Math.min(X(bm[0]) + 8, W - 44), y: Math.max(Y(bm[1]) + 14, 14), class: "t" }, "금강교");
-    const LEGEND: [string, string][] = [["ring", "Ring"], ["dry", "Low Spine"], ["wet", "잠긴 Low Spine"], ["solid", "잠긴 땅"], ["tint", "평상시 물"]];
+    const LEGEND: [string, string][] = [["ring", "Ring"], ["dry", "Low Spine"], ["wet", "잠긴 Low Spine"], ["solid", "잠긴 땅"], ["tint", "겨울 수면"]];
     LEGEND.forEach(([kind, label], i) => {
       const y = 30 + i * 30, lx = W - 190;
       if (kind === "solid" || kind === "tint") add(over, "rect", { x: lx, y: y - 11, width: 28, height: 14, class: kind === "solid" ? "lgS" : "lgT" });
@@ -189,7 +189,7 @@ const stages = [
       bar.style.width = `${p}%`;
       const at = SNAPS.indexOf(k);
       now.textContent = at >= 0 ? `수면 ${at + 1} · ${d.labels[at]}` : `수면 ${k < 50 ? "1–2" : "2–3"} 사이`;
-      say.textContent = at >= 0 ? SAY[at] : "Low Spine이 조금씩 잠긴다.";
+      say.textContent = at >= 0 ? SAY[at] : "Low Spine이 점차 잠긴다.";
       stops.forEach((b, i) => b.setAttribute("aria-pressed", String(i === at)));
       statBoxes.forEach((b, i) => b.classList.toggle("on", i === at));
       input.setAttribute("aria-valuetext", `${now.textContent}, Low Spine ${Math.round(p)}% 잠김`);
