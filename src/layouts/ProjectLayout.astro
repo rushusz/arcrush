@@ -4,6 +4,7 @@
 import Base from "./Base.astro";
 import Wordmark from "../components/common/Wordmark.astro";
 import { workBySlug } from "../data/works";
+import { sentencePerLine } from "../lib/sentences";
 
 interface Props { slug: string; specs?: Record<string, string> }
 const { slug, specs = {} } = Astro.props;
@@ -24,7 +25,7 @@ const hasImage = Astro.slots.has("image");
 const image = hasImage ? await Astro.slots.render("image") : "";
 const blocks = await Promise.all(
   defs.filter(([n]) => Astro.slots.has(n)).map(async ([name, label], i) => ({
-    name, label, no: String(i + (hasImage ? 2 : 1)).padStart(2, "0"), html: await Astro.slots.render(name),
+    name, label, no: String(i + (hasImage ? 2 : 1)).padStart(2, "0"), html: sentencePerLine(await Astro.slots.render(name)),
   })),
 );
 const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...blocks];
