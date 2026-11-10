@@ -52,6 +52,10 @@ em { font-style: normal; }
 .text { max-width: none; }
 .caption { font-size: var(--t-caption); line-height: 1.5; color: var(--soft); }
 
+@media (max-width: 1100px) {
+  /* 좁은 화면에서는 한 줄 길이가 달라지므로 문장 줄바꿈을 풀고 자연스럽게 흐르게 둔다. */
+  .text br { display: none; }
+}
 @media (max-width: 760px) {
   .two { grid-template-columns: 1fr; }
   .two > :empty { display: none; }
