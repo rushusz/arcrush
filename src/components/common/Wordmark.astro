@@ -1,0 +1,26 @@
+---
+// arcrush 워드마크. 일곱 글자는 그대로, 띄어쓰기만 움직인다. 가운데 c가 경첩이다.
+// mode="arc": arc rush (건축 아카이브, 작품 01~05) / mode="ar": ar crush (도구와 실험, 06)
+// flip: 마우스를 올리거나 초점이 가면 c가 반대편으로 건너간다.
+interface Props { mode?: "arc" | "ar"; flip?: boolean }
+const { mode = "arc", flip = true } = Astro.props;
+---
+<span class:list={["wm", mode, { flip }]} role="img" aria-label="arcrush"><i class="a" aria-hidden="true">ar</i><i class="c" aria-hidden="true">c</i><i class="r" aria-hidden="true">rush</i></span>
+
+<style>
+  .wm { display: inline-flex; align-items: baseline; letter-spacing: -0.03em; line-height: 1; white-space: nowrap; --gap: 0.18em; }
+  i { font-style: normal; transition: font-weight 0.3s; }
+  .c { color: var(--accent); font-weight: var(--w-regular); transition: margin 0.5s cubic-bezier(0.6, 0, 0.2, 1); }
+  .arc .a, .ar .r { font-weight: var(--w-regular); }
+  .arc .r, .ar .a { font-weight: var(--w-xlight); }
+  .arc .c { margin-right: var(--gap); }
+  .ar .c { margin-left: var(--gap); }
+  @media (hover: hover) {
+    :global(a:hover) > .arc.flip .c, .arc.flip:hover .c { margin-right: 0; margin-left: var(--gap); }
+    :global(a:hover) > .arc.flip .a, .arc.flip:hover .a { font-weight: var(--w-xlight); }
+    :global(a:hover) > .arc.flip .r, .arc.flip:hover .r { font-weight: var(--w-regular); }
+    :global(a:hover) > .ar.flip .c, .ar.flip:hover .c { margin-left: 0; margin-right: var(--gap); }
+    :global(a:hover) > .ar.flip .a, .ar.flip:hover .a { font-weight: var(--w-regular); }
+    :global(a:hover) > .ar.flip .r, .ar.flip:hover .r { font-weight: var(--w-xlight); }
+  }
+</style>

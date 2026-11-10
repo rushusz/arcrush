@@ -1,0 +1,24 @@
+---
+import Base from "../layouts/Base.astro";
+import Wordmark from "../components/common/Wordmark.astro";
+---
+<Base title="404 — arcrush" noindex>
+  <div class="p" style="--accent:#FF7A1A">
+    <header><a href="/"><Wordmark mode="ar" /></a></header>
+    <p class="n"><span>4</span><em>0</em><span>4</span></p>
+    <h1>이 길은 아직 없습니다.</h1>
+    <p class="s">주소가 바뀌었거나 아직 만들지 않은 페이지입니다.</p>
+    <a class="back" href="/#works">← Works로 돌아가기</a>
+  </div>
+</Base>
+
+<style>
+  .p { min-height: 100vh; min-height: 100dvh; padding: 20px var(--gutter) 64px; max-width: var(--frame-max); margin-inline: auto; }
+  header { font-size: 1rem; }
+  .n { font-size: clamp(6rem, 22vw, 18rem); font-weight: var(--w-xlight); letter-spacing: -0.05em; line-height: 1; margin-top: clamp(48px, 10vw, 140px); }
+  .n em { color: var(--accent); font-weight: var(--w-regular); margin-left: 0.14em; }
+  h1 { font-size: var(--t-question); font-weight: var(--w-light); letter-spacing: -0.02em; margin-top: 24px; }
+  .s { color: var(--soft); margin-top: 8px; }
+  .back { display: inline-block; margin-top: 40px; border-bottom: 1px solid var(--ink); }
+  .back:hover { color: var(--accent); border-color: var(--accent); }
+</style>

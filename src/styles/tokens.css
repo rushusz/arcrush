@@ -1,7 +1,7 @@
 /* arcrush 공통 서식 (B안 확정, 2026-11-09). 프로젝트 세션은 수정하지 않는다. */
-@font-face { font-family: Paperlogy; font-weight: 200; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-2ExtraLight.woff2) format("woff2"); }
-@font-face { font-family: Paperlogy; font-weight: 300; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-3Light.woff2) format("woff2"); }
-@font-face { font-family: Paperlogy; font-weight: 400; font-display: swap; src: url(https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-4Regular.woff2) format("woff2"); }
+@font-face { font-family: Paperlogy; font-weight: 200; font-display: swap; src: url(/fonts/Paperlogy-2ExtraLight.woff2) format("woff2"); }
+@font-face { font-family: Paperlogy; font-weight: 300; font-display: swap; src: url(/fonts/Paperlogy-3Light.woff2) format("woff2"); }
+@font-face { font-family: Paperlogy; font-weight: 400; font-display: swap; src: url(/fonts/Paperlogy-4Regular.woff2) format("woff2"); }
 
 :root {
   --paper: #ffffff;
@@ -28,6 +28,7 @@
   --t-stat: 2.75rem;
   --t-stat-key: clamp(6rem, 14vw, 12.5rem);
 
+  --frame-max: 1520px;
   --rail: 232px;
   --gutter: clamp(16px, 3vw, 40px);
   --sheet-left: 44px;

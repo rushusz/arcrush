@@ -2,6 +2,7 @@
 // 작품 페이지 공통 틀(B안). 블록 순서·번호·레일은 여기서 고정한다. 프로젝트 세션은 슬롯만 채운다.
 // 슬롯: image, context, process, technique, drawings, outcome, credits
 import Base from "./Base.astro";
+import Wordmark from "../components/common/Wordmark.astro";
 import { workBySlug } from "../data/works";
 
 interface Props { slug: string; specs?: Record<string, string> }
@@ -28,11 +29,11 @@ const blocks = await Promise.all(
 );
 const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...blocks];
 ---
-<Base title={`${work.no} ${work.title} — arcrush`} description={work.question}>
+<Base title={`${work.no} ${work.title} — arcrush`} description={work.question} image={`/og/${work.slug}.png`}>
   <div class="f" style={`--accent:${work.accent}`}>
     <div id="level" aria-hidden="true"></div>
     <aside class="r">
-      <p class="brand"><a href="/">arcrush</a><br /><span>Minseok Ryu</span></p>
+      <p class="brand"><a href="/"><Wordmark mode={work.status === "tool" ? "ar" : "arc"} /></a><br /><span>Minseok Ryu</span></p>
       <ul class="idx">
         {index.map((b, i) => <li data-target={`b-${b.name}`} class={i === 0 ? "on" : ""}><a href={`#b-${b.name}`}>{b.label}</a></li>)}
       </ul>
@@ -89,10 +90,11 @@ const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...bloc
 </script>
 
 <style>
-  .f { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); }
-  #level { position: fixed; left: var(--rail); top: 0; width: 3px; height: 0; background: var(--accent); z-index: 5; }
+  .f { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); max-width: var(--frame-max); margin-inline: auto; }
+  #level { position: fixed; left: calc(max(0px, (100vw - var(--frame-max)) / 2) + var(--rail)); top: 0; width: 3px; height: 0; background: var(--accent); z-index: 5; }
   .r { position: sticky; top: 0; align-self: start; height: 100vh; padding: 20px 0 20px var(--gutter); display: flex; flex-direction: column; justify-content: space-between; font-size: var(--t-caption); line-height: 1.5; }
-  .brand span { color: var(--soft); }
+  .brand { font-size: 1rem; line-height: 1.3; }
+  .brand span { color: var(--soft); font-size: var(--t-caption); }
   .idx li { font-size: var(--t-rail); line-height: 2.1; color: var(--faint); transition: color 0.2s; }
   .idx li.on { color: var(--ink); font-weight: var(--w-regular); }
   .idx li::before { content: ""; display: inline-block; width: 0; height: 2px; background: var(--accent); vertical-align: middle; transition: width 0.2s; }
@@ -112,7 +114,7 @@ const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...bloc
   .t { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--line); margin-top: 56px; font-size: var(--t-caption); line-height: 1.5; }
   .t div { padding: 10px 0; }
   .t dt { color: var(--soft); }
-  .bleed { margin: 32px calc(var(--gutter) * -1) 0 0; }
+  .bleed { margin: 32px 0 0; }
   .hd { display: flex; align-items: baseline; gap: 14px; border-top: 1px solid var(--ink); padding-top: 10px; margin: var(--block-gap) 0 32px; }
   .hd b { font-size: var(--t-section-no); font-weight: var(--w-xlight); line-height: 1; letter-spacing: -0.03em; color: var(--accent); }
   .hd h2 { font-size: var(--t-rail); font-weight: var(--w-regular); }
@@ -125,6 +127,5 @@ const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...bloc
     .c { padding: 16px var(--gutter) 40px; }
     .ti { grid-template-columns: 1fr; row-gap: 16px; }
     .t { grid-template-columns: 1fr 1fr; }
-    .bleed { margin-left: 0; }
   }
 </style>

@@ -143,11 +143,18 @@ const credits = [
   </Fragment>
 
   <Fragment slot="drawings">
-    <Figure fig="18" title="A–A′ 단면" kind="Model-based concept" scale="막대 축척" note="0616 모델을 절단한 도면이다. 도면 안의 비율은 인쇄 기준이므로 화면에서는 막대 축척을 본다.">
+    <Figure fig="18" title="배치도" kind="Model-based concept" scale="막대 축척" note="1 도서관, 2 계단 극장. 0616 모델의 Rhino 숨은선 도면에 지형을 합친 초안이다. 등고선은 1 m 간격이고, 물은 모델 수면 1이다. 방위는 확인 전이라 표시하지 않았다.">
+      <a href={`${base}/siteplan.svg`} target="_blank" rel="noopener" aria-label="배치도를 새 창에서 크게 보기">
+        <img src={`${base}/siteplan.svg`} alt="금강교, 세 개의 Ring, Low Spine, 지형 등고선, 도서관과 계단 극장을 표시한 미르섬 배치도" width="740" height="690" loading="lazy" />
+      </a>
+    </Figure>
+    <div class="fig">
+    <Figure fig="19" title="A–A′ 단면" kind="Model-based concept" scale="막대 축척" note="0616 모델을 절단한 도면이다. 도면 안의 비율은 인쇄 기준이므로 화면에서는 막대 축척을 본다.">
       <a href={`${base}/section-aa.svg`} target="_blank" rel="noopener" aria-label="A–A′ 단면을 새 창에서 크게 보기">
         <img src={`${base}/section-aa.svg`} alt="금강철교, 도서관, Skywalk Ring, Low Spine과 세 수면을 지나는 단면도" loading="lazy" />
       </a>
     </Figure>
+    </div>
   </Fragment>
 
   <Fragment slot="outcome">
@@ -172,40 +179,40 @@ const credits = [
       <p class="caption gap-c">6월 설계 문서의 시나리오다. 슬라이더의 모델 수면과는 별개의 단계다.</p>
     </div>
     <div class="fig pair">
-      <Figure fig="19" title="도서관" kind="Original render" note="금강교와 서측 일상축을 잇는다. 긴 목재 데크와 반외부 공간에서 책을 읽고 강을 본다.">
+      <Figure fig="20" title="도서관" kind="Original render" note="금강교와 서측 일상축을 잇는다. 긴 목재 데크와 반외부 공간에서 책을 읽고 강을 본다.">
         <img src={`${base}/place-library.jpg`} alt="긴 목재 데크와 반외부 공간을 가진 도서관" width="1400" height="1400" loading="lazy" />
       </Figure>
-      <Figure fig="20" title="계단 극장" kind="Original render" note="R1 서쪽 끝의 조망 지점이다. 물이 오르면 계단 끝이 물가와 가까워진다.">
+      <Figure fig="21" title="계단 극장" kind="Original render" note="R1 서쪽 끝의 조망 지점이다. 물이 오르면 계단 끝이 물가와 가까워진다.">
         <img src={`${base}/place-theatre.jpg`} alt="Ring 옆에서 강을 향해 내려가는 곡선형 계단 극장" width="1400" height="1400" loading="lazy" />
       </Figure>
-      <Figure fig="21" title="원통형 빛 공간" kind="Original render" note="R2와 R3 사이에 놓인다. 목재 원통 안으로 든 빛이 수면에 반사되어 흩어진다.">
+      <Figure fig="22" title="원통형 빛 공간" kind="Original render" note="R2와 R3 사이에 놓인다. 목재 원통 안으로 든 빛이 수면에 반사되어 흩어진다.">
         <img src={`${base}/place-cylinder.jpg`} alt="목재 루버로 둘러싸인 원통형 공간" width="1400" height="1400" loading="lazy" />
       </Figure>
-      <Figure fig="22" title="부표 데크" kind="Original render" note="수위를 따라 오르내리는 체류 공간이다. 렌더는 부체를 드러내기 전의 표현이다. 현재 안은 Fig. 14를 따른다.">
+      <Figure fig="23" title="부표 데크" kind="Original render" note="수위를 따라 오르내리는 체류 공간이다. 렌더는 부체를 드러내기 전의 표현이다. 현재 안은 Fig. 14를 따른다.">
         <img src={`${base}/place-deck.jpg`} alt="수면 위의 직사각형 데크와 가는 기둥들" width="1400" height="1400" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
-      <Figure fig="23" title="같은 자리의 사계절" kind="Original render">
+      <Figure fig="24" title="같은 자리의 사계절" kind="Original render">
         <video src={`${base}/timelapse-720.mp4`} poster={`${base}/timelapse-poster.jpg`} controls preload="none" playsinline muted width="1280" height="747"></video>
       </Figure>
     </div>
     <div class="fig four">
-      <Figure fig="24" title="봄" kind="Original render" note="벚꽃과 연둣빛 식생이 Ring과 Low Spine을 따라 번진다.">
+      <Figure fig="25" title="봄" kind="Original render" note="벚꽃과 연둣빛 식생이 Ring과 Low Spine을 따라 번진다.">
         <img src={`${base}/season-spring.jpg`} alt="벚꽃과 연둣빛 식생이 번진 봄의 미르섬" width="1400" height="708" loading="lazy" />
       </Figure>
-      <Figure fig="25" title="여름" kind="Original render" note="Skywalk가 숲과 수면을 내려다본다.">
+      <Figure fig="26" title="여름" kind="Original render" note="Skywalk가 숲과 수면을 내려다본다.">
         <img src={`${base}/season-summer.jpg`} alt="녹음이 짙은 여름의 미르섬" width="1400" height="708" loading="lazy" />
       </Figure>
-      <Figure fig="26" title="가을" kind="Original render" note="낮은 햇빛과 단풍이 수면에 비친다.">
+      <Figure fig="27" title="가을" kind="Original render" note="낮은 햇빛과 단풍이 수면에 비친다.">
         <img src={`${base}/season-autumn.jpg`} alt="단풍이 든 가을의 미르섬" width="1400" height="708" loading="lazy" />
       </Figure>
-      <Figure fig="27" title="겨울" kind="Original render" note="물이 낮아져 지형과 낮은 길이 선명해진다.">
+      <Figure fig="28" title="겨울" kind="Original render" note="물이 낮아져 지형과 낮은 길이 선명해진다.">
         <img src={`${base}/season-winter.jpg`} alt="눈이 덮인 겨울의 미르섬" width="1400" height="708" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
-      <Figure fig="28" title="졸업전시 전경" kind="Physical model" scale="1:400">
+      <Figure fig="29" title="졸업전시 전경" kind="Physical model" scale="1:400">
         <img src={`${base}/exhibition.jpg`} alt="모형과 판넬, 영상 화면으로 구성한 졸업전시 전경" loading="lazy" />
       </Figure>
     </div>
