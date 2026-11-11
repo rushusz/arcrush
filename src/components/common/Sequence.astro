@@ -103,13 +103,18 @@ const pad = (n: number) => String(n).padStart(2, "0");
   .dots i.on { background: var(--accent); }
   .frame { position: relative; }
   /* 넘김 버튼은 그림 안 양 끝, 세로 가운데에 둔다 */
-  button { all: unset; position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; display: grid; place-items: center; cursor: pointer; border-radius: 50%; background: rgba(255, 255, 255, 0.82); color: var(--ink); font-size: 1.125rem; font-weight: var(--w-light); transition: background 0.2s, color 0.2s; }
+  button { all: unset; position: absolute; top: 50%; transform: translateY(-50%); width: 33px; height: 33px; display: grid; place-items: center; cursor: pointer; border-radius: 50%; background: rgba(255, 255, 255, 0.82); color: var(--ink); font-size: 0.85rem; font-weight: var(--w-light); transition: background 0.2s, color 0.2s, opacity 0.25s; }
+  /* 마우스가 있는 화면에서는 그림에 올렸을 때만 보인다. 터치 화면에서는 항상 보인다. */
+  @media (hover: hover) {
+    button { opacity: 0; }
+    .frame:hover button, .frame:focus-within button { opacity: 1; }
+  }
   .pv { left: 14px; }
   .nx { right: 14px; }
   button:hover { background: #fff; color: var(--accent); }
   button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   @media (max-width: 760px) {
-    button { width: 36px; height: 36px; font-size: 1rem; }
+    button { width: 30px; height: 30px; font-size: 0.8rem; }
     .pv { left: 8px; }
     .nx { right: 8px; }
   }
