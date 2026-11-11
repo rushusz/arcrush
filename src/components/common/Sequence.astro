@@ -10,19 +10,19 @@ const { steps, kind, fig, ratio = "2000 / 952", interval = 4, note } = Astro.pro
 const pad = (n: number) => String(n).padStart(2, "0");
 ---
 <figure class="seq" data-interval={interval} aria-roledescription="carousel" aria-label={steps.map((s) => s.title).join(", ")}>
-  <div class="stage" style={`aspect-ratio:${ratio}`} tabindex="0" role="button" aria-label="다음 단계 보기">
-    {steps.map((s, i) => (
-      <img src={s.src} alt={s.alt} class={i === 0 ? "on" : ""} loading={i === 0 ? "eager" : "lazy"} draggable="false" />
-    ))}
+  <div class="frame">
+    <div class="stage" style={`aspect-ratio:${ratio}`} tabindex="0" aria-label="그림을 누르거나 좌우 화살표 키로 단계를 넘긴다">
+      {steps.map((s, i) => (
+        <img src={s.src} alt={s.alt} class={i === 0 ? "on" : ""} loading={i === 0 ? "eager" : "lazy"} draggable="false" />
+      ))}
+    </div>
+    <button type="button" class="pv" aria-label="이전 단계"><span aria-hidden="true">←</span></button>
+    <button type="button" class="nx" aria-label="다음 단계"><span aria-hidden="true">→</span></button>
   </div>
   <figcaption>
     <div class="bar">
       <span class="ct"><b>{pad(1)}</b> / {pad(steps.length)}</span>
       <span class="dots" aria-hidden="true">{steps.map((_, i) => <i class={i === 0 ? "on" : ""}></i>)}</span>
-      <span class="nav">
-        <button type="button" class="pv" aria-label="이전 단계">←</button>
-        <button type="button" class="nx" aria-label="다음 단계">→</button>
-      </span>
     </div>
     <div class="cap" aria-live="polite">
       {steps.map((s, i) => (
@@ -101,10 +101,18 @@ const pad = (n: number) => String(n).padStart(2, "0");
   .dots { display: flex; gap: 6px; flex: 1; }
   .dots i { width: 28px; height: 2px; background: var(--line); transition: background 0.3s; }
   .dots i.on { background: var(--accent); }
-  .nav { display: flex; gap: 4px; }
-  button { all: unset; cursor: pointer; width: 44px; height: 36px; text-align: center; font-size: 1.125rem; font-weight: var(--w-xlight); color: var(--ink); }
-  button:hover { color: var(--accent); }
+  .frame { position: relative; }
+  /* 넘김 버튼은 그림 안 양 끝, 세로 가운데에 둔다 */
+  button { all: unset; position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; display: grid; place-items: center; cursor: pointer; border-radius: 50%; background: rgba(255, 255, 255, 0.82); color: var(--ink); font-size: 1.125rem; font-weight: var(--w-light); transition: background 0.2s, color 0.2s; }
+  .pv { left: 14px; }
+  .nx { right: 14px; }
+  button:hover { background: #fff; color: var(--accent); }
   button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 760px) {
+    button { width: 36px; height: 36px; font-size: 1rem; }
+    .pv { left: 8px; }
+    .nx { right: 8px; }
+  }
   .cap { display: grid; margin-top: 2px; }
   .cap p { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity 0.4s; }
   .cap p.on { opacity: 1; visibility: visible; }
