@@ -1,0 +1,53 @@
+---
+// About: 사진과 이력(위), 설계 태도(아래). 이력은 src/data/profile.ts에서 고친다. Approach 본문은 초안이다.
+import PageLayout from "../layouts/PageLayout.astro";
+import { profile } from "../data/profile";
+const groups = profile.groups.filter((g) => g.rows.length);
+---
+<PageLayout title="About — arcrush" description="류민석 소개. 도시의 단절을 길과 머무는 장소로 연결하는 건축." current="about" heading="About">
+  <section class:list={["pf", { nophoto: !profile.photo }]}>
+    {profile.photo && <img src={profile.photo} alt={`${profile.nameKo} 사진`} width="900" height="1200" />}
+    <div class="info">
+      <p class="name"><strong>{profile.nameKo}</strong> {profile.nameEn}</p>
+      <ul class="lines">{profile.lines.map((l) => <li>{l}</li>)}</ul>
+      {groups.map((g) => (
+        <dl>
+          <dt class="g">{g.title}</dt>
+          {g.rows.map((r) => <div><dt>{r.when}</dt><dd>{r.what}</dd></div>)}
+        </dl>
+      ))}
+      <ul class="contact">{profile.contact.map((c) => <li>{c.includes("@") ? <a href={`mailto:${c}`}>{c}</a> : c}</li>)}</ul>
+    </div>
+  </section>
+
+  <section class="ap">
+    <p class="pull">도시의 단절을 <em>길과 머무는 장소</em>로 연결하는 건축</p>
+    <div class="text">
+      <p>여섯 작품은 모두 끊어진 곳에서 시작했다. 매년 물에 잠기는 섬, 쓰레기로 만들어진 땅, 사람들이 다니던 길, 문 닫는 학교, 닫힌 박스 같은 오피스가 그 대지였다.</p>
+      <p>조건을 지우고 새로 짓는 대신, 그 조건을 설계의 출발점으로 삼았다. 물과 지형, 기존 동선과 건물을 받아들이고, 그 위에 사람이 지나가는 길과 머무는 장소를 놓았다.</p>
+      <p>설계에서 익힌 방법은 문제를 정의하고, 제약을 분석하고, 결과를 그림으로 설명하는 일이다. 같은 방법을 코드로 옮기고 있다. BIM 공정 시뮬레이터가 그 첫 결과물이다.</p>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .pf { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: clamp(24px, 6vw, 96px); align-items: start; }
+  .pf.nophoto { grid-template-columns: 1fr; }
+  .pf img { aspect-ratio: 3 / 4; object-fit: cover; border: 1px solid var(--line); }
+  .info { font-size: 1rem; line-height: 1.85; }
+  .name { font-size: 1.125rem; }
+  .name strong { font-weight: var(--w-regular); margin-right: 0.6em; }
+  .lines { margin-top: 1.4em; }
+  dl { margin: 1.6em 0 0; }
+  dl:first-of-type { margin-top: 1.2em; }
+  dl div { display: grid; grid-template-columns: 10.5em minmax(0, 1fr); }
+  dt { color: var(--soft); font-variant-numeric: tabular-nums; }
+  dt.g { font-size: var(--t-caption); color: var(--ink); font-weight: var(--w-regular); letter-spacing: 0.06em; padding-bottom: 2px; }
+  dd { margin: 0; }
+  .contact { margin-top: 2.2em; }
+  .contact a:hover { color: var(--accent); }
+  .ap { border-top: 1px solid var(--line); margin-block: clamp(56px, 8vw, 104px); padding-top: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 8fr); gap: clamp(24px, 6vw, 96px); }
+  .ap .pull { font-size: 1.5rem; line-height: 1.4; }
+  .text p + p { margin-top: 0.9em; }
+  @media (max-width: 760px) { .pf, .ap { grid-template-columns: 1fr; } .pf img { max-width: 220px; } dl div { grid-template-columns: 1fr; padding-block: 4px; line-height: 1.5; } dl div dt { font-size: var(--t-caption); } }
+</style>

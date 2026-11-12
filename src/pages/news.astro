@@ -1,0 +1,32 @@
+---
+// News: 연도별 소식 목록. 내용은 src/data/news.ts에서 고친다.
+import PageLayout from "../layouts/PageLayout.astro";
+import { news } from "../data/news";
+const sorted = [...news].sort((a, b) => b.date.localeCompare(a.date));
+const years = [...new Set(sorted.map((n) => n.date.slice(0, 4)))];
+---
+<PageLayout title="News — arcrush" description="류민석의 소식과 이력." current="news" heading="News">
+  <div class="list">
+    {years.map((y) => (
+      <section>
+        <h2>{y}</h2>
+        <ul>
+          {sorted.filter((n) => n.date.startsWith(y)).map((n) => (
+            <li><time>{n.date}</time>{n.href ? <a href={n.href}>{n.text}</a> : <span>{n.text}</span>}</li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</PageLayout>
+
+<style>
+  .list { margin-bottom: clamp(56px, 8vw, 104px); }
+  section + section { margin-top: clamp(28px, 3vw, 40px); }
+  h2 { font-size: 1.125rem; font-weight: var(--w-regular); letter-spacing: -0.02em; line-height: 1.4; }
+  li { display: grid; grid-template-columns: 6em minmax(0, 1fr); font-size: 1rem; line-height: 2; }
+  time { color: var(--soft); font-variant-numeric: tabular-nums; }
+  a { border-bottom: 1px solid var(--line); justify-self: start; }
+  a:hover { color: var(--accent); border-color: var(--accent); }
+  @media (max-width: 560px) { li { grid-template-columns: 1fr; padding-block: 6px; line-height: 1.5; font-size: 1rem; } time { font-size: var(--t-caption); } }
+</style>

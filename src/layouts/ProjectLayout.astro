@@ -3,6 +3,7 @@
 // 슬롯: image, context, process, technique, drawings, outcome, credits
 import Base from "./Base.astro";
 import Wordmark from "../components/common/Wordmark.astro";
+import SiteNav from "../components/common/SiteNav.astro";
 import { workBySlug } from "../data/works";
 import { sentencePerLine } from "../lib/sentences";
 
@@ -34,13 +35,16 @@ const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...bloc
   <div class="f" style={`--accent:${work.accent}`}>
     <div id="level" aria-hidden="true"></div>
     <aside class="r">
-      <p class="brand"><a href="/"><Wordmark mode={work.status === "tool" ? "ar" : "arc"} /></a><br /><span>Minseok Ryu</span></p>
+      <div>
+        <p class="brand"><a href="/"><Wordmark mode={work.status === "tool" ? "ar" : "arc"} /></a><br /><span>Minseok Ryu</span></p>
+        <div class="site"><SiteNav current="projects" /></div>
+      </div>
       <ul class="idx">
         {index.map((b, i) => <li data-target={`b-${b.name}`} class={i === 0 ? "on" : ""}><a href={`#b-${b.name}`}>{b.label}</a></li>)}
       </ul>
       <nav class="pn" aria-label="작품 이동">
         <a href={prev.href} aria-label={`이전 작품 ${prev.title}`}>← {prev.no}</a>
-        <a href="/#works">Works</a>
+        <a href="/#works">Projects</a>
         <a href={next.href} aria-label={`다음 작품 ${next.title}`}>{next.no} →</a>
       </nav>
     </aside>
@@ -96,6 +100,7 @@ const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...bloc
   .r { position: sticky; top: 0; align-self: start; height: 100vh; padding: 20px 0 20px var(--gutter); display: flex; flex-direction: column; justify-content: space-between; font-size: var(--t-caption); line-height: 1.5; }
   .brand { font-size: 1rem; line-height: 1.3; }
   .brand span { color: var(--soft); font-size: var(--t-caption); }
+  .site { margin-top: 14px; }
   .idx li { font-size: var(--t-rail); line-height: 2.1; color: var(--faint); transition: color 0.2s; }
   .idx li.on { color: var(--ink); font-weight: var(--w-regular); }
   .idx li::before { content: ""; display: inline-block; width: 0; height: 2px; background: var(--accent); vertical-align: middle; transition: width 0.2s; }

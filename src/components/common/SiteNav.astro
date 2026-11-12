@@ -1,0 +1,19 @@
+---
+// 사이트 공통 메뉴. Projects는 홈의 작품 장, About은 소개, News는 이력과 경험.
+interface Props { current?: "projects" | "about" | "news" }
+const { current } = Astro.props;
+const items = [
+  { key: "projects", label: "Projects", href: "/#works" },
+  { key: "about", label: "About", href: "/about" },
+  { key: "news", label: "News", href: "/news" },
+];
+---
+<nav class="sn" aria-label="사이트 메뉴">
+  {items.map((i) => <a href={i.href} aria-current={current === i.key ? "page" : undefined}>{i.label}</a>)}
+</nav>
+<style>
+  .sn { display: flex; gap: clamp(14px, 2vw, 28px); font-size: var(--t-caption); line-height: 1.5; }
+  a { color: var(--soft); }
+  a:hover { color: var(--accent); }
+  a[aria-current] { color: var(--ink); font-weight: var(--w-regular); }
+</style>

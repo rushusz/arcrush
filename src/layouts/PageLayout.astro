@@ -1,0 +1,24 @@
+---
+// About, News처럼 작품이 아닌 페이지의 공통 틀: 맨 윗줄(워드마크, 메뉴), 큰 제목, 본문.
+import Base from "./Base.astro";
+import Wordmark from "../components/common/Wordmark.astro";
+import SiteNav from "../components/common/SiteNav.astro";
+interface Props { title: string; description?: string; current: "about" | "news"; heading: string; noindex?: boolean }
+const { title, description, current, heading, noindex } = Astro.props;
+---
+<Base title={title} description={description} noindex={noindex}>
+  <div class="p" style="--accent:#3366CC">
+    <header><a class="wm" href="/"><Wordmark mode="arc" /></a><SiteNav current={current} /></header>
+    <h1>{heading}</h1>
+    <slot />
+    <footer><span>Minseok Ryu</span><a href="mailto:lunununu99@gmail.com">lunununu99@gmail.com</a></footer>
+  </div>
+</Base>
+<style>
+  .p { padding: 20px var(--gutter) 28px; max-width: var(--frame-max); margin-inline: auto; min-height: 100svh; display: flex; flex-direction: column; }
+  header { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .wm { font-size: 1rem; }
+  h1 { font-size: var(--t-title); font-weight: var(--w-xlight); line-height: 1; letter-spacing: -0.04em; color: var(--accent); margin: clamp(48px, 7vw, 96px) 0 clamp(28px, 4vw, 48px) -0.03em; }
+  footer { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; font-size: var(--t-caption); color: var(--soft); }
+  footer a:hover { color: var(--accent); }
+</style>

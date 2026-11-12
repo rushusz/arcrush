@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { works } from "../data/works";
 
 export const GET: APIRoute = ({ site }) => {
-  const paths = ["/", ...works.filter((w) => w.href?.startsWith("/")).map((w) => `${w.href}/`)];
+  const paths = ["/", "/about/", "/news/", ...works.filter((w) => w.href?.startsWith("/")).map((w) => `${w.href}/`)];
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths
     .map((p) => `  <url><loc>${new URL(p, site).href}</loc></url>`)
     .join("\n")}\n</urlset>\n`;
