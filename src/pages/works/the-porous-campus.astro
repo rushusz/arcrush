@@ -1,0 +1,167 @@
+---
+// 02 The Porous Campus. 슬롯만 채운다. 블록 번호, 레일, 물음, 강조색은 공통 틀이 넣는다.
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Figure from "../../components/common/Figure.astro";
+import Sequence from "../../components/common/Sequence.astro";
+import Stats from "../../components/common/Stats.astro";
+import TopoScroll from "../../components/works/the-porous-campus/TopoScroll.astro";
+
+const base = "/works/the-porous-campus";
+const specs = { advisor: "박주연, 홍성범", area: "655,244 ㎡" };
+const credits = [
+  ["Design", "류민석"],
+  ["Studio", "2024-2 건축설계(8)"],
+  ["Advisor", "박주연, 홍성범"],
+  ["Site data", "서울시"],
+];
+const renders = [
+  ["theatre", "Theatre", "쓰레기 지층 아래에 놓인 원형 극장의 내부"],
+  ["public", "Public", "지층 사이로 빛이 드는 퍼블릭 스페이스"],
+  ["sports", "Sports", "매립지 속 실내 스포츠 공간"],
+  ["commercial", "Commercial", "지층을 따라 이어지는 상업 공간"],
+  ["upcycle", "Upcycle", "파낸 쓰레기를 다시 쓰는 업사이클 연구소와 공방"],
+];
+---
+<ProjectLayout slug="the-porous-campus" specs={specs}>
+  <Fragment slot="image">
+    <Figure fig="1" title="쓰레기 산의 속을 비운 단면" kind="Original drawing">
+      <img src={`${base}/hero.jpg`} alt="쓰레기 지층을 잘라 낸 단면투시도. 지층 아래 원형 극장이 보이고 뒤로 상암동의 건물이 이어진다" width="2400" height="482" />
+    </Figure>
+  </Fragment>
+
+  <Fragment slot="context">
+    <div class="text">
+      <p>난지도는 1978년부터 1993년까지 서울의 쓰레기를 받은 매립지다. 안정화 공사를 거쳐 하늘공원과 노을공원이 됐지만, 높이 98m의 두 쓰레기 산은 상암동과 난지한강공원 사이를 막고 있다. 한강공원은 도시에서 멀고 입구가 적다. 쓰레기층은 흙으로 덮였을 뿐 그대로 남아 있다.</p>
+    </div>
+    <div class="fig">
+      <Stats
+        items={[
+          { label: "매립 기간", value: "1978–1993" },
+          { label: "기존 차수벽", value: "약 6 km" },
+          { label: "대지 면적", value: "655,244 ㎡" },
+          { label: "쓰레기 산의 높이", value: "98 m" },
+        ]}
+        note="서울시 자료 기준. 매립가스 추출공 106개와 침출수 집수정 31개가 지금도 가동된다."
+      />
+    </div>
+    <div class="fig">
+      <Figure fig="2" title="현재의 하늘공원" kind="Diagram" scale="개념">
+        <img src={`${base}/section-now.jpg`} alt="한강과 도시 사이에 솟은 하늘공원을 옆에서 본 단면 그림" width="2000" height="606" loading="lazy" />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="process">
+    <div class="text">
+      <p>1차에서는 쓰레기 지층을 드러내는 단면 풍경을 Manifesto Drawing으로 제시했다. 2차에서는 산을 무너뜨리지 않고 속을 비우는 방법을 위상최적화에서 찾았다. 3차에서는 한 점에 모여 있던 연결을 다섯 개의 노드로 나누고, 건물도 다섯 덩어리로 나눴다. 작은 덩어리는 벽이 짧고 하나씩 따로 지을 수 있다.</p>
+    </div>
+    <div class="fig">
+      <figure>
+        <img src={`${base}/manifesto.jpg`} alt="쓰레기 지층과 그 속의 건물이 겹쳐 보이는 단면 풍경" width="2000" height="1125" loading="lazy" />
+        <p class="caption photo">Fig. 3 Manifesto Drawing</p>
+      </figure>
+    </div>
+    <div class="fig pair">
+      <Figure fig="4" title="산 전체를 하나로 비운 마스터플랜" kind="Original drawing">
+        <img src={`${base}/masterplan-2.jpg`} alt="지형과 고리형 경사로, 주변 도시를 층으로 나눠 그린 분해 축측도" width="2000" height="1412" loading="lazy" />
+      </Figure>
+      <Figure fig="5" title="다섯 노드로 나눈 연결" kind="Diagram" note="바탕 위성사진: Google Earth">
+        <img src={`${base}/nodes.jpg`} alt="대지 안의 다섯 점에서 도시, 경기장, 공원, 한강 쪽으로 화살표가 뻗는 배치 다이어그램" width="2000" height="1266" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig">
+      <Figure fig="6" title="매스가 만들어지는 순서" kind="Diagram" note="기둥을 세우고, 경사로를 두르고, 속을 깎고, 덮개를 얹는다.">
+        <img src={`${base}/mass.jpg`} alt="기둥, 고리형 경사로, 깎인 내부, 덮개의 네 단계를 나란히 놓은 축측도" width="2400" height="328" loading="lazy" />
+      </Figure>
+    </div>
+    <p class="pull gap">쓰레기 산을 덮어 두지 않고, 속을 <em>비운다</em>.</p>
+  </Fragment>
+
+  <Fragment slot="technique">
+    <div class="text">
+      <p>위상최적화는 구조 해석을 포함한 형태 스터디다. 하중을 많이 받는 곳은 남기고 적게 받는 곳은 비우는 계산을 되풀이했다. 남는 덩어리는 강관 셀이 서는 자리이고, 비워지는 곳은 파내는 자리다.</p>
+    </div>
+    <div class="fig">
+      <Figure fig="7" title="남길 곳과 비울 곳" kind="Diagram" note="스크롤하면 계산이 진행된다. 끝에서 상암동과 한강을 잇는 길이 켜진다.">
+        <TopoScroll />
+      </Figure>
+    </div>
+    <div class="text gap">
+      <p>시공은 세 단계로 계획한다. 강관을 고리 모양으로 박아 셀을 만들고, 셀 안쪽을 위에서부터 판다. 한 층을 파면 바닥판이 벽을 받치고, 그 아래를 다시 판다. 구조는 강관이 맡고, 통로와 지층 관찰창은 투명한 외피로 덮는다.</p>
+    </div>
+    <div class="fig">
+      <Sequence
+        fig="8"
+        kind="Diagram"
+        ratio="2 / 1"
+        interval={6}
+        note="개념 단면이다. 축척은 없다."
+        steps={[
+          { src: `${base}/tectonic-1.svg`, alt: "쓰레기 산에 강관 벽과 말뚝을 원지반까지 박은 단면", title: "구축", text: "강관을 서로 물려 고리 모양으로 박아 셀을 만든다. 벽은 흙과 침출수를 함께 막는다. 건물의 무게는 쓰레기층을 지나 원지반에 닿는 말뚝이 받는다." },
+          { src: `${base}/tectonic-2.svg`, alt: "셀 안쪽만 위에서부터 파내고 쓰레기를 위로 꺼내는 단면", title: "해체", text: "셀 안쪽만 위에서부터 판다. 파낸 쓰레기는 선별해 업사이클 시설로 보낸다. 남긴 지층은 기밀 유리창으로 보여 준다." },
+          { src: `${base}/tectonic-3.svg`, alt: "층마다 바닥판이 놓이고 가운데 중정으로 공기가 빠지며 아래로 길이 통과하는 단면", title: "중첩", text: "한 층을 파면 바닥판이 벽을 받치는 버팀이 된다. 가운데 중정은 환기 굴뚝이다. 지붕에는 복토층과 억새밭을 다시 깐다." },
+        ]}
+      />
+    </div>
+    <div class="fig">
+      <Figure fig="9" title="3D 프린트 모형" kind="Physical model">
+        <div class="three">
+          <img src={`${base}/model-1.jpg`} alt="덮개 위에서 내려다본 흰색 모형" loading="lazy" />
+          <img src={`${base}/model-2.jpg`} alt="덮개를 걷어 다섯 덩어리와 비워진 속이 보이는 모형" loading="lazy" />
+          <img src={`${base}/model-3.jpg`} alt="고리형 경사로가 놓인 지형 모형" loading="lazy" />
+        </div>
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="drawings">
+    <Figure fig="10" title="마스터플랜" kind="Original drawing">
+      <img src={`${base}/masterplan.jpg`} alt="덮개, 다공 구조, 다섯 테마의 덩어리를 층으로 나눠 그린 분해 축측도. 대지에서 도시와 한강으로 붉은 화살표가 뻗는다" width="2400" height="1694" loading="lazy" />
+    </Figure>
+  </Fragment>
+
+  <Fragment slot="outcome">
+    <p class="pull">중심도 위계도 없는 길이 상암동에서 한강까지 <em>통과한다</em>.</p>
+    <div class="text gap-s">
+      <p>이곳은 도시와 한강 사이에 놓인 반외부 공간이다. 도시의 실내에서는 하기 어렵고 한강의 실외에서는 날씨에 막히는 활동을 넣었다. 실내 스포츠, 개미굴 형상을 살린 극장, 퍼블릭 스페이스, 상업 공간, 파낸 쓰레기를 다시 쓰는 업사이클 연구소와 공방이다. 다섯 덩어리는 중심도 위계도 없는 길(리좀)로 이어진다.</p>
+    </div>
+    <div class="fig pair">
+      {renders.map(([file, title, alt], i) => (
+        <div class={i === 0 ? "wide" : ""}>
+          <Figure fig={String(11 + i)} title={title} kind="Original render">
+            <img src={`${base}/render-${file}.jpg`} alt={alt} width="1440" height="959" loading="lazy" />
+          </Figure>
+        </div>
+      ))}
+    </div>
+    <div class="fig narrow">
+      <Figure fig="16" title="다섯 테마의 캠퍼스" kind="Diagram">
+        <img src={`${base}/campus.jpg`} alt="다섯 테마의 덩어리와 그 사이를 잇는 연결선을 위아래로 나눠 그린 축측도" width="1709" height="1800" loading="lazy" />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="credits">
+    <dl class="cr">
+      {credits.map(([k, v]) => <div><dt class="caption">{k}</dt><dd>{v}</dd></div>)}
+    </dl>
+  </Fragment>
+</ProjectLayout>
+
+<style>
+  .text p + p { margin-top: 1em; }
+  .fig { margin-top: 40px; }
+  .fig img { display: block; width: 100%; height: auto; }
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+  .pair .wide { grid-column: 1 / -1; }
+  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .three img { aspect-ratio: 4 / 3; object-fit: cover; }
+  .narrow { max-width: 720px; }
+  .gap { margin-top: 72px; }
+  .gap-s { margin-top: 28px; }
+  .photo { margin-top: 10px; color: var(--ink); font-weight: var(--w-regular); }
+  .cr { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px 24px; }
+  @media (max-width: 760px) {
+    .pair, .three { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

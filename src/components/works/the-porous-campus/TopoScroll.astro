@@ -1,0 +1,109 @@
+---
+// 대표 인터랙션: 스크롤하면 위상최적화 프레임이 넘어가고, 끝에서 상암동과 한강을 잇는 길이 켜진다.
+// 스크립트가 꺼져 있거나 움직임 줄이기 설정이면 처음·중간·끝 세 장의 정지 그림을 보여 준다.
+const base = "/works/the-porous-campus/topo";
+const N = 30;
+const src = (i: number) => `${base}/f${String(i).padStart(2, "0")}.jpg`;
+// 길: 끝 프레임(880×660)의 비워지는 곳을 따라 그렸다.
+const paths = [
+  "M452,92 C450,170 470,250 500,330 C525,400 560,450 588,560 L596,628",
+  "M500,330 C455,285 420,245 380,228 C320,205 250,235 172,238",
+  "M500,330 C570,290 640,268 720,266 L852,286",
+  "M560,455 C520,430 470,420 425,432",
+];
+---
+<div class="ts" data-n={N} data-base={base}>
+  <div class="pin">
+    <div class="stage">
+      <img class="fr" src={src(0)} alt="쓰레기 산 전체가 한 덩어리로 채워진 처음 상태의 평면" width="880" height="660" />
+      <svg class="route" viewBox="0 0 880 660" aria-hidden="true">
+        {paths.map((d) => <path d={d} pathLength="1" />)}
+        <g class="lb">
+          <text x="452" y="70" text-anchor="middle">상암동</text>
+          <text x="596" y="652" text-anchor="middle">한강</text>
+        </g>
+      </svg>
+    </div>
+    <div class="meta">
+      <p class="lg"><span><i class="k"></i>남는 덩어리 · 강관 셀이 서는 자리</span><span><i class="l"></i>비워지는 곳 · 파내는 자리</span><span><i class="r"></i>통과하는 길</span></p>
+      <p class="pg" aria-hidden="true"><b>00</b> / {N}</p>
+    </div>
+  </div>
+  <div class="still">
+    <img src={src(Math.floor(N / 2))} alt="계산이 절반 진행되어 덩어리가 나뉘기 시작한 평면" width="880" height="660" loading="lazy" />
+    <div class="stage">
+      <img src={src(N - 1)} alt="다섯 덩어리가 남고 그 사이가 비워진 마지막 평면. 상암동에서 한강까지 길이 이어진다" width="880" height="660" loading="lazy" />
+      <svg class="route done" viewBox="0 0 880 660" aria-hidden="true">
+        {paths.map((d) => <path d={d} pathLength="1" />)}
+        <g class="lb">
+          <text x="452" y="70" text-anchor="middle">상암동</text>
+          <text x="596" y="652" text-anchor="middle">한강</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".ts").forEach((el) => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const n = Number(el.dataset.n);
+    const base = el.dataset.base;
+    const img = el.querySelector(".pin .fr") as HTMLImageElement;
+    const route = el.querySelector(".pin .route") as SVGElement;
+    const count = el.querySelector(".pg b") as HTMLElement;
+    const srcs = Array.from({ length: n }, (_, i) => `${base}/f${String(i).padStart(2, "0")}.jpg`);
+    const cache: HTMLImageElement[] = [];
+    let loaded = false;
+    const preload = () => {
+      if (loaded) return;
+      loaded = true;
+      srcs.forEach((s, i) => { const im = new Image(); im.src = s; cache[i] = im; });
+    };
+    el.classList.add("live");
+    let cur = -1;
+    const update = () => {
+      const r = el.getBoundingClientRect();
+      const span = r.height - innerHeight;
+      const p = Math.min(1, Math.max(0, span > 0 ? -r.top / span : 0));
+      // 앞 80%는 프레임, 뒤 20%는 길
+      const k = Math.min(n - 1, Math.floor((p / 0.8) * (n - 1)));
+      if (k !== cur && (!cache[k] || cache[k].complete)) { cur = k; img.src = srcs[k]; count.textContent = String(k + 1).padStart(2, "0"); }
+      route.style.setProperty("--p", String(Math.min(1, Math.max(0, (p - 0.8) / 0.17))));
+    };
+    new IntersectionObserver(([en]) => { if (en.isIntersecting) preload(); }, { rootMargin: "100% 0px" }).observe(el);
+    addEventListener("scroll", update, { passive: true });
+    addEventListener("resize", update);
+    update();
+  });
+</script>
+
+<style>
+  .ts { position: relative; }
+  .pin { display: none; }
+  .stage { position: relative; background: #f1f1f1; }
+  .stage img, .still > img { display: block; width: 100%; height: auto; }
+  .route { position: absolute; inset: 0; width: 100%; height: 100%; --p: 0; }
+  .route path { fill: none; stroke: var(--accent); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--p)); }
+  .route .lb { opacity: var(--p); font-size: 22px; font-weight: 600; fill: var(--accent); paint-order: stroke; stroke: #fff; stroke-width: 5px; }
+  .route.done { --p: 1; }
+  .still { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+
+  /* 스크립트가 켜지면 화면에 고정하고 스크롤로 넘긴다 */
+  .ts.live { height: 340vh; }
+  .ts.live .pin { display: flex; flex-direction: column; justify-content: center; position: sticky; top: 0; height: 100vh; }
+  .ts.live .still { display: none; }
+  .ts.live .stage { width: min(100%, calc((100vh - 120px) * 880 / 660)); }
+  .meta { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 12px; font-size: var(--t-caption); line-height: 1.5; color: var(--soft); }
+  .lg { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+  .lg i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; }
+  .lg .k { background: #4a4a4a; }
+  .lg .l { background: #c4c4c4; }
+  .lg .r { height: 3px; width: 18px; vertical-align: 4px; background: var(--accent); }
+  .pg { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .pg b { font-size: 1.375rem; font-weight: var(--w-xlight); color: var(--accent); letter-spacing: -0.02em; }
+  @media (max-width: 760px) {
+    .still { grid-template-columns: minmax(0, 1fr); }
+    .ts.live { height: 280vh; }
+  }
+</style>
