@@ -27,7 +27,7 @@ export const works: Work[] = [
     question: "사람들이 다니던 길을 그대로 두고, 그 위에서 일상을 꾸릴 수 있을까?", emphasis: "길을 그대로 두고" },
   { no: "04", slug: "epicerie-dobong", keyword: "HEARTH", keywordKo: "화덕", title: "Epicerie Dobong", term: "3-2", site: "서울 도봉", status: "studio", accent: "#C08A2E", href: "/works/epicerie-dobong",
     question: "문 닫는 학교에서, 함께 먹는 일이 혼자 늙어 가는 동네를 다시 이을 수 있을까?", emphasis: "함께 먹는 일이" },
-  { no: "05", slug: "re-street-office", keyword: "ENCLOSURE", keywordKo: "둘러쌈", title: "RE:STREET Office", term: "3-1", site: "서울 뚝섬", status: "studio", accent: "#D4322C",
+  { no: "05", slug: "re-street-office", keyword: "ENCLOSURE", keywordKo: "둘러쌈", title: "RE:STREET Office", term: "3-1", site: "서울 뚝섬", status: "studio", accent: "#D4322C", href: "/works/re-street-office",
     question: "닫힌 박스 같은 오피스에 거리의 사람들이 들어와, 활기찬 골목길을 만들 수 있을까?", emphasis: "거리의 사람들이 들어와" },
   { no: "06", slug: "construction-sequence-simulator", keyword: "SEQUENCE", keywordKo: "순서", title: "BIM 공정 시뮬레이터", term: "진행 중", site: "웹 앱", status: "tool", accent: "#FF7A1A", href: "https://sim.arcrush.kr",
     question: "도면은 완성된 건물만 나타낸다. 공간의 구축 순서를 모델에서 읽어낼 수 있을까?", emphasis: "구축 순서" },

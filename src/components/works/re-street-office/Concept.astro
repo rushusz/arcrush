@@ -1,0 +1,33 @@
+---
+// 원본 개념 다이어그램 두 장(온라인과 오프라인의 연결, Crew·Consumer·Seller의 관계)을 웹 서식으로 다시 그렸다.
+// 낱말과 연결 관계는 원본 그대로다.
+---
+<svg class="cc" viewBox="0 0 1000 360" role="img" aria-label="왼쪽: Offline과 Online을 Link와 Optimize가 잇는다. 오른쪽: Crew, Consumer, Seller가 Marketing, Feedback, Community로 이어진다.">
+  <g class="ln">
+    <path d="M110 150 V70 H350 V150" />
+    <path class="a" d="M110 210 V290 H350 V210" />
+    <path d="M640 110 L560 250 M790 110 L870 250 M640 280 H790" stroke-dasharray="3 5" />
+  </g>
+  <g class="bx">
+    <rect x="50" y="150" width="120" height="60" /><rect x="290" y="150" width="120" height="60" />
+    <rect x="655" y="50" width="120" height="60" rx="10" /><rect x="520" y="250" width="120" height="60" rx="10" /><rect x="790" y="250" width="120" height="60" rx="10" />
+  </g>
+  <g class="tx">
+    <text x="110" y="186">Offline</text><text x="350" y="186">Online</text>
+    <text x="715" y="86">Crew</text><text x="580" y="286">Consumer</text><text x="850" y="286">Seller</text>
+  </g>
+  <g class="lb">
+    <text x="230" y="58">Link</text><text class="a" x="230" y="316">Optimize</text>
+    <text x="566" y="176">Marketing</text><text x="864" y="176">Feedback</text><text x="715" y="268">Community</text>
+  </g>
+</svg>
+<style>
+  .cc { display: block; width: 100%; height: auto; font-family: var(--font); }
+  .ln path { fill: none; stroke: var(--ink); stroke-width: 1; }
+  .ln .a { stroke: var(--accent); stroke-width: 1.5; }
+  .bx rect { fill: #fff; stroke: var(--ink); stroke-width: 1; }
+  text { text-anchor: middle; fill: var(--ink); }
+  .tx text { font-size: 17px; font-weight: 300; }
+  .lb text { font-size: 13px; fill: var(--soft); }
+  .lb .a { fill: var(--ink); }
+</style>

@@ -1,0 +1,202 @@
+---
+// 05 RE:STREET Office. 슬롯만 채운다. 블록 번호, 레일, 물음, 강조색은 공통 틀이 넣는다.
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import Figure from "../../components/common/Figure.astro";
+import Sequence from "../../components/common/Sequence.astro";
+import Stats from "../../components/common/Stats.astro";
+import Climb from "../../components/works/re-street-office/Climb.astro";
+import Concept from "../../components/works/re-street-office/Concept.astro";
+
+const base = "/works/re-street-office";
+const specs = { advisor: "이경선, 정승권", floors: "B4 – 10F" };
+const credits = [
+  ["Design", "류민석"],
+  ["Studio", "2022-1 건축설계(5)"],
+  ["Advisor", "이경선, 정승권"],
+];
+const plans = [
+  ["1f", "1층", "플리마켓, 팝업 스토어, 플래그십 스토어, 카페"],
+  ["2f", "2층", "공방, 커스텀 숍, 체험 라운지"],
+  ["3f", "3층", "거래 라운지, 세미나실, 프로젝트 랩"],
+  ["4f", "4층", "계단 쉼터, 로비, 회의장"],
+  ["5f", "5층", "계단 광장, 광장"],
+  ["6f", "6층", "업무, 테라스"],
+  ["7f", "7층", "업무"],
+  ["8f", "8층", "업무"],
+  ["9-10f", "9·10층", "업무"],
+];
+---
+<ProjectLayout slug="re-street-office" specs={specs}>
+  <Fragment slot="image">
+    <Figure fig="1" title="조감" kind="Original render">
+      <img src={`${base}/hero.jpg`} alt="흰 매스로 표현한 주변 건물 사이에 선 오피스. 지붕에 붉은 트러스가 놓이고, 앞쪽으로 고가 선로가 지나간다" width="2400" height="1320" />
+    </Figure>
+  </Fragment>
+
+  <Fragment slot="context">
+    <div class="text">
+      <p>대지는 세 면이 도로에 닿는 뚝섬의 땅이다. 북쪽으로 지하철 2호선 고가 선로가 지나가고, 남쪽은 걷기 어려운 골목의 주택가다. 오가는 사람은 많지만 기존의 오피스는 이들을 받지 않는다. 건축주는 중고거래 플랫폼을 운영하는 IT 기업으로 설정했다. 온라인으로 일하는 기업은 업무 면적이 적게 든다. 남는 면적을 방문객에게 여는 것이 이 설계의 핵심 조건이다.</p>
+    </div>
+    <div class="fig mid">
+      <Figure fig="2" title="온라인 기업의 오프라인 플랫폼" kind="Diagram" note="직원과 구매자, 판매자가 한 건물에서 만난다.">
+        <Concept />
+      </Figure>
+    </div>
+    <div class="fig">
+      <Figure fig="3" title="가로에서 본 모습" kind="Original render">
+        <img src={`${base}/street.jpg`} alt="도로 건너편에서 본 건물. 유리 매스 안쪽으로 계단이 층층이 올라가는 모습이 비친다" width="2000" height="1100" loading="lazy" />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="process">
+    <div class="text">
+      <p>대지를 채운 상자에서 시작했다. 거리의 흐름을 상자 안으로 끌어들이고, 그 흐름을 따라 계단 길을 냈다. 길 위와 옆에 업무 공간을 붙이고, 마지막에 코어를 세웠다. 제목 RE:STREET는 두 가지를 뜻한다. 닫힌 덩어리였던 오피스를 방문객이 들어오는 건물로 바꾼다는 것, 그리고 골목길을 매스 안에 넣는다는 것이다.</p>
+    </div>
+    <div class="fig narrow">
+      <Sequence
+        fig="4"
+        kind="Diagram"
+        ratio="1 / 1"
+        interval={4}
+        steps={[
+          { src: `${base}/mass-1.jpg`, alt: "대지를 채운 상자 하나", title: "Basic mass", text: "대지를 채운 상자에서 시작한다." },
+          { src: `${base}/mass-2.jpg`, alt: "둘로 갈라진 상자 사이로 곡선 화살표가 지나간다", title: "Attract the flow", text: "거리의 흐름을 상자 안으로 끌어들인다." },
+          { src: `${base}/mass-3.jpg`, alt: "갈라진 틈을 따라 계단 길이 지면에서 위로 올라간다", title: "Make the street", text: "흐름을 따라 계단 길을 낸다." },
+          { src: `${base}/mass-4.jpg`, alt: "계단 길 위로 점선으로 그린 큰 상자가 얹힌다", title: "Join with Office", text: "길 위에 업무 공간을 얹는다." },
+          { src: `${base}/mass-5.jpg`, alt: "점선 상자 뒤쪽에 수직 코어 두 개가 선다", title: "Place the Core", text: "코어를 세운다." },
+        ]}
+      />
+    </div>
+    <p class="pull gap">거리는 1층에서 멈추지 않고 5층 광장까지 <em>올라간다</em>.</p>
+    <div class="text gap">
+      <p>평면은 1층에서 시작한다. 스크롤하면 한 층씩 올라간다. 붉은 면이 길이다. 1층은 플리마켓과 팝업 스토어, 2층은 공방과 커스텀 숍, 3층은 세미나실과 거래 라운지, 4층은 로비와 회의장이다. 5층 광장까지 누구나 올라올 수 있다. 6층부터는 업무 층이다.</p>
+    </div>
+    <div class="fig narrow">
+      <Figure fig="5" title="동선 축측" kind="Diagram" note="붉은 선이 Main Street, 푸른 기둥이 코어다.">
+        <img src={`${base}/circulation.jpg`} alt="1층부터 5층까지 바닥판을 벌려 놓은 축측도. 붉은 길이 계단을 따라 층을 잇고 푸른 코어가 수직으로 지나간다" width="1600" height="1494" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig">
+      <Figure fig="6" title="위로 올라가는 길" kind="Diagram" note="원본 평면 위에 길의 범위를 덧그렸다. 옅은 면은 길이 끝나는 5층 광장이다.">
+        <Climb />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="technique">
+    <div class="text">
+      <p>구조 그리드는 X 방향 다섯 칸, Y 방향 세 칸이다. X1과 X2 사이에 코어를 두고 X5 부근에 보조 코어를 두었다. 코어는 모든 층을 잇고, 길은 코어에서 떨어진 쪽에서 따로 올라간다. 지붕에는 삼각형 평면의 붉은 트러스를 올렸다. 층 높이는 4.5m가 기본이고, 1층과 4층은 6m다.</p>
+    </div>
+    <div class="fig">
+      <Stats even items={[
+        { label: "X 방향 그리드", value: "51 m" },
+        { label: "기본 층 높이", value: "4.5 m" },
+        { label: "길이 지나는 층", value: "5" },
+      ]} />
+    </div>
+    <div class="fig">
+      <Figure fig="7" title="구조 평면" kind="Original drawing" scale="원본 1:300">
+        <div class="sheet">
+          <img src={`${base}/structure.jpg`} alt="그리드 X1에서 X6, Y1에서 Y4′ 위에 코어 두 곳과 보조 코어, 삼각형으로 놓인 트러스를 그린 구조 평면" width="2000" height="1073" loading="lazy" />
+          <span class="bar">20 m</span>
+        </div>
+      </Figure>
+    </div>
+    <div class="fig mid">
+      <Figure fig="8" title="지붕 트러스" kind="Original render">
+        <img src={`${base}/truss.jpg`} alt="위에서 내려다본 지붕. 붉은 트러스가 삼각형으로 놓여 있다" width="1600" height="900" loading="lazy" />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="drawings">
+    <Figure fig="9" title="평면" kind="Original drawing" scale="원본 1:300">
+      <div class="plans">
+        {plans.map(([file, floor, use]) => (
+          <div class="pl">
+            <div class="sheet">
+              <img src={`${base}/plan-${file}.jpg`} alt={`${floor} 평면. ${use}`} width="2000" height="1073" loading="lazy" />
+              <span class="bar">20 m</span>
+            </div>
+            <p class="caption"><b>{floor}</b> {use}</p>
+          </div>
+        ))}
+      </div>
+    </Figure>
+    <div class="fig">
+      <Figure fig="10" title="A-A 단면" kind="Original drawing" scale="원본 1:300">
+        <img src={`${base}/section-aa.jpg`} alt="지하 주차장 네 층 위로 플리마켓, 거래 라운지와 세미나실, 계단 광장, 광장, 업무 층 네 개, 옥상 정원과 지붕 트러스가 쌓인 단면" width="2400" height="1667" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig">
+      <Figure fig="11" title="B-B 단면" kind="Original drawing" scale="원본 1:300">
+        <img src={`${base}/section-bb.jpg`} alt="지면에서 시작한 계단이 상점 위를 지나 계단 쉼터와 계단 광장, 광장으로 올라가고 그 위에 업무 층과 지붕 트러스가 놓인 단면" width="2400" height="1667" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig pair">
+      <Figure fig="12" title="입면, 짧은 변" kind="Original drawing">
+        <img src={`${base}/elev-short.jpg`} alt="층 레벨이 적힌 좁은 쪽 입면. 아래층은 열려 있고 위는 유리 매스, 지붕에 붉은 트러스가 있다" width="1800" height="2206" loading="lazy" />
+      </Figure>
+      <Figure fig="13" title="입면, 긴 변" kind="Original drawing">
+        <img src={`${base}/elev-long.jpg`} alt="층 레벨이 적힌 넓은 쪽 입면. 계단이 지면에서 건물 안으로 올라가는 모습이 보인다" width="1800" height="1841" loading="lazy" />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="outcome">
+    <p class="pull">방문객과 직원이 5층 <em>광장</em>에서 만난다.</p>
+    <div class="text gap-s">
+      <p>길은 건물을 둘로 나눈다. 아래 다섯 층은 거리의 연장이고, 위 다섯 층은 업무 공간이다. 두 영역은 5층 광장에서 만난다. 방문객은 물건을 사고팔며 올라오고, 직원은 광장으로 내려와 그들을 만난다.</p>
+    </div>
+    <div class="fig">
+      <Figure fig="14" title="해 질 녘의 길" kind="Original render">
+        <img src={`${base}/dusk.jpg`} alt="해 질 녘에 가까이에서 본 건물. 유리 뒤로 계단과 층이 비치고 지붕에 붉은 트러스가 보인다" width="2000" height="1100" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig">
+      <Figure fig="15" title="교차로에서 본 전경" kind="Original render">
+        <img src={`${base}/corner.jpg`} alt="교차로 건너편에서 본 건물 전체. 아래층이 열려 있고 지붕에 붉은 트러스가 있다" width="2000" height="1100" loading="lazy" />
+      </Figure>
+    </div>
+    <div class="fig pair">
+      <Figure fig="16" title="외벽을 걷어 낸 모습" kind="Original render">
+        <img src={`${base}/cutaway.jpg`} alt="외벽을 걷어 내 층마다 다른 방과 그 사이를 오르는 계단이 드러난 모습" width="2000" height="1100" loading="lazy" />
+      </Figure>
+      <Figure fig="17" title="계단 광장" kind="Original render">
+        <img src={`${base}/stairs.jpg`} alt="건물 안에서 넓은 계단을 올려다본 모습" width="2000" height="1100" loading="lazy" />
+      </Figure>
+    </div>
+  </Fragment>
+
+  <Fragment slot="credits">
+    <dl class="cr">
+      {credits.map(([k, v]) => <div><dt class="caption">{k}</dt><dd>{v}</dd></div>)}
+    </dl>
+  </Fragment>
+</ProjectLayout>
+
+<style>
+  .text p + p { margin-top: 1em; }
+  .fig { margin-top: 40px; }
+  .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; align-items: end; }
+  .mid { max-width: 920px; }
+  .narrow { max-width: 640px; }
+  .gap { margin-top: 72px; }
+  .gap-s { margin-top: 28px; }
+
+  .plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px; }
+  .sheet { position: relative; }
+  .sheet img { display: block; width: 100%; height: auto; }
+  .bar { position: absolute; right: 2%; bottom: 3%; width: 20%; border-bottom: 2px solid var(--ink); font-size: var(--t-caption); line-height: 1.6; text-align: center; white-space: nowrap; }
+  .pl .caption { margin-top: 8px; }
+  .caption b { font-weight: var(--w-regular); color: var(--ink); margin-right: 6px; }
+  .cr { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px 24px; }
+  @media (max-width: 900px) {
+    .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 760px) {
+    .pair { grid-template-columns: minmax(0, 1fr); }
+    .plans { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
