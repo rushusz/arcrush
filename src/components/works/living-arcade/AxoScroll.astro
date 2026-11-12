@@ -22,10 +22,10 @@ const steps = [
 ---
 <div class="ax" style={`--d-mid:${dMid.toFixed(2)}%;--d-top:${dTop.toFixed(2)}%`}>
   <div class="pin">
-    <div class="stage" role="img" aria-label="아래부터 아케이드, 상점과 공방의 저층부, 곡선 주거동 골조의 세 층으로 벌어진 구조 축측도">
-      <div class="ly bot" style={`clip-path:${clipBot}`}><img src={src} alt="" width="1800" height="2580" loading="lazy" /><img class="m" src={src} alt="" loading="lazy" /><img class="m" src={src} alt="" loading="lazy" /><i></i></div>
-      <div class="ly mid" style={`clip-path:${clipMid}`}><img src={src} alt="" width="1800" height="2580" loading="lazy" /></div>
-      <div class="ly top" style={`clip-path:${clipTop}`}><img src={src} alt="" width="1800" height="2580" loading="lazy" /></div>
+    <div class="stage">
+      <div class="ly bot" style={`clip-path:${clipBot}`}><img src={src} alt="맨 아래 층. 기둥 열과 아치 지붕이 이어지는 아케이드와 통로가 대지 외곽선 안에 놓여 있다" width="1800" height="2580" loading="lazy" /><b class="m" style={`background-image:url(${src})`}></b><b class="m" style={`background-image:url(${src})`}></b><i></i></div>
+      <div class="ly mid" style={`clip-path:${clipMid}`}><img src={src} alt="가운데 층. 아케이드 양쪽에 선 2개 층 높이의 상점과 공방, 그 위를 덮고 원형으로 뚫린 판" width="1800" height="2580" loading="lazy" /></div>
+      <div class="ly top" style={`clip-path:${clipTop}`}><img src={src} alt="맨 위 층. 기둥 위에 올라간 곡선 주거동의 4개 층 골조" width="1800" height="2580" loading="lazy" /></div>
     </div>
     <ol class="st">
       {steps.map(([t, d], i) => (
@@ -68,7 +68,7 @@ const steps = [
   /* 길 조각: 검은 선을 강조색으로 바꾼다 */
   .bot { isolation: isolate; }
   /* 같은 그림을 곱하기로 겹쳐 옅은 선을 진하게 한다. 흰 바탕은 그대로 흰색이다 */
-  .bot .m { position: absolute; inset: 0; mix-blend-mode: multiply; }
+  .bot .m { position: absolute; inset: 0; background-size: 100% 100%; mix-blend-mode: multiply; }
   .bot i { position: absolute; inset: 0; background: var(--accent); mix-blend-mode: screen; }
   .mid { transform: translateY(calc((1 - var(--e)) * var(--d-mid))); opacity: var(--f-mid); }
   .top { transform: translateY(calc((1 - var(--e)) * var(--d-top))); opacity: var(--f-top); }
