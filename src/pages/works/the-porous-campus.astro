@@ -14,8 +14,8 @@ const credits = [
   ["Site data", "서울시"],
 ];
 const renders = [
-  ["theatre", "Theatre", "쓰레기 지층 아래에 놓인 원형 극장의 내부"],
-  ["public", "Public", "지층 사이로 빛이 드는 퍼블릭 스페이스"],
+  ["theatre", "Theatre", "지층 아래 계단식 객석에 관객이 앉아 무대의 공연을 보는 극장"],
+  ["public", "Public", "하늘이 보이는 구멍 아래 잔디 마당에 마켓과 사람들이 모인 퍼블릭 스페이스"],
   ["sports", "Sports", "매립지 속 실내 스포츠 공간"],
   ["commercial", "Commercial", "지층을 따라 이어지는 상업 공간"],
   ["upcycle", "Upcycle", "파낸 쓰레기를 다시 쓰는 업사이클 연구소와 공방"],
@@ -23,8 +23,8 @@ const renders = [
 ---
 <ProjectLayout slug="the-porous-campus" specs={specs}>
   <Fragment slot="image">
-    <Figure fig="1" title="쓰레기 산의 속을 비운 단면" kind="Original drawing">
-      <img src={`${base}/hero.jpg`} alt="쓰레기 지층을 잘라 낸 단면투시도. 지층 아래 원형 극장이 보이고 뒤로 상암동의 건물이 이어진다" width="2400" height="482" />
+    <Figure fig="1" title="쓰레기 지층 속을 통과하는 길" kind="Original render">
+      <img src={`${base}/hero.jpg`} alt="골재가 드러난 지층 아래로 길이 이어지고, 길가의 쉼터에 사람들이 앉아 있다. 왼쪽 틈으로 바깥 숲이 보인다" width="1599" height="984" />
     </Figure>
   </Fragment>
 
@@ -111,9 +111,14 @@ const renders = [
   </Fragment>
 
   <Fragment slot="drawings">
-    <Figure fig="10" title="마스터플랜" kind="Original drawing">
+    <Figure fig="10" title="단면투시도" kind="Original drawing">
+      <img src={`${base}/section.jpg`} alt="쓰레기 지층을 잘라 낸 단면투시도. 지층 아래 원형 극장이 보이고 뒤로 상암동의 건물이 이어진다" width="2400" height="482" loading="lazy" />
+    </Figure>
+    <div class="fig">
+    <Figure fig="11" title="마스터플랜" kind="Original drawing">
       <img src={`${base}/masterplan.jpg`} alt="덮개, 다공 구조, 다섯 테마의 덩어리를 층으로 나눠 그린 분해 축측도. 대지에서 도시와 한강으로 붉은 화살표가 뻗는다" width="2400" height="1694" loading="lazy" />
     </Figure>
+    </div>
   </Fragment>
 
   <Fragment slot="outcome">
@@ -124,14 +129,14 @@ const renders = [
     <div class="fig pair">
       {renders.map(([file, title, alt], i) => (
         <div class={i === 0 ? "wide" : ""}>
-          <Figure fig={String(11 + i)} title={title} kind="Original render">
-            <img src={`${base}/render-${file}.jpg`} alt={alt} width="1440" height="959" loading="lazy" />
+          <Figure fig={String(12 + i)} title={title} kind="Original render">
+            <img src={`${base}/render-${file}.jpg`} alt={alt} loading="lazy" />
           </Figure>
         </div>
       ))}
     </div>
     <div class="fig narrow">
-      <Figure fig="16" title="다섯 테마의 캠퍼스" kind="Diagram">
+      <Figure fig="17" title="다섯 테마의 캠퍼스" kind="Diagram">
         <img src={`${base}/campus.jpg`} alt="다섯 테마의 덩어리와 그 사이를 잇는 연결선을 위아래로 나눠 그린 축측도" width="1709" height="1800" loading="lazy" />
       </Figure>
     </div>
