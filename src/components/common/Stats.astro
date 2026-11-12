@@ -1,12 +1,13 @@
 ---
 // 숫자 강조: 마지막 항목이 핵심 숫자. percent를 주면 비율 막대를 그린다.
+// even을 주면 모든 숫자를 같은 크기로 나란히 놓는다(값이 길거나 하나만 키울 이유가 없을 때).
 interface Item { label: string; value: string; percent?: number }
-interface Props { items: Item[]; note?: string }
-const { items, note } = Astro.props;
+interface Props { items: Item[]; note?: string; even?: boolean }
+const { items, note, even = false } = Astro.props;
 const key = items[items.length - 1];
 const ticks = items.slice(0, -1).filter((i) => i.percent != null);
 ---
-<div class="n" style={`--cols:${"1fr ".repeat(items.length - 1)}2.2fr`}>
+<div class:list={["n", { even }]} style={`--cols:${even ? `repeat(${items.length}, minmax(0, 1fr))` : `${"1fr ".repeat(items.length - 1)}2.2fr`}`}>
   {items.map((it, i) => <div class={i === items.length - 1 ? "k" : ""}><span class="l">{it.label}</span><b>{it.value}</b></div>)}
 </div>
 {key.percent != null && (
@@ -18,6 +19,8 @@ const ticks = items.slice(0, -1).filter((i) => i.percent != null);
   .l { font-size: var(--t-caption); line-height: 1.5; color: var(--soft); }
   b { display: block; font-weight: var(--w-light); font-size: var(--t-stat); line-height: 1; letter-spacing: -0.03em; color: var(--soft); margin-top: 8px; }
   .k b { font-weight: var(--w-xlight); font-size: var(--t-stat-key); color: var(--accent); letter-spacing: -0.06em; line-height: 0.85; }
+  .even b, .even .k b { font-weight: var(--w-xlight); font-size: clamp(2.25rem, 4.6vw, 4rem); color: var(--ink); letter-spacing: -0.03em; line-height: 1; }
+  .even .k b { color: var(--accent); }
   .bar { position: relative; height: 18px; background: var(--track); margin-top: 28px; }
   .bar i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); }
   .bar u { position: absolute; top: -6px; bottom: -6px; width: 1px; background: var(--ink); }
