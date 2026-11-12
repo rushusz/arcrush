@@ -30,7 +30,7 @@ const blocks = await Promise.all(
 );
 const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...blocks];
 ---
-<Base title={`${work.no} ${work.title} — arcrush`} description={work.question} image={`/og/${work.slug}.png`}>
+<Base title={`${work.no} ${work.title} — arcrush`} description={work.question} image={`/og/${work.slug}.jpg`}>
   <div class="f" style={`--accent:${work.accent}`}>
     <div id="level" aria-hidden="true"></div>
     <aside class="r">

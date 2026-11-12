@@ -32,7 +32,7 @@ export function sentencePerLine(html: string): string {
       if (!body) { res += piece; continue; }
       const ends = /[.?!]["'”’)]?\s*$/.test(piece) && !ABBR.test(piece);
       if (!sentenceOpen && lineLen > 0 && lineLen + 1 + body.length > LIMIT) {
-        res = res.replace(/\s+$/, "") + "<br>" + piece.replace(/^\s+/, "");
+        res = res.replace(/\s+$/, "") + " <br>" + piece.replace(/^\s+/, ""); // 앞의 공백은 좁은 화면에서 br이 숨겨질 때 띄어쓰기로 남는다
         lineLen = body.length;
       } else {
         res += piece;
