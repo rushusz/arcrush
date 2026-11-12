@@ -48,15 +48,15 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
     </div>
     <div class="fig pair small">
       <Figure fig="2" title="기존 도봉고등학교의 구조" kind="Diagram">
-        <img src={`${base}/former.jpg`} alt="원통과 곡선 교사동, 별동으로 이루어진 기존 학교의 기둥과 보를 드러낸 축측도" width="700" height="680" loading="lazy" />
+        <img src={`${base}/former.jpg`} alt="원통과 곡선 교사동, 별동으로 이루어진 기존 학교의 기둥과 보를 드러낸 축측도" width="1440" height="1440" loading="lazy" />
       </Figure>
       <Figure fig="3" title="기존 건물의 구성" kind="Diagram">
-        <img src={`${base}/former-mass.jpg`} alt="기존 학교를 원통, 교사동, 별동, 곡선부의 네 덩어리로 색을 나눠 그린 매스 그림 두 장" width="660" height="650" loading="lazy" />
+        <img src={`${base}/former-mass.jpg`} alt="기존 학교를 원통, 교사동, 별동, 곡선부의 네 덩어리로 색을 나눠 그린 매스 그림 두 장" width="1260" height="1400" loading="lazy" />
       </Figure>
     </div>
     <div class="fig wide-cap">
       <Figure fig="4" title="동네의 네 사람" kind="Diagram" note="노인, 주부, 대학생, 직장인이 하루에 머무는 시간과 다니는 곳.">
-        <img src={`${base}/users.jpg`} alt="노인, 주부, 대학생, 직장인 네 사람의 나이, 활동 범위, 하루 시간대와 동네 안의 이동 범위를 그린 그림" width="1400" height="720" loading="lazy" />
+        <img src={`${base}/users.jpg`} alt="노인, 주부, 대학생, 직장인 네 사람의 나이, 활동 범위, 하루 시간대와 동네 안의 이동 범위를 그린 그림" width="2400" height="1233" loading="lazy" />
       </Figure>
     </div>
   </Fragment>
@@ -69,7 +69,7 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
       <Sequence
         fig="5"
         kind="Diagram"
-        ratio="920 / 631"
+        ratio="1840 / 1258"
         interval={5}
         steps={[
           { src: `${base}/mass-1.jpg`, alt: "원통과 곡선 교사동, 별동, 운동장으로 내려가는 계단이 있는 기존 학교의 매스", title: "기존 학교", text: "원통과 곡선 교사동, 별동이 운동장을 바라본다." },
@@ -82,7 +82,7 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
     <div class="fig mid">
       <Figure fig="6" title="남긴 것과 새로 넣은 것" kind="Diagram">
         <div class="keep">
-          <img src={`${base}/mass-5.jpg`} alt="Cookery, Brewery, Roastery, Vitality Center 네 동과 Spine, 원통을 떼어 놓고 이름을 붙인 매스 그림" width="920" height="600" loading="lazy" />
+          <img src={`${base}/mass-5.jpg`} alt="Cookery, Brewery, Roastery, Vitality Center 네 동과 Spine, 원통을 떼어 놓고 이름을 붙인 매스 그림" width="1840" height="1199" loading="lazy" />
           {parts.map(([name, isNew, x, y]) => <i class={isNew ? "new" : ""} style={`left:${x}%;top:${y}%`} title={`${name}: ${isNew ? "새로 넣은 것" : "남긴 것"}`}></i>)}
         </div>
         <p class="key"><span><i></i>학교에서 남긴 것</span><span><i class="new"></i>새로 넣은 것</span></p>
@@ -114,17 +114,17 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
     </div>
     <div class="fig narrow gap">
       <Figure fig="9" title="구조 분석" kind="Diagram" note="보라색은 코어다.">
-        <img src={`${base}/structure.jpg`} alt="기둥과 보, 보라색 코어, 아트리움을 덮는 나무 모양 구조물을 그린 축측도" width="1130" height="1320" loading="lazy" />
+        <img src={`${base}/structure.jpg`} alt="기둥과 보, 보라색 코어, 아트리움을 덮는 나무 모양 구조물을 그린 축측도" width="1908" height="2280" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
       <Figure fig="10" title="일사 분석: 기존, 동측 개방, 수평 루버" kind="Diagram">
-        <img src={`${base}/solar.jpg`} alt="기존, 동측 개방, 수평 루버 세 안의 실내 빛 분포를 세 가지 지표로 비교한 아홉 장의 그림" width="1940" height="860" loading="lazy" />
+        <img src={`${base}/solar.jpg`} alt="기존, 동측 개방, 수평 루버 세 안의 실내 빛 분포를 세 가지 지표로 비교한 아홉 장의 그림" width="2400" height="1094" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
       <Figure fig="11" title="일사량과 일조 시간" kind="Diagram">
-        <img src={`${base}/radiation.jpg`} alt="건물 매스의 지붕과 벽이 받는 일사량 세 장과 벽면 일조 시간 한 장" width="1940" height="420" loading="lazy" />
+        <img src={`${base}/radiation.jpg`} alt="건물 매스의 지붕과 벽이 받는 일사량 세 장과 벽면 일조 시간 한 장" width="2400" height="526" loading="lazy" />
       </Figure>
     </div>
   </Fragment>
@@ -173,7 +173,7 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
     </div>
     <div class="fig small">
       <Figure fig="17" title="남쪽에서 본 전경" kind="Original render">
-        <img src={`${base}/aerial.jpg`} alt="주택가 한가운데에 놓인 벽돌 건물과 운동장, 아트리움을 위에서 본 그림" width="800" height="450" loading="lazy" />
+        <img src={`${base}/aerial.jpg`} alt="주택가 한가운데에 놓인 벽돌 건물과 운동장, 아트리움을 위에서 본 그림" width="2400" height="1350" loading="lazy" />
       </Figure>
     </div>
   </Fragment>
