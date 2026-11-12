@@ -1,6 +1,6 @@
 ---
 // 홈: 포개지는 여섯 장. 표지 한 화면 뒤에 작품이 한 장씩 포개진다.
-// position: sticky로 포개고, CSS scroll-snap으로 스크롤할 때마다 한 장이 화면에 꽉 차게 멈춘다(스크립트 없음).
+// position: sticky로 포개고, CSS scroll-snap(proximity)으로 장 경계 가까이에서 멈추면 그 장에 맞춰 준다(스크립트 없음).
 import Base from "../layouts/Base.astro";
 import Wordmark from "../components/common/Wordmark.astro";
 import SiteNav from "../components/common/SiteNav.astro";
@@ -113,7 +113,7 @@ const total = String(works.length).padStart(2, "0");
 
   /* 장마다 멈추는 자리. sticky 요소에는 snap을 걸 수 없어 보이지 않는 표시를 따로 둔다. */
   main { position: relative; }
-  .snap { position: absolute; left: 0; width: 1px; height: 1px; scroll-snap-align: start; scroll-snap-stop: always; pointer-events: none; }
+  .snap { position: absolute; left: 0; width: 1px; height: 1px; scroll-snap-align: start; pointer-events: none; }
   .cover { scroll-snap-align: start; }
   footer { scroll-snap-align: end; }
   footer { position: relative; background: var(--paper); border-top: 1px solid var(--ink); display: flex; justify-content: space-between; padding: 14px var(--gutter) 28px; font-size: var(--t-caption); color: var(--soft); }
@@ -130,6 +130,6 @@ const total = String(works.length).padStart(2, "0");
   @media (max-height: 620px) { .sheet { position: static; } .pic img { max-height: none; } .snap { display: none; } }
 </style>
 <style is:global>
-  /* 홈에서만: 스크롤이 장 단위로 멈춘다. 낮은 화면에서는 장이 화면보다 길어질 수 있어 끈다. */
-  @media (min-height: 621px) { html:has(#works) { scroll-snap-type: y mandatory; } }
+  /* 홈에서만: 장 경계 가까이에서 멈추면 그 장에 맞춰 준다(느슨한 방식). 낮은 화면에서는 장이 화면보다 길어질 수 있어 끈다. */
+  @media (min-height: 621px) { html:has(#works) { scroll-snap-type: y proximity; } }
 </style>
