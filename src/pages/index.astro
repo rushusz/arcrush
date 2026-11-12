@@ -1,6 +1,6 @@
 ---
 // 홈: 포개지는 여섯 장. 표지 한 화면 뒤에 작품이 한 장씩 포개진다.
-// 스크롤은 브라우저 기본 그대로 두고 position: sticky만 쓴다.
+// position: sticky로 포개고, CSS scroll-snap으로 스크롤할 때마다 한 장이 화면에 꽉 차게 멈춘다(스크립트 없음).
 import Base from "../layouts/Base.astro";
 import Wordmark from "../components/common/Wordmark.astro";
 import SiteNav from "../components/common/SiteNav.astro";
@@ -37,6 +37,7 @@ const total = String(works.length).padStart(2, "0");
   </section>
 
   <main id="works">
+    {works.map((_, i) => <i class="snap" style={`top:calc(${i} * 100svh)`} aria-hidden="true"></i>)}
     {works.map((w, i) => {
       const [a, e, b] = split(w.question, w.emphasis);
       const img = images[w.slug];
@@ -95,14 +96,14 @@ const total = String(works.length).padStart(2, "0");
   /* 작품 장: 화면 위에 붙어 있고 다음 장이 그 위로 올라온다 */
   .sheet { position: sticky; top: 0; display: flex; flex-direction: column; min-height: 100svh; background: var(--paper); border-top: 1px solid var(--ink); padding: 14px var(--gutter) 28px; }
   .bar { display: flex; justify-content: space-between; gap: 16px; font-size: var(--t-caption); width: 100%; max-width: calc(var(--frame-max) - 2 * var(--gutter)); margin-inline: auto; }
-  .body { flex: 1; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); align-items: end; width: 100%; max-width: calc(var(--frame-max) - 2 * var(--gutter)); margin-inline: auto; padding-top: 24px; }
+  .body { flex: 1; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(24px, 4vw, 64px); align-items: end; width: 100%; max-width: calc(var(--frame-max) - 2 * var(--gutter)); margin-inline: auto; padding-top: 24px; }
   .txt { align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; }
   .no { display: block; font-size: var(--t-work-no); font-weight: var(--w-xlight); line-height: 0.9; letter-spacing: -0.05em; color: var(--accent); margin-left: -0.04em; }
   .kw { font-size: var(--t-caption); font-weight: var(--w-regular); letter-spacing: 0.08em; padding-top: clamp(16px, 2.4vw, 32px); }
   h2 { font-size: var(--t-title); font-weight: var(--w-light); line-height: 1.08; letter-spacing: -0.03em; padding-top: 4px; }
   .q { font-size: clamp(1.0625rem, 1.5vw, 1.375rem); line-height: 1.5; letter-spacing: -0.02em; color: #6f6c68; padding-top: clamp(12px, 1.6vw, 22px); max-width: 26em; }
   .q em { color: var(--accent); font-weight: var(--w-regular); }
-  .pic { align-self: stretch; display: flex; align-items: flex-end; min-height: 0; }
+  .pic { align-self: stretch; display: flex; align-items: flex-start; min-height: 0; }
   .pic img { width: 100%; height: auto; max-height: calc(100svh - 110px); object-fit: cover; aspect-ratio: 16 / 10; }
   @media (hover: hover) {
     .pic img { transition: opacity 0.3s; }
@@ -110,6 +111,11 @@ const total = String(works.length).padStart(2, "0");
     .sheet:hover h2 { color: var(--accent); }
   }
 
+  /* 장마다 멈추는 자리. sticky 요소에는 snap을 걸 수 없어 보이지 않는 표시를 따로 둔다. */
+  main { position: relative; }
+  .snap { position: absolute; left: 0; width: 1px; height: 1px; scroll-snap-align: start; scroll-snap-stop: always; pointer-events: none; }
+  .cover { scroll-snap-align: start; }
+  footer { scroll-snap-align: end; }
   footer { position: relative; background: var(--paper); border-top: 1px solid var(--ink); display: flex; justify-content: space-between; padding: 14px var(--gutter) 28px; font-size: var(--t-caption); color: var(--soft); }
 
   @media (max-width: 760px) {
@@ -121,5 +127,9 @@ const total = String(works.length).padStart(2, "0");
     .no { font-size: clamp(4rem, 22vw, 5.625rem); }
   }
   /* 낮은 화면(눕힌 휴대폰 등)에서는 장이 잘리지 않도록 포개기를 푼다 */
-  @media (max-height: 620px) { .sheet { position: static; } .pic img { max-height: none; } }
+  @media (max-height: 620px) { .sheet { position: static; } .pic img { max-height: none; } .snap { display: none; } }
+</style>
+<style is:global>
+  /* 홈에서만: 스크롤이 장 단위로 멈춘다. 낮은 화면에서는 장이 화면보다 길어질 수 있어 끈다. */
+  @media (min-height: 621px) { html:has(#works) { scroll-snap-type: y mandatory; } }
 </style>
