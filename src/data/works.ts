@@ -21,7 +21,7 @@ export interface Work {
 export const works: Work[] = [
   { no: "01", slug: "a-place-for-water", keyword: "TIME", keywordKo: "시간", title: "A Place for Water", term: "5-1 졸업설계", site: "공주 미르섬", status: "thesis", accent: "#3366CC", href: "/works/a-place-for-water",
     question: "매년 물에 잠기는 섬이, 그 물을 받아들이며 도시의 거실이 될 수 있을까?", emphasis: "그 물을 받아들이며" },
-  { no: "02", slug: "the-porous-campus", keyword: "GROUND", keywordKo: "땅", title: "The Porous Campus", term: "4-2", site: "서울 난지도", status: "studio", accent: "#7A5C45",
+  { no: "02", slug: "the-porous-campus", keyword: "GROUND", keywordKo: "땅", title: "The Porous Campus", term: "4-2", site: "서울 난지도", status: "studio", accent: "#7A5C45", href: "/works/the-porous-campus",
     question: "쓰레기로 만들어진 땅을, 도시와 한강을 잇는 문화공간으로 탈바꿈시킬 수 있을까?", emphasis: "도시와 한강을 잇는" },
   { no: "03", slug: "living-arcade", keyword: "THRESHOLD", keywordKo: "문턱", title: "Living Arcade", term: "4-1", site: "서울 남영", status: "studio", accent: "#5E7F5B",
     question: "사람들이 다니던 길을 그대로 두고, 그 위에서 일상을 꾸릴 수 있을까?", emphasis: "길을 그대로 두고" },
