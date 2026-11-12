@@ -1,0 +1,203 @@
+---
+// "누구로 들어갈까": 주민, 방문객, 직원을 고르면 평면과 단면에서 그 사람의 동선과 공간만 켜진다.
+// 바탕은 원본 도면(비트맵)이고 동선과 공간은 SVG로 그 위에 그린다. 좌표는 평면 2000×1794, 단면 2000×450 기준이다.
+// 스크립트가 없으면 세 사람의 그림이 모두 차례로 보인다.
+const base = "/works/epicerie-dobong";
+const PW = 2000, PH = 1794, SW = 2000, SH = 450;
+
+type Zone = { r?: [number, number, number, number]; c?: [number, number, number] };
+type Dot = [number, number, number]; // 순서 번호, x, y
+interface Panel { img: string; label: string; alt: string; zones: Zone[]; paths: string[]; dash?: string[]; dots: Dot[] }
+interface Who { id: string; name: string; lead: string; stops: string[]; plans: [Panel, Panel]; section: Omit<Panel, "img" | "label" | "alt"> }
+
+const atrium: Zone = { r: [268, 868, 615, 180] };
+const atriumSec: Zone = { r: [875, 170, 200, 165] };
+
+const people: Who[] = [
+  {
+    id: "resident", name: "주민",
+    lead: "서쪽 1층 입구에서 아트리움으로 곧장 들어온다. 장을 보고, 코어를 타고 위층의 커뮤니티로 올라간다.",
+    stops: ["서쪽 입구", "아트리움", "Epicerie", "코어", "Social Lounge", "Club Room"],
+    plans: [
+      {
+        img: "plan-1f.jpg", label: "1층", alt: "1층 평면 위에 서쪽 입구에서 아트리움을 지나 식료품점과 코어로 가는 주민 동선을 그린 그림",
+        zones: [atrium, { r: [470, 1125, 218, 435] }, { r: [362, 1050, 113, 75] }, { r: [528, 1050, 237, 75] }, { r: [600, 788, 257, 72] }],
+        paths: ["M150,952 L500,952 L500,1125 L580,1300", "M500,1140 L330,1150"],
+        dots: [[1, 215, 952], [2, 640, 952], [3, 580, 1300], [4, 300, 1150]],
+      },
+      {
+        img: "plan-4f.jpg", label: "4층", alt: "4층 평면 위에 코어에서 원통의 Social Lounge와 Club Room으로 가는 주민 동선을 그린 그림",
+        zones: [{ c: [387, 948, 178] }, { r: [405, 455, 135, 255] }, { r: [475, 715, 380, 100] }, { r: [205, 365, 155, 345] }],
+        paths: ["M255,780 L385,800 L387,948", "M385,800 L385,580 L470,580", "M385,830 L660,835"],
+        dots: [[4, 255, 780], [5, 387, 948], [6, 470, 580]],
+      },
+    ],
+    section: {
+      zones: [atriumSec, { r: [1160, 283, 485, 52] }],
+      paths: ["M900,325 L1400,325"],
+      dots: [[2, 975, 325], [3, 1400, 325]],
+    },
+  },
+  {
+    id: "visitor", name: "방문객",
+    lead: "북쪽에서 2층으로 들어온다. 책을 읽고 광장에서 쉰 뒤, 램프를 따라 아트리움으로 내려오거나 2층을 따라 식당과 바로 이어 간다.",
+    stops: ["북쪽 입구", "Cooking Library", "Event Yard와 램프", "Cafe", "아트리움", "Dining", "Bar와 Cocktail Class", "Brewery Tour"],
+    plans: [
+      {
+        img: "plan-2f.jpg", label: "2층", alt: "2층 평면 위에 북쪽 입구에서 도서관, 광장, 카페, 식당, 바로 이어지는 방문객 동선을 그린 그림",
+        zones: [{ r: [200, 280, 272, 430] }, { r: [540, 278, 510, 370] }, { r: [600, 715, 345, 148] }, { r: [470, 1125, 220, 370] }, { r: [600, 1125, 290, 80] }, { r: [1000, 985, 540, 290] }],
+        paths: ["M413,190 L413,340 L390,430 L390,700 L420,870 L420,1085 L1000,1085 L1140,1125 L1420,1140", "M390,560 L310,590", "M440,300 L503,320 L620,470 L680,700 L797,780", "M503,320 L503,750", "M560,1085 L650,1270"],
+        dots: [[1, 413, 250], [2, 310, 590], [3, 620, 470], [4, 797, 780], [6, 650, 1270], [7, 1140, 1125]],
+      },
+      {
+        img: "plan-1f.jpg", label: "1층", alt: "1층 평면 위에 램프에서 아트리움을 지나 양조장 견학 공간으로 가는 방문객 동선을 그린 그림",
+        zones: [atrium, { r: [478, 420, 52, 290] }, { r: [1000, 985, 540, 290] }],
+        paths: ["M504,420 L504,860 L575,952 L900,952 L940,1048 L1090,1165 L1360,1215"],
+        dots: [[3, 504, 560], [5, 640, 952], [8, 1200, 1190]],
+      },
+    ],
+    section: {
+      zones: [atriumSec, { r: [1075, 225, 570, 50] }],
+      paths: ["M230,297 L700,330 L1090,335 L1090,262 L1400,262"],
+      dots: [[1, 300, 301], [5, 975, 335], [6, 1400, 262]],
+    },
+  },
+  {
+    id: "staff", name: "직원",
+    lead: "남쪽 차량 입구에서 지하로 들어온다. 식자재를 내리고, 코어를 타고 5층 오피스로 올라간다.",
+    stops: ["남쪽 차량 입구", "하역과 직원 주차", "지하 양조 시설", "코어", "오피스"],
+    plans: [
+      {
+        img: "plan-b1.jpg", label: "지하 1층", alt: "지하 1층 평면 위에 차량 입구에서 하역장, 양조 시설, 코어로 가는 직원 동선을 그린 그림",
+        zones: [{ r: [375, 1055, 100, 140] }, { r: [375, 1200, 145, 180] }, { r: [597, 1125, 168, 75] }, { r: [890, 985, 650, 290] }],
+        paths: ["M518,1660 L518,1420 L540,1300 L540,1090 L1180,1090 L1310,1135", "M540,1160 L425,1160", "M578,1090 L578,790 L330,790 L255,770"],
+        dots: [[1, 518, 1600], [2, 425, 1160], [3, 1310, 1135], [4, 255, 770]],
+      },
+      {
+        img: "plan-5f.jpg", label: "5층", alt: "5층 평면 위에 코어에서 오피스로 가는 직원 동선을 그린 그림",
+        zones: [{ r: [205, 365, 155, 345] }, { r: [405, 365, 135, 345] }, { c: [387, 948, 115] }],
+        paths: ["M255,780 L383,790 L383,585 L280,585", "M383,790 L387,948"],
+        dots: [[4, 255, 780], [5, 280, 585]],
+      },
+    ],
+    section: {
+      zones: [{ r: [1050, 345, 595, 42] }, { r: [310, 50, 395, 55] }],
+      paths: ["M1760,366 L1100,372", "M720,372 L720,100 L500,100"],
+      dash: ["M1100,372 L720,372"],
+      dots: [[1, 1720, 366], [2, 1300, 372], [4, 720, 250], [5, 500, 100]],
+    },
+  },
+];
+const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`;
+---
+<div class="who" data-who>
+  <div class="tabs" role="tablist" aria-label="누구로 들어갈까">
+    {people.map((p, i) => (
+      <button type="button" role="tab" id={`who-t-${p.id}`} aria-controls={`who-p-${p.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1}>{p.name}</button>
+    ))}
+  </div>
+
+  {people.map((p, i) => (
+    <div class="view" role="tabpanel" id={`who-p-${p.id}`} aria-labelledby={`who-t-${p.id}`} data-i={i}>
+      <div class="info">
+        <p class="nm">{p.name}</p>
+        <p class="ld">{p.lead}</p>
+        <ol>{p.stops.map((s, k) => <li><b>{k + 1}</b>{s}</li>)}</ol>
+      </div>
+      <div class="plans">
+        {p.plans.map((pl) => (
+          <div class="pn">
+            <div class="dw" style={`aspect-ratio:${PW}/${PH}`}>
+              <img src={`${base}/${pl.img}`} alt={pl.alt} width={PW} height={PH} loading="lazy" />
+              <svg viewBox={`0 0 ${PW} ${PH}`} aria-hidden="true">
+                <rect x="1400" y="90" width="600" height="280" fill="#fff" />
+                {pl.zones.map((z) => z.r ? <rect class="z" x={z.r[0]} y={z.r[1]} width={z.r[2]} height={z.r[3]} /> : <circle class="z" cx={z.c![0]} cy={z.c![1]} r={z.c![2]} />)}
+                {pl.paths.map((d) => <path class="ln" d={d} />)}
+              </svg>
+              {pl.dots.map(([n, x, y]) => <i class="dot" style={`left:${pct(x, PW)};top:${pct(y, PH)}`}>{n}</i>)}
+            </div>
+            <p class="lb">{pl.label}</p>
+          </div>
+        ))}
+      </div>
+      <div class="sec">
+        <div class="dw" style={`aspect-ratio:${SW}/${SH}`}>
+          <img src={`${base}/section.jpg`} alt={`남북 단면 위에 ${p.name}의 동선을 그린 그림`} width="2400" height="540" loading="lazy" />
+          <svg viewBox={`0 0 ${SW} ${SH}`} aria-hidden="true">
+            {p.section.zones.map((z) => <rect class="z" x={z.r![0]} y={z.r![1]} width={z.r![2]} height={z.r![3]} />)}
+            {p.section.paths.map((d) => <path class="ln" d={d} />)}
+            {(p.section.dash ?? []).map((d) => <path class="ln da" d={d} />)}
+          </svg>
+          {p.section.dots.map(([n, x, y]) => <i class="dot" style={`left:${pct(x, SW)};top:${pct(y, SH)}`}>{n}</i>)}
+        </div>
+        <p class="lb">남북 단면. 왼쪽이 북쪽이다.</p>
+      </div>
+    </div>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-who]").forEach((el) => {
+    const tabs = [...el.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+    const views = [...el.querySelectorAll<HTMLElement>(".view")];
+    const show = (k: number, focus = false) => {
+      tabs.forEach((t, j) => {
+        t.setAttribute("aria-selected", j === k ? "true" : "false");
+        t.tabIndex = j === k ? 0 : -1;
+      });
+      views.forEach((v, j) => { v.hidden = j !== k; });
+      if (focus) tabs[k].focus();
+    };
+    tabs.forEach((t, k) => {
+      t.addEventListener("click", () => show(k));
+      t.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") { e.preventDefault(); show((k + 1) % tabs.length, true); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); show((k + tabs.length - 1) % tabs.length, true); }
+      });
+    });
+    el.classList.add("js");
+    show(0);
+  });
+</script>
+
+<style>
+  .tabs { display: none; gap: 8px; margin-bottom: 24px; }
+  .js .tabs { display: flex; }
+  button { all: unset; cursor: pointer; padding: 9px 22px; border: 1px solid var(--ink); font-size: var(--t-body); line-height: 1.4; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  button:hover { border-color: var(--accent); color: var(--accent); }
+  button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .view { display: grid; grid-template-columns: minmax(180px, 1fr) minmax(0, 4fr); gap: 24px 32px; }
+  .view + .view { margin-top: 56px; }
+  .js .view + .view { margin-top: 0; }
+  .view[hidden] { display: none; }
+  .nm { font-size: var(--t-stat); font-weight: var(--w-light); line-height: 1; letter-spacing: -0.03em; color: var(--accent); }
+  .js .nm { display: none; }
+  .ld { line-height: 1.7; }
+  .nm + .ld { margin-top: 14px; }
+  ol { margin-top: 18px; font-size: var(--t-rail); line-height: 1.5; }
+  li { display: flex; align-items: baseline; gap: 10px; padding: 6px 0; border-top: 1px solid var(--line); }
+  li b, .dot { display: grid; place-items: center; flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.6875rem; font-weight: var(--w-regular); font-style: normal; line-height: 1; }
+  li b { transform: translateY(3px); }
+
+  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .sec { grid-column: 2; }
+  .dw { position: relative; }
+  .dw img, .dw svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .z { fill: var(--accent); fill-opacity: 0.2; }
+  .ln { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .da { stroke-dasharray: 2 7; }
+  .dot { position: absolute; transform: translate(-50%, -50%); box-shadow: 0 0 0 2px #fff; }
+  .lb { margin-top: 8px; font-size: var(--t-caption); line-height: 1.5; color: var(--soft); }
+
+  @media (max-width: 1100px) {
+    .view { grid-template-columns: minmax(0, 1fr); }
+    .sec { grid-column: 1; }
+  }
+  @media (max-width: 760px) {
+    .plans { grid-template-columns: minmax(0, 1fr); }
+    button { padding: 9px 18px; }
+    li b, .dot { width: 18px; height: 18px; font-size: 0.625rem; }
+  }
+</style>

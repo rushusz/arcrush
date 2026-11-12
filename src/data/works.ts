@@ -25,7 +25,7 @@ export const works: Work[] = [
     question: "쓰레기로 만들어진 땅을, 도시와 한강을 잇는 문화공간으로 탈바꿈시킬 수 있을까?", emphasis: "도시와 한강을 잇는" },
   { no: "03", slug: "living-arcade", keyword: "THRESHOLD", keywordKo: "문턱", title: "Living Arcade", term: "4-1", site: "서울 남영", status: "studio", accent: "#5E7F5B",
     question: "사람들이 다니던 길을 그대로 두고, 그 위에서 일상을 꾸릴 수 있을까?", emphasis: "길을 그대로 두고" },
-  { no: "04", slug: "epicerie-dobong", keyword: "HEARTH", keywordKo: "화덕", title: "Epicerie Dobong", term: "3-2", site: "서울 도봉", status: "studio", accent: "#C08A2E",
+  { no: "04", slug: "epicerie-dobong", keyword: "HEARTH", keywordKo: "화덕", title: "Epicerie Dobong", term: "3-2", site: "서울 도봉", status: "studio", accent: "#C08A2E", href: "/works/epicerie-dobong",
     question: "문 닫는 학교에서, 함께 먹는 일이 혼자 늙어 가는 동네를 다시 이을 수 있을까?", emphasis: "함께 먹는 일이" },
   { no: "05", slug: "re-street-office", keyword: "ENCLOSURE", keywordKo: "둘러쌈", title: "RE:STREET Office", term: "3-1", site: "서울 뚝섬", status: "studio", accent: "#D4322C",
     question: "닫힌 박스 같은 오피스에 거리의 사람들이 들어와, 활기찬 골목길을 만들 수 있을까?", emphasis: "거리의 사람들이 들어와" },
