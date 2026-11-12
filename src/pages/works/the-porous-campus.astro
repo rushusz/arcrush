@@ -3,7 +3,6 @@
 import ProjectLayout from "../../layouts/ProjectLayout.astro";
 import Figure from "../../components/common/Figure.astro";
 import Sequence from "../../components/common/Sequence.astro";
-import Stats from "../../components/common/Stats.astro";
 import TopoScroll from "../../components/works/the-porous-campus/TopoScroll.astro";
 
 const base = "/works/the-porous-campus";
@@ -34,15 +33,12 @@ const renders = [
       <p>난지도는 1978년부터 1993년까지 서울의 쓰레기를 받은 매립지다. 안정화 공사를 거쳐 하늘공원과 노을공원이 됐지만, 높이 98m의 두 쓰레기 산은 상암동과 난지한강공원 사이를 막고 있다. 한강공원은 도시에서 멀고 입구가 적다. 쓰레기층은 흙으로 덮였을 뿐 그대로 남아 있다.</p>
     </div>
     <div class="fig">
-      <Stats
-        items={[
-          { label: "매립 기간", value: "1978–1993" },
-          { label: "기존 차수벽", value: "약 6 km" },
-          { label: "대지 면적", value: "655,244 ㎡" },
-          { label: "쓰레기 산의 높이", value: "98 m" },
-        ]}
-        note="서울시 자료 기준. 매립가스 추출공 106개와 침출수 집수정 31개가 지금도 가동된다."
-      />
+      <dl class="nums">
+        <div><dt class="caption">매립 기간</dt><dd>1978–1993</dd></div>
+        <div><dt class="caption">대지 면적</dt><dd>655,244 m²</dd></div>
+        <div><dt class="caption">쓰레기 산의 높이</dt><dd>98 m</dd></div>
+      </dl>
+      <p class="caption gap-c">서울시 자료 기준.</p>
     </div>
     <div class="fig">
       <Figure fig="2" title="현재의 하늘공원" kind="Diagram" scale="개념">
@@ -157,11 +153,15 @@ const renders = [
   .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
   .three img { aspect-ratio: 4 / 3; object-fit: cover; }
   .narrow { max-width: 720px; }
+  .nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 24px; align-items: end; }
+  .nums dd { margin-top: 8px; font-size: var(--t-stat); font-weight: var(--w-light); line-height: 1; letter-spacing: -0.03em; color: var(--accent); white-space: nowrap; }
+  .gap-c { margin-top: 14px; }
   .gap { margin-top: 72px; }
   .gap-s { margin-top: 28px; }
   .photo { margin-top: 10px; color: var(--ink); font-weight: var(--w-regular); }
   .cr { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px 24px; }
   @media (max-width: 760px) {
     .pair, .three { grid-template-columns: minmax(0, 1fr); }
+    .nums { grid-template-columns: minmax(0, 1fr); row-gap: 20px; }
   }
 </style>
