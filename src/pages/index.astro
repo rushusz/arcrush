@@ -4,7 +4,7 @@
 import Base from "../layouts/Base.astro";
 import Wordmark from "../components/common/Wordmark.astro";
 import SiteNav from "../components/common/SiteNav.astro";
-import { works } from "../data/works";
+import { works, questionHtml } from "../data/works";
 
 const images: Record<string, { src: string; alt: string }> = {
   "a-place-for-water": { src: "/works/a-place-for-water/poster.jpg", alt: "A Place for Water 대표 이미지" },
@@ -13,10 +13,6 @@ const images: Record<string, { src: string; alt: string }> = {
   "epicerie-dobong": { src: "/works/epicerie-dobong/hero.jpg", alt: "Epicerie Dobong 대표 이미지" },
   "re-street-office": { src: "/works/re-street-office/hero.jpg", alt: "RE:STREET Office 대표 이미지" },
   "construction-sequence-simulator": { src: "/home/sim.jpg", alt: "아래층은 완성되고 위층은 윤곽선으로만 그려진 2층 건물 모형. 지금 시공 중인 부재 하나만 주황색이다" },
-};
-const split = (q: string, e: string) => {
-  const i = q.indexOf(e);
-  return i < 0 ? [q, "", ""] : [q.slice(0, i), e, q.slice(i + e.length)];
 };
 const total = String(works.length).padStart(2, "0");
 ---
@@ -39,7 +35,6 @@ const total = String(works.length).padStart(2, "0");
   <main id="works">
     {works.map((_, i) => <i class="snap" style={`top:calc(${i} * 100svh)`} aria-hidden="true"></i>)}
     {works.map((w, i) => {
-      const [a, e, b] = split(w.question, w.emphasis);
       const img = images[w.slug];
       return (
         <a class="sheet" href={w.href} style={`--accent:${w.accent}`} aria-label={`${w.no} ${w.title}`}>
@@ -50,7 +45,7 @@ const total = String(works.length).padStart(2, "0");
               <div>
                 <p class="kw">{w.keyword}</p>
                 <h2>{w.title}</h2>
-                <p class="q">{a}<em>{e}</em>{b}</p>
+                <p class="q" set:html={questionHtml(w)} />
               </div>
             </div>
             <div class="pic"><img src={img.src} alt={img.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" /></div>
@@ -102,7 +97,9 @@ const total = String(works.length).padStart(2, "0");
   .kw { font-size: var(--t-caption); font-weight: var(--w-regular); letter-spacing: 0.08em; padding-top: clamp(16px, 2.4vw, 32px); }
   h2 { font-size: var(--t-title); font-weight: var(--w-light); line-height: 1.08; letter-spacing: -0.03em; padding-top: 4px; }
   .q { font-size: clamp(1.0625rem, 1.5vw, 1.375rem); line-height: 1.5; letter-spacing: -0.02em; color: #6f6c68; padding-top: clamp(12px, 1.6vw, 22px); max-width: 26em; }
-  .q em { color: var(--accent); font-weight: var(--w-regular); }
+  .q { text-wrap: balance; }
+  .q :global(em) { color: var(--accent); font-weight: var(--w-regular); }
+  .q :global(.qb) { display: none; } /* 홈의 장은 열이 좁아 줄바꿈을 브라우저에 맡긴다 */
   .pic { align-self: stretch; display: flex; align-items: flex-start; min-height: 0; }
   .pic img { width: 100%; height: auto; max-height: calc(100svh - 110px); object-fit: cover; aspect-ratio: 16 / 10; }
   @media (hover: hover) {
@@ -120,11 +117,12 @@ const total = String(works.length).padStart(2, "0");
 
   @media (max-width: 760px) {
     .toc { grid-template-columns: repeat(3, 1fr); row-gap: 8px; }
-    .body { grid-template-columns: 1fr; align-items: start; align-content: space-between; gap: 20px; padding-top: 16px; }
+    .body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) auto; align-items: stretch; gap: 20px; padding-top: 16px; }
     .pic { order: -1; align-self: auto; }
     .txt { align-self: end; display: block; }
-    .pic img { height: auto; max-height: 42svh; aspect-ratio: 4 / 3; }
-    .no { font-size: clamp(4rem, 22vw, 5.625rem); }
+    .pic { min-height: 0; }
+    .pic img { height: 100%; max-height: none; aspect-ratio: auto; }
+    .no { font-size: clamp(3.25rem, 16vw, 4.5rem); }
   }
   /* 낮은 화면(눕힌 휴대폰 등)에서는 장이 잘리지 않도록 포개기를 푼다 */
   @media (max-height: 620px) { .sheet { position: static; } .pic img { max-height: none; } .snap { display: none; } }

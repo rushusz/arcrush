@@ -4,14 +4,13 @@
 import Base from "./Base.astro";
 import Wordmark from "../components/common/Wordmark.astro";
 import SiteNav from "../components/common/SiteNav.astro";
-import { workBySlug } from "../data/works";
+import { questionHtml, workBySlug } from "../data/works";
 import { sentencePerLine } from "../lib/sentences";
 
 interface Props { slug: string; specs?: Record<string, string> }
 const { slug, specs = {} } = Astro.props;
 const { work, prev, next } = workBySlug(slug);
 
-const [before, after] = work.question.split(work.emphasis);
 const allSpecs: Record<string, string> = { term: work.term, site: work.site, status: work.status, keyword: work.keyword, ...specs };
 
 const defs = [
@@ -55,7 +54,7 @@ const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...bloc
         <div class="no">{work.no}</div>
         <div>
           <h1>{work.title}</h1>
-          <p class="q">{before}<em>{work.emphasis}</em>{after}</p>
+          <p class="q" set:html={questionHtml(work)} />
         </div>
       </header>
       <dl class="t">
@@ -115,8 +114,9 @@ const index = [...(hasImage ? [{ name: "image", label: "Image" }] : []), ...bloc
   .ti { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 36px; margin-top: 64px; align-items: start; }
   .no { font-size: var(--t-work-no); font-weight: var(--w-xlight); line-height: 0.82; letter-spacing: -0.06em; color: var(--accent); }
   h1 { font-size: var(--t-title); font-weight: var(--w-light); letter-spacing: -0.025em; line-height: 1.05; }
-  .q { font-size: var(--t-question); line-height: 1.3; letter-spacing: -0.02em; margin-top: 22px; max-width: 19em; }
-  .q em { color: var(--accent); font-weight: var(--w-regular); }
+  .q { font-size: var(--t-question); line-height: 1.3; letter-spacing: -0.02em; margin-top: 22px; text-wrap: balance; }
+  @media (max-width: 900px) { .q :global(.qb) { display: none; } }
+  .q :global(em) { color: var(--accent); font-weight: var(--w-regular); }
   .t { display: grid; grid-template-columns: repeat(4, 1fr); border-block: 1px solid var(--line); margin-top: 56px; font-size: var(--t-caption); line-height: 1.5; }
   .t div { padding: 10px 0; }
   .t dt { color: var(--soft); }

@@ -6,12 +6,14 @@ const VOID = new Set(["br", "img", "hr", "input", "source", "meta", "link", "wbr
 const BLOCK = /^(p|div|li|ul|ol|h[1-6]|section|blockquote|dd|dt|dl)$/;
 const ABBR = /(?:Fig|No|vs|St|Dr)\.\s*$|(?:^|[\s(])[A-Za-z]\.\s*$/;
 
-/** 글을 문장 단위로 나눈다. 약어 뒤의 마침표는 문장 끝으로 보지 않는다. */
+/** 글을 문장 단위로 나눈다. 약어 뒤의 마침표와 소수점은 문장 끝으로 보지 않는다. */
 function splitSentences(text: string): string[] {
   const raw = text.match(/[^.?!]*[.?!]+["'”’)]?\s*|[^.?!]+$/g) ?? [text];
   const out: string[] = [];
   for (const piece of raw) {
-    if (out.length && ABBR.test(out[out.length - 1])) out[out.length - 1] += piece;
+    const prev = out[out.length - 1] ?? "";
+    // 약어 뒤의 마침표와 소수점(4.5m)은 문장 끝이 아니다.
+    if (out.length && (ABBR.test(prev) || (/\d\.$/.test(prev) && /^\d/.test(piece)))) out[out.length - 1] += piece;
     else out.push(piece);
   }
   return out;
