@@ -14,7 +14,7 @@ const credits = [
   ["Advisor", "김일석, 임근영"],
   ["Daylight analysis", "Grasshopper"],
 ];
-// 남긴 것과 새로 넣은 것. 좌표는 mass-5.jpg(920×600) 기준의 백분율이다.
+// 남긴 것과 새로 넣은 것. 좌표는 mass-5.jpg 기준의 백분율이다.
 const parts: [string, boolean, number, number][] = [
   ["Cookery", false, 17, 54],
   ["Roastery", false, 79, 40],
@@ -23,6 +23,15 @@ const parts: [string, boolean, number, number][] = [
   ["원통 증축", true, 41.5, 12],
   ["Spine", true, 54, 52],
   ["Brewery", true, 43, 83],
+];
+// 원본 그림에 있던 이름표. 그림에서 빼고 글자로 얹는다. 좌표는 왼쪽 위 기준 백분율이다.
+const tags: [string, number, number][] = [
+  ["SOCIAL DINING_4F", 51, 13.5],
+  ["VITALITY CENTER", 78, 11.5],
+  ["ROASTERY", 89.5, 44],
+  ["COOKERY", 2.5, 46.5],
+  ["SPINE", 63, 72],
+  ["BREWERY", 29, 90.5],
 ];
 const plans = [
   ["b1", "지하 1층", "주차와 하역, 양조 시설"],
@@ -83,6 +92,7 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
       <Figure fig="6" title="남긴 것과 새로 넣은 것" kind="Diagram">
         <div class="keep">
           <img src={`${base}/mass-5.jpg`} alt="Cookery, Brewery, Roastery, Vitality Center 네 동과 Spine, 원통을 떼어 놓고 이름을 붙인 매스 그림" width="1840" height="1199" loading="lazy" />
+          {tags.map(([t, x, y]) => <b style={`left:${x}%;top:${y}%`}>{t}</b>)}
           {parts.map(([name, isNew, x, y]) => <i class={isNew ? "new" : ""} style={`left:${x}%;top:${y}%`} title={`${name}: ${isNew ? "새로 넣은 것" : "남긴 것"}`}></i>)}
         </div>
         <p class="key"><span><i></i>학교에서 남긴 것</span><span><i class="new"></i>새로 넣은 것</span></p>
@@ -195,10 +205,11 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
   .gap { margin-top: 72px; }
   .gap-s { margin-top: 28px; }
 
-  .keep { position: relative; }
+  .keep { position: relative; container-type: inline-size; }
   .keep i, .key i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--accent); background: #fff; }
   .keep i { position: absolute; transform: translate(-50%, -50%); }
   .keep i.new, .key i.new { background: var(--accent); }
+  .keep b { position: absolute; font-weight: 400; font-size: max(6.5px, 1.3cqw); letter-spacing: .04em; line-height: 1; color: var(--ink, #222); white-space: nowrap; }
   .key { display: flex; gap: 24px; margin-top: 10px; font-size: var(--t-caption); line-height: 1.5; }
   .key span { display: flex; align-items: center; gap: 8px; }
   .key i { display: block; flex: none; width: 12px; height: 12px; }
