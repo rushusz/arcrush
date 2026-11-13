@@ -8,16 +8,16 @@ const PW = 2000, PH = 1794, SW = 2000, SH = 450;
 type Zone = { r?: [number, number, number, number]; c?: [number, number, number] };
 type Dot = [number, number, number]; // 순서 번호, x, y
 interface Panel { img: string; label: string; alt: string; zones: Zone[]; paths: string[]; dash?: string[]; dots: Dot[] }
-interface Who { id: string; name: string; lead: string; stops: string[]; plans: [Panel, Panel]; section: Omit<Panel, "img" | "label" | "alt"> }
+interface Who { id: string; name: string; lead: string; stops: string[]; eat: number[]; plans: [Panel, Panel]; section: Omit<Panel, "img" | "label" | "alt"> }
 
 const atrium: Zone = { r: [268, 868, 615, 180] };
 const atriumSec: Zone = { r: [875, 170, 200, 165] };
 
 const people: Who[] = [
   {
-    id: "resident", name: "주민",
-    lead: "서쪽 1층 입구에서 아트리움으로 곧장 들어온다. 장을 보고, 코어를 타고 위층의 커뮤니티로 올라간다.",
-    stops: ["서쪽 입구", "아트리움", "Epicerie", "코어", "Social Lounge", "Club Room"],
+    id: "resident", name: "주민", eat: [2, 5, 6],
+    lead: "서쪽 1층 입구에서 아트리움으로 곧장 들어온다. 식료품점에서 장을 보고, 코어로 2층에 올라가 공유 주방에서 함께 요리하고 Dining에서 먹는다. 4층 원통에는 Social Lounge와 Club Room이 있다.",
+    stops: ["서쪽 입구", "아트리움의 식탁", "Epicerie(식료품점)", "코어", "공유 주방", "Dining"],
     plans: [
       {
         img: "plan-1f.jpg", label: "1층", alt: "1층 평면 위에 서쪽 입구에서 아트리움을 지나 식료품점과 코어로 가는 주민 동선을 그린 그림",
@@ -26,22 +26,22 @@ const people: Who[] = [
         dots: [[1, 215, 952], [2, 640, 952], [3, 580, 1300], [4, 300, 1150]],
       },
       {
-        img: "plan-4f.jpg", label: "4층", alt: "4층 평면 위에 코어에서 원통의 Social Lounge와 Club Room으로 가는 주민 동선을 그린 그림",
-        zones: [{ c: [387, 948, 178] }, { r: [405, 455, 135, 255] }, { r: [475, 715, 380, 100] }, { r: [205, 365, 155, 345] }],
-        paths: ["M255,780 L385,800 L387,948", "M385,800 L385,580 L470,580", "M385,830 L660,835"],
-        dots: [[4, 255, 780], [5, 387, 948], [6, 470, 580]],
+        img: "plan-2f.jpg", label: "2층", alt: "2층 평면 위에 코어에서 공유 주방과 Dining으로 가는 주민 동선을 그린 그림",
+        zones: [{ r: [325, 1200, 110, 250] }, { r: [470, 1125, 220, 370] }],
+        paths: ["M300,1150 L420,1150 L385,1290", "M420,1150 L560,1150 L560,1340"],
+        dots: [[4, 300, 1150], [5, 385, 1290], [6, 560, 1340]],
       },
     ],
     section: {
-      zones: [atriumSec, { r: [1160, 283, 485, 52] }],
-      paths: ["M900,325 L1400,325"],
-      dots: [[2, 975, 325], [3, 1400, 325]],
+      zones: [atriumSec, { r: [1160, 283, 485, 52] }, { r: [1075, 225, 570, 50] }],
+      paths: ["M900,325 L1400,325", "M1120,325 L1120,262 L1400,262"],
+      dots: [[2, 975, 325], [3, 1400, 325], [6, 1400, 262]],
     },
   },
   {
-    id: "visitor", name: "방문객",
-    lead: "북쪽에서 2층으로 들어온다. 책을 읽고 광장에서 쉰 뒤, 램프를 따라 아트리움으로 내려오거나 2층을 따라 식당과 바로 이어 간다.",
-    stops: ["북쪽 입구", "Cooking Library", "Event Yard와 램프", "Cafe", "아트리움", "Dining", "Bar와 Cocktail Class", "Brewery Tour"],
+    id: "visitor", name: "방문객", eat: [4, 5, 6, 7],
+    lead: "북쪽에서 2층으로 들어온다. 요리 도서관에서 책을 읽고 광장에서 쉰 뒤, 경사로를 따라 아트리움으로 내려오거나 2층을 따라 식당과 바로 이어 간다.",
+    stops: ["북쪽 입구", "Cooking Library", "Event Yard와 경사로", "Cafe", "아트리움의 식탁", "Dining", "Bar와 Cocktail Class", "Brewery Tour"],
     plans: [
       {
         img: "plan-2f.jpg", label: "2층", alt: "2층 평면 위에 북쪽 입구에서 도서관, 광장, 카페, 식당, 바로 이어지는 방문객 동선을 그린 그림",
@@ -50,7 +50,7 @@ const people: Who[] = [
         dots: [[1, 413, 250], [2, 310, 590], [3, 620, 470], [4, 797, 780], [6, 650, 1270], [7, 1140, 1125]],
       },
       {
-        img: "plan-1f.jpg", label: "1층", alt: "1층 평면 위에 램프에서 아트리움을 지나 양조장 견학 공간으로 가는 방문객 동선을 그린 그림",
+        img: "plan-1f.jpg", label: "1층", alt: "1층 평면 위에 경사로에서 아트리움을 지나 양조장 견학 공간으로 가는 방문객 동선을 그린 그림",
         zones: [atrium, { r: [478, 420, 52, 290] }, { r: [1000, 985, 540, 290] }],
         paths: ["M504,420 L504,860 L575,952 L900,952 L940,1048 L1090,1165 L1360,1215"],
         dots: [[3, 504, 560], [5, 640, 952], [8, 1200, 1190]],
@@ -63,7 +63,7 @@ const people: Who[] = [
     },
   },
   {
-    id: "staff", name: "직원",
+    id: "staff", name: "직원", eat: [],
     lead: "남쪽 차량 입구에서 지하로 들어온다. 식자재를 내리고, 코어를 타고 5층 오피스로 올라간다.",
     stops: ["남쪽 차량 입구", "하역과 직원 주차", "지하 양조 시설", "코어", "오피스"],
     plans: [
@@ -102,7 +102,7 @@ const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`;
       <div class="info">
         <p class="nm">{p.name}</p>
         <p class="ld">{p.lead}</p>
-        <ol>{p.stops.map((s, k) => <li><b>{k + 1}</b>{s}</li>)}</ol>
+        <ol>{p.stops.map((s, k) => <li><b class={p.eat.includes(k + 1) ? "eat" : ""}>{k + 1}</b>{s}</li>)}</ol>
       </div>
       <div class="plans">
         {p.plans.map((pl) => (
@@ -114,7 +114,7 @@ const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`;
                 {pl.zones.map((z) => z.r ? <rect class="z" x={z.r[0]} y={z.r[1]} width={z.r[2]} height={z.r[3]} /> : <circle class="z" cx={z.c![0]} cy={z.c![1]} r={z.c![2]} />)}
                 {pl.paths.map((d) => <path class="ln" d={d} />)}
               </svg>
-              {pl.dots.map(([n, x, y]) => <i class="dot" style={`left:${pct(x, PW)};top:${pct(y, PH)}`}>{n}</i>)}
+              {pl.dots.map(([n, x, y]) => <i class={p.eat.includes(n) ? "dot eat" : "dot"} style={`left:${pct(x, PW)};top:${pct(y, PH)}`}>{n}</i>)}
             </div>
             <p class="lb">{pl.label}</p>
           </div>
@@ -128,7 +128,7 @@ const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`;
             {p.section.paths.map((d) => <path class="ln" d={d} />)}
             {(p.section.dash ?? []).map((d) => <path class="ln da" d={d} />)}
           </svg>
-          {p.section.dots.map(([n, x, y]) => <i class="dot" style={`left:${pct(x, SW)};top:${pct(y, SH)}`}>{n}</i>)}
+          {p.section.dots.map(([n, x, y]) => <i class={p.eat.includes(n) ? "dot eat" : "dot"} style={`left:${pct(x, SW)};top:${pct(y, SH)}`}>{n}</i>)}
         </div>
         <p class="lb">남북 단면. 왼쪽이 북쪽이다.</p>
       </div>
@@ -180,6 +180,7 @@ const pct = (v: number, of: number) => `${((v / of) * 100).toFixed(2)}%`;
   li { display: flex; align-items: baseline; gap: 10px; padding: 6px 0; border-top: 1px solid var(--line); }
   li b, .dot { display: grid; place-items: center; flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.6875rem; font-weight: var(--w-regular); font-style: normal; line-height: 1; }
   li b { transform: translateY(3px); }
+  li b.eat, .dot.eat { background: var(--ink); }
 
   .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .sec { grid-column: 2; }

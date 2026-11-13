@@ -33,12 +33,19 @@ const tags: [string, number, number][] = [
   ["SPINE", 63, 72],
   ["BREWERY", 29, 90.5],
 ];
+// 네 동이 하는 일(작성자 답 2026-11-13). 남긴 동인지 새 동인지는 Fig. 6과 같다.
+const wings: [string, string, string][] = [
+  ["Vitality Center", "남긴 동", "처음 만난 주민이 모여 이야기하고 행정 업무를 보는 커뮤니티의 중심이다. 소셜 다이닝과 클럽 활동이 열린다."],
+  ["Roastery", "남긴 동", "커피와 베이킹 수업을 열고 주민이 빵집을 운영한다. 주말에는 등산객이 산을 오르기 전후에 차를 마시고 간식을 챙겨 간다."],
+  ["Cookery", "남긴 동", "1층의 식료품점과 그 재료로 요리하는 공유 주방, 요리 교실이 있는 가장 넓은 동이다. 음식 냄새가 사람을 불러들인다."],
+  ["Brewery", "새 동", "도봉산 아래 술 익는 집이다. 술을 연구하고 빚는 곳으로, 낮에는 등산객이 가장 오래 머물고 주민은 함께 술을 빚으며 어울린다."],
+];
 const plans = [
   ["b1", "지하 1층", "주차와 하역, 양조 시설"],
-  ["1f", "1층", "아트리움과 시장"],
-  ["2f", "2층", "공유 주방, 식당, 바, 카페"],
+  ["1f", "1층", "아트리움과 식료품점, 상점"],
+  ["2f", "2층", "공유 주방, Dining, 바, 카페"],
   ["3f", "3층", "교육"],
-  ["4f", "4층", "커뮤니티"],
+  ["4f", "4층", "커뮤니티, 원통의 Social Lounge와 Club Room"],
   ["5f", "5층", "오피스"],
 ];
 const legend1 = "1 Showroom · 2 Self-Admin Station · 3 Internet Room · 4 Retail · 5 Pop-up Store · 6 Event Lounge · 7 Epicerie · 8 Deli Kitchen · 9 Cold Zone · 10 Conference Hall · 11 Lobby · 12 Reception · 13 Alcohol Museum · 14 Seminar Room · 15 Instructor's Room · 16 Experience Zone · 17 Fermenting Space · 18 Storage · 19 Atrium · 20 Shelter · 21 Playground";
@@ -53,18 +60,18 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
 
   <Fragment slot="context">
     <div class="text">
-      <p>도봉1동은 고령화와 1인 가구화가 서울의 다른 동네보다 먼저 진행된 곳이다. 기반 산업은 없다. 다만 도봉산 아래라 등산객이 찾는 음식점과 카페, 주점은 활발하다. 주거지 한가운데의 도봉고등학교는 문을 닫는다. 이 학교를 철거하지 않고, 주민과 방문객이 함께 먹고 배우는 식료품점으로 바꾼다.</p>
+      <p>도봉1동은 고령화와 1인 가구화가 서울의 다른 동네보다 먼저 진행된 곳이다. 기반 산업은 없다. 다만 도봉산 아래라 등산객이 찾는 음식점과 카페, 주점은 활발하다. 주거지 한가운데의 도봉고등학교는 문을 닫는다(Fig. 2, 3). 이 학교를 철거하지 않고 식료품점(Epicerie)을 중심으로 한 Food Hub로 바꾼다. 주민은 수준 높은 식문화 시설을 함께 쓰고, 등산객을 비롯한 방문객을 맞는다(Fig. 4).</p>
     </div>
-    <div class="fig pair small">
+    <div class="fig pair">
       <Figure fig="2" title="기존 도봉고등학교의 구조" kind="Diagram">
-        <img src={`${base}/former.jpg`} alt="원통과 곡선 교사동, 별동으로 이루어진 기존 학교의 기둥과 보를 드러낸 축측도" width="1440" height="1440" loading="lazy" />
+        <img src={`${base}/former.jpg`} alt="원통과 교실 동, 별동으로 이루어진 기존 학교의 기둥과 보를 드러낸 축측도" width="1440" height="1440" loading="lazy" />
       </Figure>
       <Figure fig="3" title="기존 건물의 구성" kind="Diagram">
-        <img src={`${base}/former-mass.jpg`} alt="기존 학교를 원통, 교사동, 별동, 곡선부의 네 덩어리로 색을 나눠 그린 매스 그림 두 장" width="1260" height="1400" loading="lazy" />
+        <img src={`${base}/former-mass.jpg`} alt="기존 학교를 덩어리별로 색을 나눠, 떼어 놓은 모습과 붙인 모습으로 그린 매스 그림 두 장" width="1400" height="1400" loading="lazy" />
       </Figure>
     </div>
     <div class="fig wide-cap">
-      <Figure fig="4" title="동네의 네 사람" kind="Diagram" note="노인, 주부, 대학생, 직장인이 하루에 머무는 시간과 다니는 곳.">
+      <Figure fig="4" title="동네의 네 사람" kind="Diagram" note="노인, 주부, 대학생, 직장인이 하루에 머무는 시간과 다니는 곳. 뒤의 그림에서는 이 네 사람을 주민으로 묶는다.">
         <img src={`${base}/users.jpg`} alt="노인, 주부, 대학생, 직장인 네 사람의 나이, 활동 범위, 하루 시간대와 동네 안의 이동 범위를 그린 그림" width="2400" height="1233" loading="lazy" />
       </Figure>
     </div>
@@ -72,23 +79,23 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
 
   <Fragment slot="process">
     <div class="text">
-      <p>학교는 원통과 곡선 교사동, 별동으로 이루어져 있었다. 원통과 교사동 일부, 별동은 남기고 교사동의 한쪽 날개를 걷어 냈다. 운동장 쪽에는 새 동을 놓았다. 가운데에 보행 축 Spine을 끼워 네 동을 엮었다. 네 동은 Vitality Center, Roastery, Cookery, Brewery다. 원통은 위로 증축해 건물의 중심 공간으로 정했다. 사방이 트인 원형 평면에 사람들이 모여 식사하는 루프 레스토랑을 계획했다.</p>
+      <p>학교는 원통과 교실 동, 따로 선 별동으로 이루어져 있었다. 원통과 교실 동 일부, 별동은 남기고 교실 동의 한쪽 날개를 걷어 냈다. 운동장 쪽에는 새 동을 놓았다. 가운데에 보행 축 Spine을 끼워 네 동을 엮었다(Fig. 5). 원통은 위로 증축해 Social Lounge와 Club Room을 두었다. 사방이 트인 원형 평면으로, 이 건물에서 격이 가장 높은 자리다. 남긴 것과 새로 넣은 것은 Fig. 6에 표시했다.</p>
     </div>
-    <div class="fig mid">
+    <div class="fig">
       <Sequence
         fig="5"
         kind="Diagram"
         ratio="1840 / 1258"
         interval={5}
         steps={[
-          { src: `${base}/mass-1.jpg`, alt: "원통과 곡선 교사동, 별동, 운동장으로 내려가는 계단이 있는 기존 학교의 매스", title: "기존 학교", text: "원통과 곡선 교사동, 별동이 운동장을 바라본다." },
-          { src: `${base}/mass-2.jpg`, alt: "교사동의 한쪽 날개와 운동장 계단을 걷어 낸 매스", title: "덜어내기", text: "교사동의 한쪽 날개를 걷어 내 가운데를 비운다." },
+          { src: `${base}/mass-1.jpg`, alt: "원통과 교실 동, 별동, 운동장으로 내려가는 계단이 있는 기존 학교의 매스", title: "기존 학교", text: "원통과 교실 동, 별동이 운동장을 바라본다." },
+          { src: `${base}/mass-2.jpg`, alt: "교실 동의 한쪽 날개와 운동장 계단을 걷어 낸 매스", title: "덜어내기", text: "교실 동의 한쪽 날개와 운동장 계단을 걷어 내 가운데를 비운다." },
           { src: `${base}/mass-3.jpg`, alt: "운동장 쪽에 긴 상자 모양의 새 동을 놓은 매스", title: "더하기", text: "운동장 쪽에 새 동을 놓는다." },
           { src: `${base}/mass-4.jpg`, alt: "가운데에 긴 Spine을 끼우고 원통을 위로 올린 매스", title: "엮기", text: "가운데에 Spine을 끼우고 원통을 위로 증축한다." },
         ]}
       />
     </div>
-    <div class="fig mid">
+    <div class="fig">
       <Figure fig="6" title="남긴 것과 새로 넣은 것" kind="Diagram">
         <div class="keep">
           <img src={`${base}/mass-5.jpg`} alt="Cookery, Brewery, Roastery, Vitality Center 네 동과 Spine, 원통을 떼어 놓고 이름을 붙인 매스 그림" width="1840" height="1199" loading="lazy" />
@@ -98,12 +105,15 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
         <p class="key"><span><i></i>학교에서 남긴 것</span><span><i class="new"></i>새로 넣은 것</span></p>
       </Figure>
     </div>
+    <dl class="wings">
+      {wings.map(([name, kept, what]) => <div><dt>{name}<span>{kept}</span></dt><dd>{what}</dd></div>)}
+    </dl>
     <p class="pull gap">학교를 허물지 않고, 식탁으로 다시 <em>엮는다</em>.</p>
   </Fragment>
 
   <Fragment slot="technique">
     <div class="text">
-      <p>대지는 북쪽이 남쪽보다 2.7m 높다. 이 높이 차를 써서 입구를 셋으로 나눴다. 방문객은 북쪽에서 2층으로 들어와 램프를 따라 아트리움으로 내려온다. 주민은 서쪽 1층 입구에서 아트리움과 식료품점으로 곧장 들어온다. 직원과 식자재 차량은 남쪽에서 지하로 들어가 코어로 올라간다. 세 동선은 아트리움에서 만난다. 일사는 Grasshopper로 분석했다. 기존 상태, 동쪽을 연 안, 수평 루버를 단 안을 비교해 실내에 빛이 고르게 드는 안을 골랐다.</p>
+      <p>대지는 북쪽이 남쪽보다 2.7m 높다(Fig. 7). 이 높이 차를 써서 입구를 셋으로 나눴다. 등산객을 비롯한 방문객은 북쪽에서 2층으로 들어와 경사로를 따라 아트리움으로 내려온다. 아트리움은 네 동 사이의 가운데 마당이다. 주민은 서쪽 1층 입구에서 아트리움과 식료품점으로 곧장 들어온다. 직원과 식자재 차량은 남쪽에서 지하로 들어가 계단과 승강기가 있는 코어로 올라간다. 세 동선은 아트리움에서 만나고, 주민과 방문객은 같은 식탁에 앉는다(Fig. 8). 아트리움은 나무처럼 갈라지는 금속 구조물이 덮는다(Fig. 9). 일사는 Grasshopper로 기존 상태, 동쪽을 연 안, 수평 루버를 단 안을 비교했다(Fig. 10, 11).</p>
     </div>
     <div class="fig">
       <Stats items={[
@@ -114,32 +124,36 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
     </div>
     <div class="fig">
       <Figure fig="7" title="남북 단면" kind="Original drawing" note="왼쪽이 북쪽이다. 가운데가 아트리움이고 오른쪽 아래가 지하 주차장이다.">
-        <img src={`${base}/section.jpg`} alt="북쪽에서 남쪽으로 낮아지는 대지 위의 단면. 왼쪽에 필로티 위의 세 층, 가운데에 아트리움, 오른쪽에 세 층과 지하 주차장이 있다" width="2400" height="540" loading="lazy" />
+        <img src={`${base}/section.jpg`} alt="북쪽에서 남쪽으로 낮아지는 대지 위의 단면. 단면이 지나는 자리에서 왼쪽은 기둥으로 띄운 1층 위에 세 층, 가운데는 아트리움, 오른쪽은 세 층과 지하 주차장이다" width="2400" height="540" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
-      <Figure fig="8" title="누구로 들어갈까" kind="Diagram" note="원본 평면과 단면 위에 동선을 덧그렸다. 사람을 고르면 그 사람의 입구와 길, 머무는 곳이 켜진다.">
+      <Figure fig="8" title="누구로 들어갈까" kind="Diagram" note="원본 평면과 단면 위에 동선을 덧그렸다. 사람을 고르면 그 사람의 입구와 길, 머무는 곳이 켜진다. 검은 번호는 먹는 곳이다. 아트리움의 식탁과 Dining은 주민과 방문객이 함께 쓴다.">
         <WhoEnters />
       </Figure>
     </div>
-    <div class="fig narrow gap">
-      <Figure fig="9" title="구조 분석" kind="Diagram" note="보라색은 코어다.">
+    <div class="fig side gap">
+      <Figure fig="9" title="구조 분석" kind="Diagram" note="보라색은 계단과 승강기가 있는 코어다. 가운데의 검은 그물이 아트리움을 덮는 구조물이다.">
         <img src={`${base}/structure.jpg`} alt="기둥과 보, 보라색 코어, 아트리움을 덮는 나무 모양 구조물을 그린 축측도" width="1908" height="2280" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
       <Figure fig="10" title="일사 분석: 기존, 동측 개방, 수평 루버" kind="Diagram">
-        <img src={`${base}/solar.jpg`} alt="기존, 동측 개방, 수평 루버 세 안의 실내 빛 분포를 세 가지 지표로 비교한 아홉 장의 그림" width="2400" height="1094" loading="lazy" />
+        <img src={`${base}/solar.jpg`} alt="기존, 동측 개방, 수평 루버 세 안의 실내 빛 분포를 세 가지 지표로 비교한 아홉 장의 그림" width="2400" height="1095" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
-      <Figure fig="11" title="일사량과 일조 시간" kind="Diagram">
+      <Figure fig="11" title="일사량과 일조 시간" kind="Diagram" note="왼쪽 세 장은 지붕과 벽이 받는 일사량, 오른쪽은 벽면의 일조 시간이다.">
         <img src={`${base}/radiation.jpg`} alt="건물 매스의 지붕과 벽이 받는 일사량 세 장과 벽면 일조 시간 한 장" width="2400" height="526" loading="lazy" />
       </Figure>
     </div>
   </Fragment>
 
   <Fragment slot="drawings">
+    <div class="text">
+      <p>평면에서는 서쪽의 Main Ent, 남쪽의 CAR Ent, 2층 북쪽의 North ENT 세 입구와 네 동 사이의 아트리움을 본다(Fig. 12). 입면에서는 학교에서 남긴 벽돌 벽과 새로 낸 유리 입구를 본다(Fig. 13, 14).</p>
+    </div>
+    <div class="fig">
     <Figure fig="12" title="평면" kind="Original drawing" scale="원본 1:500">
       <div class="plans">
         {plans.map(([file, floor, use]) => (
@@ -156,9 +170,10 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
       <p class="caption lg"><b>1층</b> {legend1}</p>
       <p class="caption lg"><b>2층</b> {legend2}</p>
     </Figure>
+    </div>
     <div class="fig">
       <Figure fig="13" title="남측 입면" kind="Original drawing">
-        <img src={`${base}/elev-south.jpg`} alt="벽돌로 된 세 동과 그 사이의 유리 통로, 왼쪽 위의 유리 상자, 뒤로 아트리움 구조물이 보이는 남측 입면" width="2400" height="750" loading="lazy" />
+        <img src={`${base}/elev-south.jpg`} alt="벽돌로 된 동들과 그 사이의 유리 통로, 왼쪽 위의 유리 상자, 뒤로 아트리움 구조물이 보이는 남측 입면" width="2400" height="750" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
@@ -169,19 +184,19 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
   </Fragment>
 
   <Fragment slot="outcome">
-    <p class="pull">장 보러 온 주민과 맛보러 온 방문객이 같은 아트리움에서 <em>만난다</em>.</p>
+    <p class="pull">문 닫은 학교의 식탁에서, 혼자 늙어 가던 동네가 다시 <em>이어진다</em>.</p>
     <div class="text gap-s">
-      <p>1층은 아트리움을 중심으로 한 시장이다. 2층에는 마을 공유 주방과 전통주 바, 카페가 있다. 3층은 교육 공간이고 4층과 5층은 주민 커뮤니티와 오피스다. 주민은 장을 보러 오고 방문객은 맛을 보러 온다. 두 사람은 같은 아트리움에서 식탁을 나눈다. 요리를 배운 주민은 이곳에서 일자리를 얻는다.</p>
+      <p>혼자 사는 노인과 이웃은 아트리움의 식탁, 2층 공유 주방, Dining에서 함께 요리하고 먹는다(Fig. 1). 주민은 장을 보러 오고 등산객은 맛을 보러 와서 같은 식탁에 앉는다. 3층 교육 공간에서 요리를 배운 주민은 이곳에서 일자리를 얻는다. 학교는 주민이 함께 쓰고 방문객을 맞는 동네의 Food Hub가 된다(Fig. 15~17).</p>
     </div>
     <div class="fig pair">
       <Figure fig="15" title="모형, 남쪽에서" kind="Physical model">
-        <img src={`${base}/model-1.jpg`} alt="주변 건물 사이에 놓인 모형을 위에서 내려다본 사진" width="1440" height="1081" loading="lazy" />
+        <img src={`${base}/model-1.jpg`} alt="주변 건물 사이에 놓인 모형을 남쪽 위에서 내려다본 사진" width="1440" height="1081" loading="lazy" />
       </Figure>
       <Figure fig="16" title="모형, 아트리움에서 이어지는 Cookery와 Brewery" kind="Physical model">
         <img src={`${base}/model-2.jpg`} alt="기둥과 보가 드러난 모형을 가까이에서 본 사진" width="1440" height="1081" loading="lazy" />
       </Figure>
     </div>
-    <div class="fig small">
+    <div class="fig">
       <Figure fig="17" title="남쪽에서 본 전경" kind="Original render">
         <img src={`${base}/aerial.jpg`} alt="주택가 한가운데에 놓인 벽돌 건물과 운동장, 아트리움을 위에서 본 그림" width="2400" height="1350" loading="lazy" />
       </Figure>
@@ -199,9 +214,11 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
   .text p + p { margin-top: 1em; }
   .fig { margin-top: 40px; }
   .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; align-items: end; }
-  .small { max-width: 800px; }
-  .mid { max-width: 920px; }
-  .narrow { max-width: 640px; }
+  .side :global(figure) { display: grid; grid-template-columns: minmax(0, 640px) minmax(0, 1fr); gap: 16px 32px; align-items: end; }
+  .wings { margin-top: 40px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 32px; }
+  .wings dt { font-size: var(--t-body); color: var(--ink); }
+  .wings dt span { margin-left: 10px; font-size: var(--t-caption); color: var(--accent); }
+  .wings dd { margin-top: 6px; line-height: 1.7; }
   .gap { margin-top: 72px; }
   .gap-s { margin-top: 28px; }
 
@@ -228,6 +245,8 @@ const legend2 = "1 Media Lounge · 2 Information · 3 Cooking Library · 4 Study
   }
   @media (max-width: 760px) {
     .pair { grid-template-columns: minmax(0, 1fr); }
+    .wings { grid-template-columns: minmax(0, 1fr); }
+    .side :global(figure) { grid-template-columns: minmax(0, 1fr); }
     .plans { grid-template-columns: minmax(0, 1fr); }
   }
 </style>
