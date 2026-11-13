@@ -4,7 +4,7 @@
 import Base from "../layouts/Base.astro";
 import Wordmark from "../components/common/Wordmark.astro";
 import SiteNav from "../components/common/SiteNav.astro";
-import { works, questionHtml } from "../data/works";
+import { works, homeQuestionHtml } from "../data/works";
 
 const images: Record<string, { src: string; alt: string }> = {
   "a-place-for-water": { src: "/works/a-place-for-water/poster.jpg", alt: "A Place for Water 대표 이미지" },
@@ -45,7 +45,7 @@ const total = String(works.length).padStart(2, "0");
               <div>
                 <p class="kw">{w.keyword}</p>
                 <h2>{w.title}</h2>
-                <p class="q" set:html={questionHtml(w)} />
+                <p class="q" set:html={homeQuestionHtml(w)} />
               </div>
             </div>
             <div class="pic"><img src={img.src} alt={img.alt} loading={i === 0 ? "eager" : "lazy"} decoding="async" /></div>
@@ -97,9 +97,10 @@ const total = String(works.length).padStart(2, "0");
   .kw { font-size: var(--t-caption); font-weight: var(--w-regular); letter-spacing: 0.08em; padding-top: clamp(16px, 2.4vw, 32px); }
   h2 { font-size: var(--t-title); font-weight: var(--w-light); line-height: 1.08; letter-spacing: -0.03em; padding-top: 4px; }
   .q { font-size: clamp(1.0625rem, 1.5vw, 1.375rem); line-height: 1.5; letter-spacing: -0.02em; color: #6f6c68; padding-top: clamp(12px, 1.6vw, 22px); max-width: 26em; }
-  .q { text-wrap: balance; }
+  .txt { container-type: inline-size; }
+  .q { font-size: clamp(0.875rem, 4.6cqw, 1.375rem); max-width: none; }
+  .q :global(span) { display: block; }
   .q :global(em) { color: var(--accent); font-weight: var(--w-regular); }
-  .q :global(.qb) { display: none; } /* 홈의 장은 열이 좁아 줄바꿈을 브라우저에 맡긴다 */
   .pic { align-self: stretch; display: flex; align-items: flex-start; min-height: 0; }
   .pic img { width: 100%; height: auto; max-height: calc(100svh - 110px); object-fit: cover; aspect-ratio: 16 / 10; }
   @media (hover: hover) {
