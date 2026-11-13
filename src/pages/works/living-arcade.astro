@@ -17,20 +17,19 @@ const credits = [
 ---
 <ProjectLayout slug="living-arcade" specs={specs}>
   <Fragment slot="image">
-    <Figure fig="1" title="원형 중정" kind="Original render">
-      <img src={`${base}/hero.jpg`} alt="원형 중정에서 본 모습. 나선 계단 옆으로 1층 공방과 2층 집이 나란히 서고, 그 위로 곡선 주거동이 기둥에 들려 있다" width="2400" height="1350" />
+    <Figure fig="1" title="아케이드" kind="Original render">
+      <img src={`${base}/hero.jpg`} alt="양쪽에 가게가 늘어선 2개 층 높이의 아케이드. 가게 앞에 빵과 꽃, 채소 좌판이 놓이고 사람들이 길을 오간다. 기둥 열 위로 곡선 주거동의 밑면이 보이고 길 끝은 공원 쪽으로 열려 있다" width="2400" height="1350" />
     </Figure>
   </Fragment>
 
   <Fragment slot="context">
     <div class="text">
-      <p>남영동 2번 블록은 서쪽의 고층 업무지구와 동쪽의 용산공원 사이에 있는 저층 블록이다. 대지는 4,827㎡이고 70개 필지로 나뉘어 있다. 1층은 가게, 2층은 집이며 옥외계단과 아케이드가 골목을 이룬다. 사람들은 이 블록 안의 길로 다녔다. 핵심 조건은 그 길을 유지하는 것이다.</p>
+      <p>남영동 2번 블록은 서쪽의 고층 업무지구와 동쪽의 용산공원 사이에 있는 저층 블록이다(Fig. 2). 대지는 4,827㎡이고 70개 필지로 나뉘어 있다. 1층은 가게, 2층은 집이며 옥외계단과 아케이드가 골목을 이룬다(Fig. 3, 4). 사람들은 이 골목으로 블록을 지나다녔다. 이 블록에 가게, 공방, 집을 한 건물로 계획했다. 핵심 조건은 그 골목을 같은 자리에 남기는 것이다.</p>
     </div>
     <div class="fig">
       <Stats even items={[
         { label: "대지 면적", value: "4,827 m²" },
         { label: "기존 필지", value: "70" },
-        { label: "계획 층수", value: "8" },
       ]} />
     </div>
     <div class="fig">
@@ -52,7 +51,7 @@ const credits = [
 
   <Fragment slot="process">
     <div class="text">
-      <p>먼저 블록을 지나는 길을 축으로 정했다. 매스는 그 길의 양쪽에 놓았다. 1차안은 집을 엇갈려 쌓아 층마다 마당을 두었다. 2차안에서 건물을 층으로 나눴다. 1층은 가게와 아케이드, 2층은 함께 쓰는 공간, 그 위는 집이다. 최종안은 중정을 원형으로 열고 주거동을 곡선으로 변경했다. 곡선 주거동은 용산공원을 향해 열린다.</p>
+      <p>먼저 블록을 지나던 길을 건물의 축으로 정했다. 길은 같은 자리에 두고 폭을 넓혔다. 건물 덩어리는 그 길의 양쪽에 놓았다. 다음으로 건물을 층으로 나눴다. 아래는 가게와 아케이드, 위는 집이다. 마지막으로 중정을 원형으로 열고 주거동을 곡선으로 변경했다. 곡선 주거동은 용산공원을 향해 열린다. Fig. 5가 이 순서를 보여 준다.</p>
     </div>
     <div class="fig">
       <Sequence
@@ -61,52 +60,56 @@ const credits = [
         ratio="2 / 1"
         interval={5}
         steps={[
-          { src: `${base}/step-1.jpg`, alt: "주변 건물 모형 가운데 빈 대지에 붉은 선 두 줄이 십자로 그어져 있다", title: "길을 축으로", text: "블록을 지나는 길을 먼저 긋는다." },
-          { src: `${base}/step-2.jpg`, alt: "붉은 선 양쪽에 흰 매스 세 덩어리가 놓인 모형", title: "길 양쪽의 매스", text: "매스를 길의 양쪽에 놓는다." },
-          { src: `${base}/step-3.jpg`, alt: "작은 상자를 엇갈려 쌓아 올린 매스를 남동쪽에서 본 축측", title: "쌓은 집과 마당", text: "1차안. 집을 엇갈려 쌓아 층마다 마당을 둔다." },
-          { src: `${base}/step-4.jpg`, alt: "아래는 파랑, 가운데는 빨강, 위는 초록으로 칠한 상자 매스의 축측", title: "상업·문화, 브릿지, 주거", text: "1차안. 아래의 상업·문화와 위의 주거를 브릿지가 잇는다." },
-          { src: `${base}/step-5.jpg`, alt: "직교하는 중정과 아케이드를 둘러싸고 가게가 놓인 1층 평면", title: "2차안 1층", text: "1층은 가게와 아케이드다. 가운데에 중정을 둔다." },
-          { src: `${base}/step-6.jpg`, alt: "중정을 세 방향에서 둘러싼 주거동의 기준층 평면", title: "2차안 기준층", text: "집은 중정을 둘러싸고 위로 올라간다." },
+          { src: `${base}/step-1.jpg`, alt: "주변 건물 모형 가운데 빈 대지에 붉은 선 두 줄이 십자로 그어져 있다", title: "길을 축으로", text: "블록을 지나던 길 두 줄을 같은 자리에 남긴다." },
+          { src: `${base}/step-2.jpg`, alt: "붉은 선 양쪽에 흰 덩어리 세 개가 놓인 모형", title: "길 양쪽의 덩어리", text: "건물 덩어리를 길의 양쪽에 놓는다." },
+          { src: `${base}/step-3.jpg`, alt: "작은 상자를 엇갈려 쌓아 올린 건물을 남동쪽에서 본 축측", title: "쌓은 집과 마당", text: "집을 엇갈려 쌓아 층마다 마당을 둔다." },
+          { src: `${base}/step-4.jpg`, alt: "아래는 파랑, 가운데는 빨강, 위는 초록으로 칠한 상자 건물의 축측", title: "아래는 가게, 위는 집", text: "아래에 상업과 문화를, 위에 집을 둔다. 가운데 층이 둘을 잇는다." },
+          { src: `${base}/step-5.jpg`, alt: "직교하는 중정과 아케이드를 둘러싸고 가게가 놓인 1층 평면", title: "길과 중정", text: "1층은 가게와 아케이드다. 가운데에 중정을 둔다." },
+          { src: `${base}/step-6.jpg`, alt: "중정을 세 방향에서 둘러싼 주거동의 평면", title: "중정을 둘러싼 집", text: "집은 중정을 둘러싸고 위로 올라간다." },
+          { src: `${base}/step-7.jpg`, alt: "원형 중정을 감싼 곡선 주거동에서 남동쪽 용산공원으로 부채꼴처럼 뻗는 붉은 선", title: "원형 중정과 곡선 주거동", text: "중정을 원형으로 열고 주거동을 곡선으로 변경한다. 붉은 선은 공원을 향한 시선이다." },
         ]}
       />
     </div>
-    <div class="fig narrow">
-      <Figure fig="6" title="공원을 향한 조망선" kind="Diagram">
-        <img src={`${base}/viewlines.jpg`} alt="곡선 주거동에서 남동쪽 용산공원으로 부채꼴처럼 뻗는 붉은 선" width="1600" height="1447" loading="lazy" />
-      </Figure>
-    </div>
-    <p class="pull gap">길을 지우지 않고, 그 위에 <em>쌓는다</em>.</p>
+    <p class="pull gap">길을 먼저 두고, 건물을 그 <em>양쪽</em>에 놓는다.</p>
   </Fragment>
 
   <Fragment slot="technique">
     <div class="text">
-      <p>건물은 세 층으로 구성된다. 맨 아래는 길이다. 가로 통로와 세로 아케이드가 블록을 가로지른다. 그 위에 상점과 공방의 저층부가 놓이고, 곡선 주거동은 기둥 위에 들려 있다. 아케이드에 면한 복층 유닛은 1층이 공방이고 2층이 집이다. 두 층은 세대 안의 계단으로 이어진다. 공방의 문이 가게의 문이자 집의 문턱이다.</p>
+      <p>건물은 길, 저층부, 주거동의 세 층으로 구성된다(Fig. 6). 맨 아래는 길이다. 가로 통로와 세로 아케이드가 블록을 가로지르고, 두 길 안쪽에 원형 중정이 있다. 길 양쪽에 상점과 공방의 저층부가 서고, 곡선 주거동은 기둥 위에 들려 있다. 길에 면한 집은 두 층이다. 1층이 공방이고 2층이 집이다(Fig. 7). 두 층은 집 안의 계단으로 이어진다. 공방의 문이 가게의 문이자 집의 문턱이다. 주거동에는 2인 집과 1인 집이 있다(Fig. 8).</p>
     </div>
     <div class="fig">
-      <Figure fig="7" title="길 위에 쌓은 세 층" kind="Diagram" scale="개념" note="스크롤하면 층이 위로 벌어진다. 강조색이 길이다. 층 사이의 간격은 실제 높이가 아니다.">
+      <Figure fig="6" title="길 위에 쌓은 세 층" kind="Diagram" scale="개념" note="스크롤하면 층이 위로 벌어진다. 강조색이 길이다.">
         <AxoScroll />
       </Figure>
     </div>
-    <div class="fig narrow">
-      <Figure fig="8" title="복층 유닛: 1층 공방, 2층 소호 주거" kind="Original drawing" scale="1/50" note="치수 단위는 mm.">
+    <div class="fig pair">
+      <Figure fig="7" title="공방 위의 집: 1층 공방, 2층 주거" kind="Original drawing" scale="1/50" note="치수 단위는 mm.">
         <img src={`${base}/unit-duplex.jpg`} alt="폭 4,010, 깊이 8,450의 1층 공방 평면과 계단으로 이어진 2층 주거 평면" width="1800" height="1610" loading="lazy" />
+      </Figure>
+      <Figure fig="8" title="주거동의 집: 2인, 1인" kind="Original drawing" scale="1/50" note="치수 단위는 mm.">
+        <img src={`${base}/unit-1-2.jpg`} alt="폭 7,150, 깊이 6,900의 2인 유닛과 폭 2,755, 깊이 6,655의 1인 유닛 평면" width="2000" height="1789" loading="lazy" />
       </Figure>
     </div>
   </Fragment>
 
   <Fragment slot="drawings">
-    <Figure fig="9" title="1층 평면" kind="Original drawing" scale="1/200" note="1 중정, 2·7 상점, 3 카페, 4 전시회, 5 공방, 6 창작센터. 강조색이 길이다.">
-      <div class="plan">
-        <img src={`${base}/plan-1f.jpg`} alt="원형 중정을 가운데 두고 상점 두 줄, 공방, 전시회, 카페, 창작센터가 놓인 1층 평면" width="2800" height="1791" loading="lazy" />
-        <svg viewBox="0 0 3336 2134" aria-hidden="true">
-          <rect x="2176" y="286" width="234" height="1223" />
-          <rect x="669" y="1374" width="1507" height="135" />
-        </svg>
-      </div>
-    </Figure>
+    <div class="text">
+      <p>평면 세 장은 아래에서 위로 읽는다. 1층에서는 강조색으로 칠한 길과 그 안쪽의 중정을 본다(Fig. 9). 2층에서는 공방 위의 집과 위로 뚫린 아케이드를 본다(Fig. 10). 주거층에서는 중정을 감싸는 곡선을 본다(Fig. 11).</p>
+    </div>
     <div class="fig">
-      <Figure fig="10" title="2층 평면" kind="Original drawing" scale="1/200" note="1 상점, 2 카페, 3 소호 주거, 4 2인 주거. 세 평면은 같은 비율로 실었다.">
-        <img src={`${base}/plan-2f.jpg`} alt="공방 위의 소호 주거, 상점 두 줄 사이의 뚫린 아케이드, 원형 중정이 보이는 2층 평면" width="2800" height="1791" loading="lazy" />
+      <Figure fig="9" title="1층 평면" kind="Original drawing" scale="1/200" note="1 중정, 2·7 상점, 3 카페, 4 전시회, 5 공방, 6 창작센터. 강조색이 길이다.">
+        <div class="plan">
+          <img src={`${base}/plan-1f.jpg`} alt="원형 중정을 가운데 두고 상점 두 줄, 공방, 전시회, 카페, 창작센터가 놓인 1층 평면" width="2800" height="1791" loading="lazy" />
+          <svg viewBox="0 0 3336 2134" aria-hidden="true">
+            <rect x="2176" y="286" width="234" height="1223" />
+            <rect x="669" y="1374" width="1507" height="135" />
+          </svg>
+        </div>
+      </Figure>
+    </div>
+    <div class="fig">
+      <Figure fig="10" title="2층 평면" kind="Original drawing" scale="1/200" note="1 상점, 2 카페, 3 소호 주거(공방 위의 집), 4 2인 주거.">
+        <img src={`${base}/plan-2f.jpg`} alt="공방 위의 집, 상점 두 줄 사이의 뚫린 아케이드, 원형 중정이 보이는 2층 평면" width="2800" height="1791" loading="lazy" />
       </Figure>
     </div>
     <div class="fig">
@@ -114,21 +117,16 @@ const credits = [
         <img src={`${base}/plan-5-8f.jpg`} alt="원형 중정을 감싸며 휘어진 주거동의 평면. 1인 주거와 2인 주거가 곡선을 따라 늘어선다" width="2800" height="1791" loading="lazy" />
       </Figure>
     </div>
-    <div class="fig narrow">
-      <Figure fig="12" title="2인 유닛과 1인 유닛" kind="Original drawing" scale="1/50" note="치수 단위는 mm.">
-        <img src={`${base}/unit-1-2.jpg`} alt="폭 7,150, 깊이 6,900의 2인 유닛과 폭 2,755, 깊이 6,655의 1인 유닛 평면" width="2000" height="1238" loading="lazy" />
-      </Figure>
-    </div>
   </Fragment>
 
   <Fragment slot="outcome">
-    <p class="pull">지나가는 사람과 사는 사람이 같은 <em>중정</em>을 쓴다.</p>
+    <p class="pull">사람들이 다니던 길은 <em>그대로</em> 있고, 일상은 그 위에 쌓였다.</p>
     <div class="text gap-s">
-      <p>길은 건물 안으로 들어와 아케이드가 되었다. 길 위에 가게와 공방이 있고, 그 위에 집이 있다. 일상은 길을 지우지 않고 그 위에 쌓인다.</p>
+      <p>길은 같은 자리에서 아케이드가 되었다(Fig. 1). 길 위에 가게와 공방이 있고, 그 위에 집이 있다. 지나가는 사람과 사는 사람은 같은 중정을 쓴다(Fig. 12).</p>
     </div>
     <div class="fig">
-      <Figure fig="13" title="Main Arcade" kind="Original render">
-        <img src={`${base}/main-arcade.jpg`} alt="양쪽에 가게가 늘어선 2개 층 높이의 아케이드. 가게 앞에 빵과 꽃, 채소 좌판이 놓이고 사람들이 길을 오간다. 기둥 열 위로 곡선 주거동의 밑면이 보이고 길 끝은 공원 쪽으로 열려 있다" width="2400" height="1350" loading="lazy" />
+      <Figure fig="12" title="원형 중정" kind="Original render">
+        <img src={`${base}/courtyard.jpg`} alt="원형 중정에서 본 모습. 나선 계단 옆으로 1층 공방과 2층 집이 나란히 서고, 그 위로 곡선 주거동이 기둥에 들려 있다" width="2400" height="1350" loading="lazy" />
       </Figure>
     </div>
   </Fragment>
@@ -145,9 +143,7 @@ const credits = [
   .fig { margin-top: 40px; }
   .fig img, .plan img { display: block; width: 100%; height: auto; }
   .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
-  .photos { max-width: 880px; }
   .photos figure { margin: 0; }
-  .narrow { max-width: 760px; }
   .plan { position: relative; }
   .plan svg { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: multiply; }
   .plan rect { fill: var(--accent); opacity: 0.34; }

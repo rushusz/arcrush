@@ -15,17 +15,17 @@ const clipBot = poly([...lower, [W, H], [0, H]]);
 // 붙어 있을 때 내려가 있는 거리(그림 높이에 대한 비율)
 const dMid = 415 / H * 100, dTop = 775 / H * 100;
 const steps = [
-  ["도시", "길이 먼저 있다. 아케이드와 통로가 블록을 가로지른다."],
-  ["공동체", "길 양쪽에 상점과 공방이 선다. 그 위를 판 하나가 덮고, 판은 원형으로 뚫려 중정이 된다."],
-  ["주거", "곡선 주거동이 기둥 위로 올라간다. 길은 제자리에 남는다."],
+  ["길", "길이 먼저 있다. 아케이드와 통로가 블록을 가로지른다."],
+  ["저층부", "길 양쪽에 상점과 공방이 선다. 그 위를 바닥판 하나가 덮고, 바닥판은 원형으로 뚫려 중정이 된다."],
+  ["주거동", "곡선 주거동이 기둥 위로 올라간다. 길은 제자리에 남는다."],
 ];
 ---
 <div class="ax" style={`--d-mid:${dMid.toFixed(2)}%;--d-top:${dTop.toFixed(2)}%`}>
   <div class="pin">
     <div class="stage">
       <div class="ly bot" style={`clip-path:${clipBot}`}><img src={src} alt="맨 아래 층. 기둥 열과 아치 지붕이 이어지는 아케이드와 통로가 대지 외곽선 안에 놓여 있다" width="1800" height="2580" loading="lazy" /><b class="m" style={`background-image:url(${src})`}></b><b class="m" style={`background-image:url(${src})`}></b><i></i></div>
-      <div class="ly mid" style={`clip-path:${clipMid}`}><img src={src} alt="가운데 층. 아케이드 양쪽에 선 2개 층 높이의 상점과 공방, 그 위를 덮고 원형으로 뚫린 판" width="1800" height="2580" loading="lazy" /></div>
-      <div class="ly top" style={`clip-path:${clipTop}`}><img src={src} alt="맨 위 층. 기둥 위에 올라간 곡선 주거동의 4개 층 골조" width="1800" height="2580" loading="lazy" /></div>
+      <div class="ly mid" style={`clip-path:${clipMid}`}><img src={src} alt="가운데 층. 아케이드 양쪽에 선 2개 층 높이의 상점과 공방, 그 위를 덮고 원형으로 뚫린 바닥판" width="1800" height="2580" loading="lazy" /></div>
+      <div class="ly top" style={`clip-path:${clipTop}`}><img src={src} alt="맨 위 층. 기둥 위에 올라간 곡선 주거동의 골조" width="1800" height="2580" loading="lazy" /></div>
     </div>
     <ol class="st">
       {steps.map(([t, d], i) => (
