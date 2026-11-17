@@ -148,7 +148,8 @@
 <path d="M754.7,681.5 L754.3,679.5M754.7,681.5 L824.9,667.8M824.9,667.8 L824.5,665.8M754.3,679.5 L824.5,665.8"/>
 </g>
 <polyline points="855.7,33.9 946.7,499.1 693.2,539.9" fill="none" stroke="#111" stroke-width="9" stroke-dasharray="26 15" stroke-linejoin="round"/>
-<rect x="1650.0" y="810" width="310.0" height="150" fill="#fff"/>
-<g stroke="#111" stroke-width="3" fill="none"><path d="M1690 930 h100.0"/><path d="M1910 930 v-70 m-12 22 l12 -22 l12 22"/></g>
-<g font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#111"><text x="1740.0" y="916" text-anchor="middle">10 m</text><text x="1910" y="848" text-anchor="middle">N</text></g>
+<rect x="1560.0" y="852" width="390.0" height="130" fill="#fff"/>
+<g stroke="#111" stroke-width="2"><rect x="1600.0" y="922" width="100.0" height="10" fill="#111"/><rect x="1700.0" y="922" width="100.0" height="10" fill="#fff"/></g>
+<g font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-weight="300" font-size="24" fill="#111" text-anchor="middle"><text x="1600.0" y="910">0</text><text x="1700.0" y="910">10</text><text x="1800.0" y="910">20 m</text><text x="1890.0" y="872">N</text></g>
+<path d="M1890.0 932 v-44 m-9 16 l9 -16 l9 16" stroke="#111" stroke-width="2" fill="none"/>
 </svg>
