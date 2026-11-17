@@ -191,8 +191,7 @@ const plans = [
   .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; align-items: end; }
   .mid { max-width: 920px; }
   .elev :global(img) { aspect-ratio: 1800 / 2206; object-fit: contain; object-position: center bottom; background: #fff; }
-  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px 48px; align-items: start; }
-  .split > .fig { margin-top: 0; }
+  .split > .fig { max-width: 860px; margin-inline: auto; }
   .gap { margin-top: 72px; }
   .gap-s { margin-top: 28px; }
 
@@ -204,7 +203,6 @@ const plans = [
   .caption b { font-weight: var(--w-regular); color: var(--ink); margin-right: 6px; }
   .cr { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px 24px; }
   @media (max-width: 900px) {
-    .split { grid-template-columns: minmax(0, 1fr); }
     .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 760px) {
