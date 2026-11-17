@@ -50,10 +50,11 @@ const plans = [
   </Fragment>
 
   <Fragment slot="process">
+    <div class="split">
     <div class="text">
       <p>대지를 채운 박스에서 시작했다(Fig. 4). 박스를 갈라 거리의 흐름을 안으로 끌어들이고, 그 흐름을 따라 계단으로 된 길을 냈다. 이 길이 건물 안의 골목길, Main Street다. 길 위에 업무 공간을 얹고, 마지막에 계단과 승강기를 모은 코어를 세웠다. 제목 RE:STREET는 둘러싼 박스였던 오피스를 방문객이 들어오는 건물로 바꾸고, 그 안에 골목길을 넣는다는 뜻이다.</p>
     </div>
-    <div class="fig narrow">
+    <div class="fig">
       <Sequence
         fig="4"
         kind="Diagram"
@@ -68,14 +69,17 @@ const plans = [
         ]}
       />
     </div>
+    </div>
     <p class="pull gap">거리는 1층에서 멈추지 않고 5층 실외 광장까지 <em>올라간다</em>.</p>
-    <div class="text gap">
+    <div class="split gap">
+    <div class="text">
       <p>Fig. 5는 길이 다섯 층을 잇는 모습이고, Fig. 6은 그 길을 평면에서 한 층씩 따라 올라간다. 길가에는 층마다 사고파는 방이 붙는다. 1층 플리마켓에서 시작해 2층 공방, 3층 거래 라운지를 지난다. 4층에서 넓은 계단인 계단 광장을 오르면 5층의 실외 광장에 닿는다. 여기까지 누구나 올라올 수 있다. 그 위 네 층은 업무 층이다.</p>
     </div>
-    <div class="fig narrow">
+    <div class="fig">
       <Figure fig="5" title="동선 축측" kind="Diagram" note="붉은 선이 길, 푸른 기둥이 코어다.">
         <img src={`${base}/circulation.jpg`} alt="1층부터 5층까지 바닥판을 벌려 놓은 축측도. 붉은 길이 계단을 따라 층을 잇고 푸른 코어가 수직으로 지나간다" width="1600" height="1494" loading="lazy" />
       </Figure>
+    </div>
     </div>
     <div class="fig">
       <Figure fig="6" title="위로 올라가는 길" kind="Diagram" note="붉은 면이 길이다. 옅은 면은 길이 끝나는 5층 실외 광장이다.">
@@ -187,7 +191,8 @@ const plans = [
   .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; align-items: end; }
   .mid { max-width: 920px; }
   .elev :global(img) { aspect-ratio: 1800 / 2206; object-fit: contain; object-position: center bottom; background: #fff; }
-  .narrow { max-width: 640px; }
+  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px 48px; align-items: start; }
+  .split > .fig { margin-top: 0; }
   .gap { margin-top: 72px; }
   .gap-s { margin-top: 28px; }
 
@@ -199,6 +204,7 @@ const plans = [
   .caption b { font-weight: var(--w-regular); color: var(--ink); margin-right: 6px; }
   .cr { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px 24px; }
   @media (max-width: 900px) {
+    .split { grid-template-columns: minmax(0, 1fr); }
     .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 760px) {
