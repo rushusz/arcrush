@@ -126,24 +126,39 @@ const renders = [
       <img src={`${base}/masterplan.jpg`} alt="덮개, 다공 구조, 다섯 테마의 덩어리를 층으로 나눠 그린 분해 축측도. 대지에서 도시와 한강으로 붉은 화살표가 뻗는다" width="2400" height="1694" loading="lazy" />
     </Figure>
     </div>
+    <div class="fig">
+    <Figure fig="12" title="극장 지반층 평면" kind="Original drawing" note="강관을 둥글게 둘러 박은 칸이 그대로 극장의 벽이 된다. 객석은 무대를 감싸며 내려가고, 맨 뒤 벽의 창으로 쓰레기 지층이 보인다.">
+      <img src={`${base}/theatre-plan.png`} alt="극장의 지반층 평면도. 강관을 둥글게 두른 칸 안에 둥근 무대와 무대를 감싸는 여덟 단의 객석이 있고, 아래쪽에 로비, 위쪽에 준비동, 맨 아래에 곧은 연결 통로가 붙는다" width="2400" height="2398" loading="lazy" />
+    </Figure>
+    </div>
+    <div class="fig">
+    <Figure fig="13" title="극장 단면 A–A'" kind="Original drawing" note="극장은 칸의 맨 아래에 있다. 그 위는 하늘로 열린 중정이고, 벽을 따라 도는 회랑이 강관 벽을 받친다. 덮개 위는 복토층과 억새밭이다.">
+      <img src={`${base}/theatre-section.png`} alt="극장의 단면도. 쓰레기층 사이에 강관 벽이 지반 아래까지 내려가고, 맨 아래에 객석과 무대, 그 위에 회랑이 네 층 도는 중정, 맨 위에 억새밭이 있다" width="2400" height="2476" loading="lazy" />
+    </Figure>
+    </div>
+    <div class="fig">
+    <Figure fig="14" title="강관 벽 상세" kind="Original drawing" note="위에서부터 덮개의 가장자리, 중정의 회랑과 지층 관찰창, 객석 뒤의 관찰창과 밑동이다. 오른쪽은 강관의 이음과 창 옆을 위에서 본 단면이다.">
+      <img src={`${base}/theatre-detail.png`} alt="강관 벽의 부분 상세도. 복토층과 차수막이 놓인 덮개 가장자리, 회랑 바닥판과 유리로 막은 지층 관찰창, 객석 단과 기초 바닥판을 세 토막으로 그렸다" width="3200" height="2255" loading="lazy" />
+    </Figure>
+    </div>
   </Fragment>
 
   <Fragment slot="outcome">
     <p class="pull">중심도 위계도 없는 길이 상암동에서 한강까지 <em>통과한다</em>.</p>
     <div class="text gap-s">
-      <p>쓰레기로 만들어진 땅은 속을 비워 도시와 한강을 잇는 문화공간이 된다. 이곳은 실내와 실외의 중간인 반외부 공간이어서, 도시의 실내에서는 하기 어렵고 한강의 실외에서는 날씨에 막히는 활동을 넣었다. 개미굴처럼 파 들어간 극장(Fig. 12), 마켓과 행사가 열리는 퍼블릭 스페이스(Fig. 13), 실내 스포츠(Fig. 14), 상업 공간(Fig. 15), 파낸 쓰레기를 다시 쓰는 업사이클 연구소와 공방(Fig. 16)이다. 다섯 덩어리는 중심도 위계도 없이 뻗는 길(리좀)로 이어진다(Fig. 17). 속이 비어 구멍이 많아진(porous) 산이 다섯 공간의 캠퍼스가 된다.</p>
+      <p>쓰레기로 만들어진 땅은 속을 비워 도시와 한강을 잇는 문화공간이 된다. 이곳은 실내와 실외의 중간인 반외부 공간이어서, 도시의 실내에서는 하기 어렵고 한강의 실외에서는 날씨에 막히는 활동을 넣었다. 개미굴처럼 파 들어간 극장(Fig. 15), 마켓과 행사가 열리는 퍼블릭 스페이스(Fig. 16), 실내 스포츠(Fig. 17), 상업 공간(Fig. 18), 파낸 쓰레기를 다시 쓰는 업사이클 연구소와 공방(Fig. 19)이다. 다섯 덩어리는 중심도 위계도 없이 뻗는 길(리좀)로 이어진다(Fig. 20). 속이 비어 구멍이 많아진(porous) 산이 다섯 공간의 캠퍼스가 된다.</p>
     </div>
     <div class="fig pair">
       {renders.map(([file, title, alt], i) => (
         <div class={i === 0 ? "wide" : ""}>
-          <Figure fig={String(12 + i)} title={title} kind="Original render">
+          <Figure fig={String(15 + i)} title={title} kind="Original render">
             <img src={`${base}/render-${file}.jpg`} alt={alt} loading="lazy" />
           </Figure>
         </div>
       ))}
     </div>
     <div class="fig">
-      <Figure fig="17" title="다섯 테마의 캠퍼스" kind="Diagram" note="왼쪽은 다섯 테마의 덩어리, 오른쪽은 덩어리 안의 방들을 잇는 연결선이다.">
+      <Figure fig="20" title="다섯 테마의 캠퍼스" kind="Diagram" note="왼쪽은 다섯 테마의 덩어리, 오른쪽은 덩어리 안의 방들을 잇는 연결선이다.">
         <div class="two">
           <img src={`${base}/campus-1.jpg`} alt="다섯 테마의 덩어리를 위에서 비스듬히 본 축측도" width="1709" height="900" loading="lazy" />
           <img src={`${base}/campus-2.jpg`} alt="다섯 덩어리를 선으로만 그리고 그 안의 방들을 붉은 선으로 이은 축측도" width="1709" height="900" loading="lazy" />
